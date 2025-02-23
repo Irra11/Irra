@@ -383,6 +383,8 @@ h1{
     border-radius: 5px;
     height: 70px;
     font-size: large ;
+    width: 100px;
+    /* margin-left: 5px; */
 }
 
 .btn:hover {
@@ -421,6 +423,10 @@ h4 {
 .item {
     width: 100px;
     text-align: center;
+    
+}
+.product-1{
+    margin-left: 21px;
 }
 .item img {
     width: 130px;
@@ -429,16 +435,17 @@ h4 {
     /* margin-bottom: auto; */
 }
 .button {
-    display: block;
+    /* display: block; */
+    margin-left: 23px;
     margin-top: 5px;
-    padding: 5px;
+    padding: 7px;
     background-color: #007bff;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     text-decoration: none;
-    border-radius: 5px;
-    /* width: 100px;
-    height: 50px; */
-    ;
+    border-radius: 30px;
+    width: 100px;
+    height: 60px;
+    font-size: large ;
 }
 .sizee{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
