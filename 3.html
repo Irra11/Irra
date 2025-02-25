@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image with Background</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Make sure the body takes up full height */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Container with background */
+.container {
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    background-image: url('your-background.jpg'); /* Background image */
+    background-size: cover; /* Make the background image cover the whole container */
+    background-position: center; /* Position the background image at the center */
+    display: flex; /* Flexbox layout for centering content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Image Styling */
+.main-image {
+    max-width: 80%; /* Limit image size to 80% of the container's width */
+    height: auto; /* Keep the aspect ratio of the image */
+    border-radius: 10px; /* Optional: Rounded corners for the image */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="your-image.jpg" alt="Image" class="main-image">
+    </div>
+
+</body>
+</html>
