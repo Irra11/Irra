@@ -46,9 +46,11 @@
                 border: none;
             }
             button {
-                background: rgb(43, 174, 226);
+                background: rgb(245, 60, 60);
                 cursor: pointer;
                 font-weight: bold;
+                color: #000000;
+                
             }
             .diamond-list {
                 display: grid;
@@ -345,12 +347,13 @@
             <h2>1. បញ្ចូលព័ត៌មានរបស់អ្នក</h2>
             <input type="number" id="userId" placeholder="User ID">
             <input type="number" id="zoneId" placeholder="Zone ID">
-            <!-- <button id="checkBtn">CHECK ID</button>
-            <p id="playerName"></p> -->
+            <button id="checkBtn">សូមដាក់IDឲបានត្រឹមត្រូវ</button>
+            <p id="playerName"></p> 
         </section>
         
         <section class="purchase-section">
             <h2>2. ជ្រើសរើសកញ្ជប់ (Promotion)</h2>
+        
             <div class="diamond-list" id="diamondList">
                 <div class="diamond-item" data-amount="Weekly Pass" data-price="1">
                     <img src="dia.webp" alt="Weekly Pass">
@@ -369,6 +372,7 @@
                     565 Diamonds - <span>$5.50</span>
                 </div>
             </div>
+       
         </section>
         
         
@@ -426,15 +430,15 @@
         const paymentMethod = document.querySelector('input[name="payment"]:checked');
         
         if (!userId || !zoneId) {
-            alert("សូមបញ្ចូលព័ត៌មានរបស់អ្នក User ID and Zone ID.");
+            alert("សូមបញ្ចូល User ID and Zone ID របស់​អ្នកឲបានត្រឹមត្រូវ.");
             return;
         }
         if (!selectedDiamond) {
-            alert("សូមជ្រើសរើសកញ្ជប់.");
+            alert("សូមជ្រើសរើសកញ្ជប់របស់​អ្នក.");
             return;
         }
         if (!paymentMethod) {
-            alert("សូមជ្រើសរើសកញ្ជប់បង់ប្រាក់.");
+            alert("សូមជ្រើសរើសកញ្ជប់បង់ប្រាក់របស់​អ្នក.");
             return;
         }
         if (!termsChecked) {
@@ -448,46 +452,54 @@
         document.getElementById("nextPage").style.display = "block";
     }
     function goToNextPage() {
-        const price = parseFloat(selectedDiamond.price);
-        const userId = document.getElementById("userId").value;
-        const zoneId = document.getElementById("zoneId").value;
-        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    const price = parseFloat(selectedDiamond.price);
+    const userId = document.getElementById("userId").value;
+    const zoneId = document.getElementById("zoneId").value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
 
-        const receiptMessage = `🧾 *Stock Receipt*\n\n👤 User ID: ${userId}\n📍 Zone ID: ${zoneId}\n💎 Purchased: ${selectedDiamond.amount} Diamonds\n💰 Price: $${selectedDiamond.price}\n💳 Payment: ${paymentMethod}\n🕒 Date: ${new Date().toLocaleString()}`;
+    const receiptMessage = `🧾 *Stock Receipt*\n\n👤 User ID: ${userId}\n📍 Zone ID: ${zoneId}\n💎 Purchased: ${selectedDiamond.amount} Diamonds\n💰 Price: $${selectedDiamond.price}\n💳 Payment: ${paymentMethod}\n🕒 Date: ${new Date().toLocaleString()}`;
 
-        // Telegram Bot API
-        const telegramBotToken = "7620751921:AAG_IW6V7zrRGoiMGcvN4zXRbn6qUM_R1DE";
-        const telegramChatId = "5007619095";
-        const telegramApiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    // Telegram Bot API
+    const telegramBotToken = "7620751921:AAG_IW6V7zrRGoiMGcvN4zXRbn6qUM_R1DE";
+    const telegramChatId = "5007619095";
+    const telegramApiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
 
-        // Send message to Telegram channel
-        fetch(telegramApiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                chat_id: telegramChatId,
-                text: receiptMessage,
-                parse_mode: "Markdown",
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Message sent to Telegram:", data);
-            // Redirect to payment page after sending
-            if (price === 1.00) {
-                window.location.href = "https://pay.ababank.com/1HoYWbjFkhfAuRCdA";
-            } else if (price === 1.50) {
-                window.location.href = "https://pay.ababank.com/B6aBc1MZWCENAiHG9";
-            } else if (price === 2.70) {
-                window.location.href = "https://pay.ababank.com/4qKb71zoyGjkPDZ96";
-            } else if (price === 5.50) {
-                window.location.href = "https://pay.ababank.com/SXWh6X9863xa1APMA";
-            }
-        })
-        .catch(error => console.error("Error sending message to Telegram:", error));
-    }
+    // Send message to Telegram channel
+    fetch(telegramApiUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            chat_id: telegramChatId,
+            text: receiptMessage,
+            parse_mode: "Markdown",
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Message sent to Telegram:", data);
+        
+        // Redirect to payment page with price as a URL parameter
+        let paymentUrl = "";
+        if (price === 1.00) {
+            paymentUrl = "1$.html?price=1.00";
+        } else if (price === 1.50) {
+            paymentUrl = "1.5$.html?price=1.50";
+        } else if (price === 2.70) {
+            paymentUrl = "2.7$.html?price=2.70";
+        } else if (price === 5.50) {
+            paymentUrl = "5.5$.html?price=5.50";
+        }
+
+        // Redirect to payment page
+        if (paymentUrl) {
+            window.location.href = paymentUrl;
+        }
+    })
+    .catch(error => console.error("Error sending message to Telegram:", error));
+}
+
 
 
 
@@ -497,7 +509,7 @@
         const zoneId = document.getElementById("zoneId").value;
 
         if (!userId || !zoneId) {
-            alert("សូមបញ្ចូលព័ត៌មានរបស់អ្នក User ID and Zone ID!");
+            alert("សូមបញ្ចូលព័ត៌មាន User ID and Zone ID​ របស់អ្នកឲបានត្រឹមត្រូវ!");
             return;
         }
 
