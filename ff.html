@@ -359,6 +359,40 @@ body {
     border-radius: 50%;
     margin-right: 10px;
 }
+/* Make video container responsive */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Aspect ratio of 16:9 (height/width * 100) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+}
+
+/* Style the video element */
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Custom controls style (optional) */
+button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
     </style>
 </head>
 <body>
@@ -403,56 +437,67 @@ body {
                 </div>
             </div>
             
-            <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/eT8iC05VGrk?si=zIS_dXxT7KsXUG_2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
+           
             
             <!-- Download Section 1 -->
             <div class="download-section">
                 <h2> Free Fire Mod</h2>
-                <p>For iOS <span class="ios">បាញ់ក្បាល់80%</span> devices</p>
+                <p>For iOS <span class="ios">បាញ់ក្បាល80%</span> devices</p>
+                <div class="video-container">
+                    <video width="560" height="315" controls>
+                        <source src="80.mp4" type="video/mp4">
+                        <source src="path_to_your_video.webm" type="video/webm">
+                        <source src="path_to_your_video.ogv" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                
-                <a href="https://irra_11.t.me/" class="telegram-btn" id="telegramBtn">
+                <a href="https://t.me/irra_11?text=សួរស្តីបងខ្ញុំចង់ទិញ Mods FreeFire បាញ់ក្បាល(80%) " class="telegram-btn" id="telegramBtn" target="_blank">
                     <i class="fa-brands fa-telegram"></i>
                     <span>Contact Telegram</span>
                 </a>
 
-                <!-- <a href="#" class="youtube-btn" id="youtubeBtn">
-                    <i class="fa-brands fa-youtube"></i>
-                    <span>Subscribe to YouTube</span>
-                </a> -->
-<!-- 
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div> -->
-
-                <!-- <button class="download-btn" id="downloadBtn" disabled>
-                    <i class="fa-solid fa-download"></i>
-                    <span>PassWord</span>
-                </button> -->
+        
             </div>
             <div class="download-section">
                 <h2> Free Fire Mod</h2>
-                <p>For iOS <span class="ios">បាញ់ក្បាល់90%</span> devices</p>
+                <p>For iOS <span class="ios">បាញ់ក្បាល90%</span> devices</p>
+                <div class="video-container">
+                    <video width="560" height="315" controls>
+                        <source src="90 - Trim - Trim.MOV" type="video/mp4">
+                        <source src="path_to_your_video.webm" type="video/webm">
+                        <source src="path_to_your_video.ogv" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                
-                <a href="https://irra_11.t.me/" class="telegram-btn" id="telegramBtn">
+                <a href="https://t.me/irra_11?text=សួរស្តីបងខ្ញុំចង់ទិញ Mods FreeFire បាញ់ក្បាល(90%) " class="telegram-btn" id="telegramBtn" target="_blank">
                     <i class="fa-brands fa-telegram"></i>
                     <span>Contact Telegram</span>
                 </a>
-
                
             </div>
             <div class="download-section">
-                <h2> Free Fire Mod</h2>
-                <p>For iOS <span class="ios">បាញ់ក្បាល់100%</span> devices</p>
-               
-                <a href="https://irra_11.t.me/" class="telegram-btn" id="telegramBtn">
+                <h2>Free Fire Mod</h2>
+                <p>For iOS <span class="ios">បាញ់ក្បាល100%</span> devices</p>
+            
+                <!-- Video Container (responsive) -->
+                <div class="video-container">
+                    <video id="myVideo" controls>
+                        <source src="100 - Trim.MP4" type="video/mp4">
+                        <source src="path_to_your_video.webm" type="video/webm">
+                        <source src="path_to_your_video.ogv" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            
+                <!-- Telegram Button with a message link -->
+                <a href="https://t.me/irra_11?text=សួរស្តីបងខ្ញុំចង់ទិញ Mods FreeFire បាញ់ក្បាល(100%) " class="telegram-btn" id="telegramBtn" target="_blank">
                     <i class="fa-brands fa-telegram"></i>
                     <span>Contact Telegram</span>
                 </a>
-
-               
             </div>
+            
             <!-- <div class="video-container">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/peRb1yjhAPs?si=B8ErQWwArRpzWNbj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div> -->
@@ -460,8 +505,16 @@ body {
             <div class="download-section">
                 <h2> Free Fire Mod</h2>
                 <p>For iOS <span class="ios">មើលធ្លុះផ្ទះ</span> devices</p>
+                <div class="video-container">
+                    <video width="560" height="315" controls>
+                        <source src="mer - Trim.MOV" type="video/mp4">
+                        <source src="path_to_your_video.webm" type="video/webm">
+                        <source src="path_to_your_video.ogv" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                 
-                <a href="https://irra_11.t.me/" class="telegram-btn" id="telegramBtn2">
+                <a href="https://t.me/irra_11?text=សួរស្តីបងខ្ញុំចង់ទិញ Mods FreeFire មេីលធ្លុះ " class="telegram-btn" id="telegramBtn" target="_blank">
                     <i class="fa-brands fa-telegram"></i>
                     <span>Contact Telegram</span>
                 </a>
@@ -490,6 +543,34 @@ body {
                 <p>All gameplay modifications are for educational purposes only.</p>
             </div>
         </div>
+        <script>
+            // Get the video element
+const video = document.getElementById("myVideo");
+
+// Play the video
+function playVideo() {
+    video.play();
+}
+
+// Pause the video
+function pauseVideo() {
+    video.pause();
+}
+
+// Stop the video (pause and reset to the start)
+function stopVideo() {
+    video.pause();
+    video.currentTime = 0; // Reset video to start
+}
+
+// Mute/Unmute the video
+function muteVideo() {
+    video.muted = !video.muted;
+}
+
+
+
+        </script>
     </section>
 
     
