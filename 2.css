@@ -460,3 +460,55 @@ h4 {
   margin-bottom: 0px;
   padding-bottom: -10px;
 }
+
+.squad-section {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+}
+
+.squad-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.squad-img {
+  width: 100%;
+  max-width: 600px; /* Adjust based on image size */
+  height: auto;
+  border-radius: 8px; /* Optional, for rounded corners */
+  margin-bottom: 20px;
+}
+
+.squad-text {
+  font-size: 1px;
+  color: #ffffff;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
+}
+/* Styling for the "Buy Now" button */
+.buy-btn {
+  padding: 15px 30px;
+  background-color: #007BFF; /* Button color */
+  color: white; /* Text color */
+  font-size: 18px;
+  border: none; /* Removes default button border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Shows a pointer when hovering over the button */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+  margin-top: 20px;
+}
+
+.buy-btn:hover {
+  background-color: #0056b3; /* Darker shade when hovered */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.buy-btn:active {
+  transform: scale(1); /* Reset the scale when clicked */
+}
