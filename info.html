@@ -97,25 +97,98 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        /* Enhanced input and select styles */
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    background-color: #fff;
+}
+
+.form-group input:hover, .form-group select:hover {
+    border-color: #aaa;
+}
+
+/* Custom styling for the dropdown arrow in select elements */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234CAF50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px;
+}
+
+/* Placeholder styling */
+.form-group input::placeholder {
+    color: #999;
+    opacity: 0.8;
+}
+
+/* Label enhancements */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
     </style>
 </head>
 <body>
     <div class="registration-container">
         <h1>Irra Store</h1>
         <div class="instructions">
-            Enter your Telegram username, skin name, and select the price.
+            Enter your Telegram username, select a product, and select the price.
         </div>
         <form id="registrationForm">
             <!-- Telegram Username Input -->
             <div class="form-group">
                 <label for="telegramUsername">Telegram Username</label>
-                <input type="text" id="telegramUsername" name="telegramUsername" required placeholder="Enter your Telegram username" minlength="3" maxlength="50">
+                <input type="text" id="telegramUsername" name="telegramUsername" required placeholder="Enter your Telegram username.Ex(@....)" minlength="3" maxlength="50">
             </div>
 
-            <!-- Skin Name Input -->
+            <!-- Product Dropdown (replacing Skin Name Input) -->
             <div class="form-group">
-                <label for="skinName">Skin Name</label>
-                <input type="text" id="skinName" name="skinName" required placeholder="Enter the skin name" minlength="3" maxlength="50">
+                <label for="product">Select Product</label>
+                <select id="product" name="product" required>
+                    <option value="">Select a Skin</option>
+                    <option value="Promotion Skin 10/3$">Promotion Skin 10/3$</option>
+                    <option value="Fanny (The Aspirants)">Fanny (The Aspirants)</option>
+                    <option value="Fanny (AOT)">Fanny (AOT)</option>
+                    <option value="Granger (Collector)">Granger (Collector)</option>
+                    <option value="Granger (Exocise)">Granger (Exocise)</option>
+                    <option value="Hayabusa (Exocise)">Hayabusa (Exocise)</option>
+                    <option value="Lancelot (Dawning)">Lancelot (Dawning)</option>
+                    <option value="Lancelot (Kishin)">Lancelot (Kishin)</option>
+                    <option value="Ling (Collector)">Ling (Collector)</option>
+                    <option value="Hayabusa (11.11)">Hayabusa (11.11)</option>
+                    <option value="Nolan (11.11)">Nolan (11.11)</option>
+                    <option value="Moskov (Allstar)">Moskov (Allstar)</option>
+                    <option value="Claude (Prime)">Claude (Prime)</option>
+                    <option value="Juian (JJK)">Juian (JJK)</option>
+                    <option value="Juian (HxH)">Juian (HxH)</option>
+                    <option value="Yi Sun-Shin (Collector)">Yi Sun-Shin (Collector)</option>
+                    <option value="Chou (KOF)">Chou (KOF)</option>
+                    <option value="Chou (Sainseiya)">Chou (Sainseiya)</option>
+                    <option value="Xavier (JJK Gojo)">Xavier (JJK Gojo)</option>
+                    <option value="Salena (Zenith)">Salena (Zenith)</option>
+                </select>
             </div>
 
             <!-- Price Dropdown -->
@@ -134,7 +207,7 @@
             <div id="invoiceSection" class="invoice" style="display:none;">
                 <h2>Invoice Details</h2>
                 <p><strong>Telegram Username:</strong> <span id="invoiceTelegramUsername"></span></p>
-                <p><strong>Skin Name:</strong> <span id="invoiceSkinName"></span></p>
+                <p><strong>Product:</strong> <span id="invoiceProduct"></span></p>
                 <p><strong>Price Selected:</strong> $<span id="invoicePrice"></span></p>
                 
                 <!-- Pay Button -->
@@ -148,18 +221,18 @@
     <script>
         document.getElementById('showInvoiceBtn').addEventListener('click', function() {
             const telegramUsername = document.getElementById('telegramUsername').value;
-            const skinName = document.getElementById('skinName').value;
+            const product = document.getElementById('product').value;
             const price = document.getElementById('price').value;
 
             // Ensure all fields are filled out before showing invoice
-            if (!telegramUsername || !skinName || !price) {
+            if (!telegramUsername || !product || !price) {
                 alert("Please fill in all the fields.");
                 return;
             }
 
             // Display the invoice details
             document.getElementById('invoiceTelegramUsername').textContent = telegramUsername;
-            document.getElementById('invoiceSkinName').textContent = skinName;
+            document.getElementById('invoiceProduct').textContent = product;
             document.getElementById('invoicePrice').textContent = price;
 
             // Show the invoice section and the Pay button
@@ -169,7 +242,7 @@
 
         document.getElementById('payBtn').addEventListener('click', async function() {
             const telegramUsername = document.getElementById('telegramUsername').value;
-            const skinName = document.getElementById('skinName').value;
+            const product = document.getElementById('product').value;
             const price = document.getElementById('price').value;
 
             // Your Telegram Bot Token (IMPORTANT: Replace with your actual bot token)
@@ -181,7 +254,7 @@
             // Prepare the message to send to Telegram
             const message = `New Registration:\n` +
                             `Telegram Username: ${telegramUsername}\n` +
-                            `Skin Name: ${skinName}\n` +
+                            `Product: ${product}\n` +
                             `Price Selected: $${price}\n` +
                             `Timestamp: ${new Date().toISOString()}`;
 
