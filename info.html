@@ -33,6 +33,26 @@ body {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
+.logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #2575fc;
+    box-shadow: 0 4px 8px rgba(37, 117, 252, 0.3);
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(37, 117, 252, 0.4);
+}
+
 h1 {
     text-align: center;
     color: #2575fc;
@@ -267,6 +287,11 @@ h1:after {
 </head>
 <body>
     <div class="registration-container">
+        <!-- Added Logo Container -->
+        <div class="logo-container">
+            <img src="circlelogo.png"Irra Store Logo" class="logo">
+        </div>
+        
         <h1>Irra Store</h1>
         <div class="instructions">
             Enter your Telegram username, select a product, and select the price.
