@@ -5,148 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Irra Store</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        .registration-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        .status-message {
-            text-align: center;
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-        }
-
-        .status-message.success {
-            background-color: #dff0d8;
-            color: #3c763d;
-        }
-
-        .status-message.error {
-            background-color: #f2dede;
-            color: #a94442;
-        }
-
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        .instructions {
-            font-size: 0.8em;
-            color: #666;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .invoice {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        /* Enhanced input and select styles */
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
+       /* Modern CSS for Irra Store */
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    line-height: 1.6;
     color: #333;
 }
 
+.registration-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    transition: all 0.3s ease;
+}
+
+.registration-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #2575fc;
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+h1:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    border-radius: 2px;
+}
+
+.instructions {
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 10px;
+    background-color: #f0f7ff;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.form-group:focus-within label {
+    color: #2575fc;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f9fafc;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 .form-group input:focus, .form-group select:focus {
-    border-color: #4CAF50;
+    border-color: #2575fc;
     outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.15);
     background-color: #fff;
 }
 
 .form-group input:hover, .form-group select:hover {
-    border-color: #aaa;
+    border-color: #c0c0c0;
 }
 
-/* Custom styling for the dropdown arrow in select elements */
+.form-group input::placeholder {
+    color: #aaa;
+    opacity: 0.8;
+}
+
 .form-group select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234CAF50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232575fc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 10px center;
+    background-position: right 15px center;
     background-size: 16px;
-    padding-right: 30px;
+    padding-right: 40px;
 }
 
-/* Placeholder styling */
-.form-group input::placeholder {
-    color: #999;
-    opacity: 0.8;
+.btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Label enhancements */
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
+.btn:hover {
+    background: linear-gradient(to right, #5c0fb4, #1b68e8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(37, 117, 252, 0.4);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+.status-message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.status-message.success {
+    background-color: #edf7ed;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+.status-message.error {
+    background-color: #fdeded;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
+}
+
+.invoice {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f9fafc;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.invoice:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.invoice h2 {
+    color: #2575fc;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.invoice p {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.invoice p:last-of-type {
+    border-bottom: none;
+}
+
+.invoice p strong {
+    color: #555;
+}
+
+.invoice #payBtn {
+    margin-top: 15px;
+    background: linear-gradient(to right, #2e7d32, #4caf50);
+}
+
+.invoice #payBtn:hover {
+    background: linear-gradient(to right, #266d2b, #43a047);
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .registration-container {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .form-group input, .form-group select, .btn {
+        padding: 12px;
+    }
 }
     </style>
 </head>
@@ -188,7 +303,6 @@
                     <option value="Chou (Sainseiya)">Chou (Sainseiya)</option>
                     <option value="Xavier (JJK Gojo)">Xavier (JJK Gojo)</option>
                     <option value="Salena (Zenith)">Salena (Zenith)</option>
-                    <option value=Alpha (Legend)">Alpha (Legend)</option>
                 </select>
             </div>
 
