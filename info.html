@@ -308,27 +308,25 @@ h1:after {
                 <label for="product">Select Product</label>
                 <select id="product" name="product" required>
                     <option value="">Select a Skin</option>
-                    <option value="Promotion Skin 10/3$">Promotion Skin 10/3$</option>
+                    <option value="Promotion Skin 10/3$">Promotion 1/3$</option>
+                    <option value="Promotion Skin 10/3$">Promotion 2/3$</option>
+                    <option value="Promotion Skin 3/4$">Promotion 3/4$</option>
                     <option value="Fanny (The Aspirants)">Fanny (The Aspirants)</option>
                     <option value="Fanny (AOT)">Fanny (AOT)</option>
-                    <option value="Granger (Collector)">Granger (Collector)</option> 
-                    <option value="Granger (Legend)">Granger (Legend)</option>
+                    <option value="Granger (Collector)">Granger (Collector)</option>
                     <option value="Granger (Exocise)">Granger (Exocise)</option>
                     <option value="Hayabusa (Exocise)">Hayabusa (Exocise)</option>
                     <option value="Lancelot (Dawning)">Lancelot (Dawning)</option>
                     <option value="Lancelot (Kishin)">Lancelot (Kishin)</option>
-                    <option value="Ling (Collector)">Ling (Collector)</option> 
-                    <option value="Ling (NeoBest)">Ling (NeoBeast)</option>
+                    <option value="Ling (Collector)">Ling (Collector)</option>
                     <option value="Hayabusa (11.11)">Hayabusa (11.11)</option>
                     <option value="Nolan (11.11)">Nolan (11.11)</option>
-                    <option value="Franco (Legend)">Franco (Legend)</option>
                     <option value="Moskov (Allstar)">Moskov (Allstar)</option>
                     <option value="Claude (Prime)">Claude (Prime)</option>
                     <option value="Juian (JJK)">Juian (JJK)</option>
                     <option value="Juian (HxH)">Juian (HxH)</option>
                     <option value="Yi Sun-Shin (Collector)">Yi Sun-Shin (Collector)</option>
-                    <option value="Chou (KOF)">Chou (KOF)</option> 
-                      <option value="Gusion (KOF)">Gusion (KOF)</option>
+                    <option value="Chou (KOF)">Chou (KOF)</option>
                     <option value="Chou (Sainseiya)">Chou (Sainseiya)</option>
                     <option value="Xavier (JJK Gojo)">Xavier (JJK Gojo)</option>
                     <option value="Salena (Zenith)">Salena (Zenith)</option>
@@ -341,6 +339,7 @@ h1:after {
                 <select id="price" name="price" required>
                     <option value="1">Price: $1</option>
                     <option value="3">Promotion Price: $3</option>
+                    <option value="4">Promotion Price: $4</option>
                 </select>
             </div>
 
@@ -426,12 +425,13 @@ h1:after {
                     
                     // Redirect based on selected price
                     let paymentPageUrl = '';
-                    if (price === '1') {
-                        paymentPageUrl = '1$.html';  // URL for price $1
-                    } else if (price === '3') {
-                        paymentPageUrl = '1.5$.html';  // URL for price $3
-                    }
-
+            if (price === '1') {
+                paymentPageUrl = '1$.html';  // URL for price $1
+            } else if (price === '3') {
+                paymentPageUrl = '1.5$.html';  // URL for price $3
+            } else if (price === '4') {
+                paymentPageUrl = '2.7$.html';  // URL for price $4 (new URL for $4)
+            }
                     // Redirect to payment page
                     window.location.href = paymentPageUrl;
 
@@ -444,7 +444,9 @@ h1:after {
                 statusMessage.style.display = 'block';
                 console.error('Error:', error);
             }
+
         });
+        
     </script>
 </body>
 </html>
