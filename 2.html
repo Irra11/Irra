@@ -807,16 +807,12 @@ img.loaded {
             </div>
         </footer>
         <script>
- document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(function () {
-      alertRedirect();
-    }, 2000);
 
-    function alertRedirect() {
-      if (confirm("🚧 Coming Soon: This service will be available shortly!\n\nClick OK to continue.")) {
-        window.location.href = "index.html"; // Change to your desired URL
-      }
-    }
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+      alert("🚧 Coming Soon: This service will be available shortly!");
+      window.location.href = "index.html"; // Change to your target page
+    }, 2000);
   });
 
 
