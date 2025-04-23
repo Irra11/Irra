@@ -2,475 +2,759 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
- 
-    
-    <title>Irra Store</title>
-    <link rel="icon" href="circlelogo.png"
-    <link href="https://fonts.googleapis.com/css2?family=Khmer&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Timmana&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+Khmer:wght@100..900&family=Timmana&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Grechen+Fuemen&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+Khmer:wght@100..900&family=Timmana&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="2.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="22.CSS">
+    <title>Irra Store - Mobile Legends</title>
+    <style>
+       
+    </style>
 </head>
+
 <body>
-   
-    <!-- <header>
-        <div class="container1">
-            <div class="logo">
-                <img src="circlelogo.png" alt="Online Ra Store Logo">
+    <form method="POST" target="aba_webservice" action="" id="aba_merchant_request">
+        <input type="hidden" name="req_time"/>
+        <input type="hidden" name="merchant_id"/>
+        <input type="hidden" name="tran_id"/>
+        <input type="hidden" name="amount"/>
+        <input type="hidden" name="items"/>
+        <input type="hidden" name="firstname"/>
+        <input type="hidden" name="lastname"/>
+        <input type="hidden" name="payment_option"/>
+        <input type="hidden" name="hash"/>
+        <input type="hidden" name="return_url"/>
+        <input type="hidden" name="continue_success_url"/>
+    </form>
+
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="circlelogo.png" alt="Irra Store Logo" class="logo">
+                    <span class="site-logo">Irra Store</span>
+                </a>
             </div>
-            <h1 class="store-name">IRRA STORE</h1>
-        </div>
-    </header> -->
+        </nav>
     </header>
-    <!-- <section id="home" class="hero">
+
+    <main>
         <div class="container">
-            <h2>Welcome To Online Ra Store</h2>
-            <p>សូមស្វាគមន៍មកកាន់ Online Ra Store</p>
-            <a href="#shop" class="btn">Shop Now</a>
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-lg-4 mb-4">
+                    <!-- Banner Slider -->
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="gif.mp4" alt="Promo Banner">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Logo
+                    <div class="card animate__animated animate__fadeIn">
+                        <img src="mlbe.webp" alt="Mobile Legends" class="w-100">
+                    </div>
+                </div> -->
+                
+                <!-- Right Column -->
+                <div class="col-lg-8">
+                 <!-- Step 1: User ID -->
+<div class="card animate__animated animate__fadeIn" id="box-user">
+    <div class="card-body">
+        <div class="step-badge">
+            <span class="badge">1</span>
+            <h3 class="step-title">Enter Your Telegram Username</h3>
         </div>
-    </section> -->
-
-    <!-- Image Slider Section -->
-<section class="slider">
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="gif.mp4" alt="Image 1"></div>
-          
-        </div>
-    </div>
-</section>
-
-<section id="buy1" class="products11">
-   
-            
-        </div>
-    </div>
-    
-</section>
-<div class="squad-section">
-    <h2>Promotion</h2>
-    <div class="squad-content">
-        <img src="kk1.jpg" alt="The Squad" class="squad-img">
-        <p class="squad-text">Promotion 1/3$</p>
-        <a href="info.html">
-            <button class="buy-btn">Buy Now</button>
-        </a>
-    </div>
-    <div class="squad-content">
-        <img src="promotion2.jpg" alt="The Squad" class="squad-img">
-        <p class="squad-text">Promotion 2/3$</p>
-        <a href="info.html">
-            <button class="buy-btn">Buy Now</button>
-        </a>
-    </div>
-    <div class="squad-content">
-        <img src="pro3.jpg" alt="The Squad" class="squad-img">
-        <p class="squad-text">Promotion 3/4$</p>
-        <a href="info.html">
-            <button class="buy-btn">Buy Now</button>
-        </a>
+        
+        <form class="user_game_form">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <input type="text" id="telegram_username" name="telegram_username" class="form-control" placeholder="Enter username telegram">
+                </div>
+            </div>
+        </form>
+        
+        <div id="user_found"></div>
     </div>
 </div>
+                    
+                    <!-- Step 2: Products -->
+               
+                       <!-- Step 2: Products -->
+                       <div class="card animate__animated animate__fadeIn" id="box-item">
+                        <div class="card animate__animated animate__fadeIn" id="box-item">
+                            <div class="card-body">
+                                <div class="step-badge">
+                                    <span class="badge">2</span>
+                                    <h3 class="step-title">កញ្ចប់ Promotion</h3>
+                                </div>
+                                
+                                <div class="products-grid">
+                                    <!-- Weekly Passes -->
+                                    <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                        <img src="pic/pro1.jpg" alt="Weekly Pass" class="product-img">
+                                        <div class="product-price">$3</div>
+                                        <div class="product-name">Promotion 1</div>
+                                    </div>
+                                   
+                                    <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                        <img src="pic/pro2.jpg" alt="Weekly Pass" class="product-img">
+                                        <div class="product-price">$4</div>
+                                        <div class="product-name">Promotion 2</div>
+                                    </div>
+                                  
+    
+    
+    
+                                </div>
+                            </div>
+                        </div>
 
+                        
+                        <div class="card-body">
+                            <div class="step-badge">
+                                <span class="badge">3</span>
+                                <h3 class="step-title">Select Skin</h3>
+                            </div>
+                            
+                            <div class="products-grid">
+                                <!-- Weekly Passes -->
+                              
+                              
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="fa1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Fanny    (The Aspirants)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="fa.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Fanny (AOT)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/li.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Ling (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/lane.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Lancelot (DAWNING)</div>
+                                </div>
 
-  
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/chou.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Chou (KOF)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/chouuu.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Chou (Saintseiya)</div>
+                                </div>
 
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/ju.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Julian (HxH)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/jjk.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Julian (JJK)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/gs.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Gusion (KOF)</div>
+                                </div>
 
-     
-     <section id="shop" class="products">
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/yi.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">YI SUN-SHIN (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/g1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Granger (Exorcist)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/h1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Hayabusa (Exorcist)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/granger.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Granger (Legend)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/fra.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">FRANCO (Legend)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/haya.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Hayabusa (11.11)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/no.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$1</div>
+                                    <div class="product-name">Nolan (11.11)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
         
-        <div class="container">
-            <h2>SELECT SKIN</h2>
-
-          
-     
-
-
-
-             <!-- First Row -->
-             <div class="product-grid">
-                
-
-                
-                       <div class="product">
-                    <img src="1.mp4" alt="Product 1">
-                    <h2 class="product-name">FANNY</h2>
-                    <p class="product-need">The Aspirants</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="2.mp4" alt="Product 2">
-                    <h2 class="product-name">LING</h2>
-                    <p class="product-need">Collecter</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
+                    
+                    <!-- Step 3: Payment Method -->
+                    <div class="card animate__animated animate__fadeIn" id="box-payment_option">
+                        <div class="card-body">
+                            <div class="step-badge">
+                                <span class="badge">4</span>
+                                <h3 class="step-title">Choose Payment Method</h3>
+                            </div>
+                            
+                            <div class="payment-option selected">
+                                <input type="radio" name="payment_option" class="payment_option_radio" checked value="abapay_khqr" style="display: none;">
+                                <img src="khqr.webp" alt="KHQR" class="payment-logo">
+                                <div class="payment-details">
+                                    <div class="payment-title">ABA KHQR</div>
+                                    <div class="payment-description">Scan to pay with any banking app</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mt-3">
+                                <input type="checkbox" class="form-check-input" id="check_btn" checked onchange="toggleTerms()">
+                                <label class="form-check-label" for="check_btn">
+                                    I agree to the <a href="#" style="color: var(--secondary);">Terms and Conditions</a>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-    
-
-
-
-            <div class="product-grid">
-
-                
-                <div class="product">
-             <img src="haya.mp4" alt="Product 1">
-             <h2 class="product-name">Hayabusa</h2>
-             <p class="product-need">Exorcist</p>
-             <a href="info.html">
-                 <button class="btn">Buy</button>
-             </a>
-         </div>
-
-         <div class="product">
-             <img src="gra.mp4" alt="Product 2">
-             <h2 class="product-name">Granger</h2>
-             <p class="product-need">Exorcist</p>
-             <a href="info.html">
-                 <button class="btn">Buy</button>
-             </a>
-         </div>
-     </div>
-
-             <div class="product-grid">
-
-                
-                     
-
-
-
-                <div class="product">
-                    <img src="3.mp4" alt="Product 1">
-                    <h2 class="product-name">HARITH</h2>
-                    <p class="product-need">HUNTERxHUNTER</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="4.mp4" alt="Product 2">
-                    <h2 class="product-name">LANCELOT</h2>
-                    <p class="product-need">DAWNING</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-    
-          
-            <div class="product-grid">
-                <div class="product">
-                    <img src="5.mp4" alt="Product 1">
-                    <h2 class="product-name">FANNY </h2>
-                    <p class="product-need">Mikasa AOT</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="6.mp4" alt="Product 2">
-                    <h2 class="product-name">LANCELOT</h2>
-                    <p class="product-need">Kishin Densetsu</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-    
-            <div class="product-grid">
-                <div class="product">
-                    <img src="7.mp4" alt="Product 1">
-                    <h2 class="product-name">JONHSON </h2>
-                    <p class="product-need">Legend</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="8.mp4" alt="Product 2">
-                    <h2 class="product-name">FRANCO</h2>
-                    <p class="product-need">Legend</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-    
-          
-       
-            <div class="product-grid">
-                <div class="product">
-                    <img src="9.mp4" alt="Product 1">
-                    <h2 class="product-name">GRANGER </h2>
-                    <p class="product-need">Legend</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="10.mp4" alt="Product 2">
-                    <h2 class="product-name">GUSION</h2>
-                    <p class="product-need">KOF</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-    
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pic/haya.jpg" alt="Product 1">
-                    <h2 class="product-name">HAYABUSA </h2>
-                    <p class="product-need">11.11</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="pic/no.jpg" alt="Product 2">
-                    <h2 class="product-name">NOLAN</h2>
-                    <p class="product-need">11.11</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pic/mo.jpg" alt="Product 1">
-                    <h2 class="product-name">MOSKOV </h2>
-                    <p class="product-need">ALLSTAR</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="pic/cl.jpg" alt="Product 2">
-                    <h2 class="product-name">CLAUDE</h2>
-                    <p class="product-need">PRIME</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pic/dr.jpg" alt="Product 1">
-                    <h2 class="product-name">DYRROTH </h2>
-                    <p class="product-need">HxH</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="pic/ha.jpg" alt="Product 2">
-                    <h2 class="product-name">HARLEY</h2>
-                    <p class="product-need">COLLECTOR</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pic/yi.jpg" alt="Product 1">
-                    <h2 class="product-name">YI SUN-SHIN </h2>
-                    <p class="product-need">COLLECTOR</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="pic/jjk.jpg" alt="Product 2">
-                    <h2 class="product-name">JULIAN</h2>
-                    <p class="product-need">JJK</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pic/ju.jpg" alt="Product 1">
-                    <h2 class="product-name">JULIAN </h2>
-                    <p class="product-need">HxH</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="pic/se.jpg" alt="Product 2">
-                    <h2 class="product-name">SELENA</h2>
-                    <p class="product-need">ZENITH</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-          
-            <div class="product-grid">
-                <div class="product">
-                    <img src="pa.jpg" alt="Product 1">
-                    <h2 class="product-name">PAQUITO </h2>
-                    <p class="product-need">KOF</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="ma.jpg" alt="Product 2">
-                    <h2 class="product-name">MASHA</h2>
-                    <p class="product-need">KOF</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            <div class="product-grid">
-                <div class="product">
-                    <img src="ch.jpg" alt="Product 1">
-                    <h2 class="product-name">CHOU </h2>
-                    <p class="product-need">KOF</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="chu.jpg" alt="Product 2">
-                    <h2 class="product-name">CHOU</h2>
-                    <p class="product-need">Saintseiya</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-    
-            <div class="product-grid">
-                <div class="product">
-                    <img src="de.jpg" alt="Product 1">
-                    <h2 class="product-name">DYRROTH </h2>
-                    <p class="product-need">HUNTERxHUNTER</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="ce.jpg" alt="Product 2">
-                    <h2 class="product-name">CECILION</h2>
-                    <p class="product-need">HUNTERxHUNTER</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            <div class="product-grid">
-                <div class="product">
-                    <img src="yi.jpg" alt="Product 1">
-                    <h2 class="product-name">YIN</h2>
-                    <p class="product-need">JUJUSTU KAIDEN</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-    
-                <div class="product">
-                    <img src="go.jpg" alt="Product 2">
-                    <h2 class="product-name">XAVIER</h2>
-                    <p class="product-need">GOJO JJK</p>
-                    <a href="info.html">
-                        <button class="btn">Buy</button>
-                    </a>
-                </div>
-            </div>
-            
         </div>
         
-     </div>  
 
-    </section>
-    <section id="about">
-        <div class="container">
-            <h2>About Us</h2>
-            <p>Welcome to our store! We are passionate about bringing you the latest with quality.</p>
-        </div>
-    </section>
-    <section id="contact">
-        <div class="icon-row">
-            <!-- Telegram Icon -->
-            <div class="icon-container">
-                <a href="https://t.me/irra11store" target="_blank">
-                    <i class="fa-brands fa-telegram fa-2x"></i>
-                </a>
+        
+        <!-- Checkout Bar -->
+        <div class="checkout-bar">
+            <div>
+                <div id="product_name" class="product-info">Select a package</div>
+                <div class="total-price">Total: <span class="price-amount">$0.00</span></div>
             </div>
-            <div class="icon-container">
-                <a href="https://youtube.com/@irra_11?si=e1l_ZUKcOBrqHiVA" target="_blank">
-                    <i class="fa-brands fa-youtube fa-2x"></i>
-                </a>
-            </div>
-    
-            <!-- Facebook Icon -->
-            <!-- <div class="icon-container">
-                <a href="https://www.facebook.com/share/1EdNCGSo88/?mibextid=wwXIfr" target="_blank">
-                    <i class="fa-brands fa-facebook fa-2x"></i>
-                </a>
-            </div> -->
+            <button class="btn btn-primary" id="checkout_button" onclick="createPreOrder()">Pay Now</button>
         </div>
-    </section>
+        
+        <!-- Support Button -->
+        <a href="https://t.me/irra_11" class="support-button">
+            <i class="fas fa-headset support-icon"></i>
+        </a>
+    </main>
     
-    </div>
     <footer>
         <div class="container">
-            <p>&copy; 2025 Irra Store. All rights reserved.</p>
+            <div class="footer-content">
+                <div>© 2025 Irra Store. All Rights Reserved.</div>
+                <!-- <div class="payment-methods">
+                    <span>We accept:</span>
+                    <img src="aba-lg.webp" alt="KHQR">
+                </div> -->
+            </div>
         </div>
     </footer>
- <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector('#buy1')?.addEventListener("click", function(e) {
-        const btn = e.target.closest('.btn'); // Check if a "Buy" button was clicked
-        if (!btn) return;
-
-        const item = btn.closest('.item');
-        if (item) {
-            const productName = item.querySelector(".product-1")?.textContent.trim() || "Unknown Product";
-            
-            // Redirect to info.html instead of Telegram
-            window.location.href = "info.html";
+<script>
+    // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the telegram username input field
+    const telegramInput = document.getElementById('telegram_username');
+    const userFoundDiv = document.getElementById('user_found');
+    const checkoutButton = document.getElementById('checkout_button');
+    
+    // Initially disable the checkout button
+    checkoutButton.disabled = true;
+    
+    // Add event listener for input changes
+    telegramInput.addEventListener('input', function() {
+        validateTelegramUsername();
+    });
+    
+    // Add event listener for blur (when user clicks away)
+    telegramInput.addEventListener('blur', function() {
+        if (telegramInput.value.trim() !== '') {
+            validateTelegramUsername();
         }
     });
+    
+    // Function to validate the telegram username
+    function validateTelegramUsername() {
+        const username = telegramInput.value.trim();
+        
+        // Reset the user found message
+        userFoundDiv.innerHTML = '';
+        
+        // Basic validation - username must start with @ and contain at least 5 characters
+        if (username === '') {
+            setInvalidState('Please enter your Telegram username');
+            return;
+        }
+        
+        // Check if username starts with @
+        if (!username.startsWith('@')) {
+            setInvalidState('Username must start with @');
+            return;
+        }
+        
+        // Check if username has enough characters (@ + at least 4 more)
+        if (username.length < 5) {
+            setInvalidState('Username must be at least 5 characters including @');
+            return;
+        }
+        
+        // Check if username only contains valid characters (letters, numbers, underscores)
+        const validUsernameRegex = /^@[a-zA-Z0-9_]+$/;
+        if (!validUsernameRegex.test(username)) {
+            setInvalidState('Username can only contain letters, numbers, and underscores');
+            return;
+        }
+        
+        // If all validations pass, show success message
+        setValidState();
+    }
+    
+    // Function to display validation error
+    function setInvalidState(message) {
+        telegramInput.classList.add('is-invalid');
+        telegramInput.classList.remove('is-valid');
+        
+        userFoundDiv.innerHTML = `
+            <div class="alert alert-danger mt-3">
+                <i class="fas fa-times-circle"></i> ${message}
+            </div>
+        `;
+        
+        // Disable checkout button
+        checkoutButton.disabled = true;
+    }
+    
+    // Function to display success state
+    function setValidState() {
+        telegramInput.classList.remove('is-invalid');
+        telegramInput.classList.add('is-valid');
+        
+        userFoundDiv.innerHTML = `
+            <div class="alert alert-success mt-3">
+                <i class="fas fa-check-circle"></i> Valid Telegram username entered!
+            </div>
+        `;
+        
+        // Enable checkout button
+        checkoutButton.disabled = false;
+    }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector('#shop')?.addEventListener("click", function(e) {
-        const btn = e.target.closest('.btn'); // Check if a "Buy" or "Inbox" button was clicked
-        if (!btn) return;
+// Update the createPreOrder function to include telegram username validation
+function createPreOrder() {
+    const telegramUsername = document.getElementById('telegram_username').value.trim();
+    
+    // Check if username is valid before proceeding
+    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
+        alert('Please enter a valid Telegram username before proceeding.');
+        return;
+    }
+    
+    // Store the username in session storage for later use
+    sessionStorage.setItem('telegramUsername', telegramUsername);
+    
+    // Continue with your existing order creation logic
+    // This is a placeholder - you would replace this with your actual order creation code
+    alert(`Creating order for Telegram user: ${telegramUsername}`);
+    
+    // Here you would typically:
+    // 1. Collect selected product info
+    // 2. Calculate total price
+    // 3. Submit the form or make an API call to process the payment
+}
 
-        // Regardless of which product was clicked, redirect to info.html
-        window.location.href = "info.html";
+
+
+
+
+
+// Global variables to track selection state
+let selectedProduct = null;
+let totalAmount = 0;
+let telegramUsername = '';
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the telegram username input field and add event listener
+    const telegramInput = document.getElementById('telegram_username');
+    const userFoundDiv = document.getElementById('user_found');
+    const checkoutButton = document.getElementById('checkout_button');
+    const productNameElement = document.getElementById('product_name');
+    const priceAmountElement = document.querySelector('.price-amount');
+    
+    // Initially disable the checkout button
+    checkoutButton.disabled = true;
+    
+    // Modify the checkout bar structure to add labels
+    const checkoutBarInfo = document.querySelector('.checkout-bar > div');
+    checkoutBarInfo.innerHTML = `
+    <div class="checkout-info-item">
+        <span class="checkout-label">Telegram:</span>
+        <span class="checkout-value telegram-username">-</span>
+    </div>
+    <div class="checkout-info-item">
+        <span class="checkout-label">Skin:</span>
+        <span class="checkout-value product-name">-</span>
+    </div>
+    <div class="checkout-info-item">
+        <span class="checkout-label">Total:</span>
+        <span class="checkout-value price-amount">$0.00</span>
+    </div>
+`;
+
+    
+    // Add event listener for telegram username input
+    telegramInput.addEventListener('input', function() {
+        validateTelegramUsername();
+        updateCheckoutBar();
     });
+    
+    // Add event listener for blur (when user clicks away)
+    telegramInput.addEventListener('blur', function() {
+        if (telegramInput.value.trim() !== '') {
+            validateTelegramUsername();
+            updateCheckoutBar();
+        }
+    });
+    
+    // Find all product cards and add click event listeners
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Get product information from the clicked card
+            const productImg = this.querySelector('.product-img').getAttribute('src');
+            const productPrice = this.querySelector('.product-price').textContent;
+            const productName = this.querySelector('.product-name').textContent;
+            
+            // Handle product selection
+            handleProductSelection(this, {
+                id: this.id,
+                name: productName,
+                price: parseFloat(productPrice.replace('$', '')),
+                img: productImg
+            });
+        });
+    });
+    
+    // Function to validate the telegram username
+    function validateTelegramUsername() {
+        const username = telegramInput.value.trim();
+        
+        // Reset the user found message
+        userFoundDiv.innerHTML = '';
+        
+        // Basic validation - username must start with @ and contain at least 5 characters
+        if (username === '') {
+            setInvalidState('Please enter your Telegram username');
+            return false;
+        }
+        
+        // Check if username starts with @
+        if (!username.startsWith('@')) {
+            setInvalidState('Username must start with @');
+            return false;
+        }
+        
+        // Check if username has enough characters (@ + at least 4 more)
+        if (username.length < 5) {
+            setInvalidState('Username must be at least 5 characters including @');
+            return false;
+        }
+        
+        // Check if username only contains valid characters (letters, numbers, underscores)
+        const validUsernameRegex = /^@[a-zA-Z0-9_]+$/;
+        if (!validUsernameRegex.test(username)) {
+            setInvalidState('Username can only contain letters, numbers, and underscores');
+            return false;
+        }
+        
+        // If all validations pass, show success message
+        setValidState();
+        telegramUsername = username;
+        return true;
+    }
+    
+    // Function to display validation error
+    function setInvalidState(message) {
+        telegramInput.classList.add('is-invalid');
+        telegramInput.classList.remove('is-valid');
+        
+        userFoundDiv.innerHTML = `
+            <div class="alert alert-danger mt-3">
+                <i class="fas fa-times-circle"></i> ${message}
+            </div>
+        `;
+        
+        // Disable checkout button
+        checkoutButton.disabled = true;
+    }
+    
+    // Function to display success state
+    function setValidState() {
+        telegramInput.classList.remove('is-invalid');
+        telegramInput.classList.add('is-valid');
+        
+        userFoundDiv.innerHTML = `
+            <div class="alert alert-success mt-3">
+                <i class="fas fa-check-circle"></i> Valid Telegram username entered!
+            </div>
+        `;
+        
+        // Enable checkout button if there is a selected product
+        checkoutButton.disabled = selectedProduct === null;
+    }
 });
- </script>
-</body>
-</html>
+
+// Function to handle product selection
+function handleProductSelection(cardElement, product) {
+    // Remove selection from all product cards
+    const allProductCards = document.querySelectorAll('.product-card');
+    allProductCards.forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // If clicking on the same product, toggle selection
+    if (selectedProduct && selectedProduct.id === product.id && selectedProduct.name === product.name) {
+        selectedProduct = null;
+    } else {
+        // Select the new product
+        selectedProduct = product;
+        cardElement.classList.add('selected');
+    }
+    
+    // Update the checkout bar with new selection
+    updateCheckoutBar();
+    
+    // Update checkout button state
+    const telegramInput = document.getElementById('telegram_username');
+    const checkoutButton = document.getElementById('checkout_button');
+    checkoutButton.disabled = !(telegramInput.classList.contains('is-valid') && selectedProduct !== null);
+}
+
+// Function to update the checkout bar content
+function updateCheckoutBar() {
+    const telegramUsernameElement = document.querySelector('.checkout-value.telegram-username');
+    const productNameElement = document.querySelector('.checkout-value.product-name');
+    const priceAmountElement = document.querySelector('.checkout-value.price-amount');
+    const username = document.getElementById('telegram_username').value.trim();
+    
+    // Update telegram username
+    telegramUsernameElement.textContent = username || '-';
+    
+    // Update product info and price
+    if (selectedProduct === null) {
+        productNameElement.textContent = '-';
+        totalAmount = 0;
+        priceAmountElement.textContent = '$0.00';
+    } else {
+        // Display product name
+        productNameElement.textContent = selectedProduct.name;
+        
+        // Update price
+        totalAmount = selectedProduct.price;
+        priceAmountElement.textContent = `$${totalAmount.toFixed(2)}`;
+    }
+}
+
+// Function for the checkout button
+function createPreOrder() {
+    const telegramUsername = document.getElementById('telegram_username').value.trim();
+    
+    // Validate username
+    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
+        alert('Please enter a valid Telegram username before proceeding.');
+        return;
+    }
+    
+    // Check if a product is selected
+    if (selectedProduct === null) {
+        alert('Please select a product before checkout.');
+        return;
+    }
+    
+    // Prepare order data
+    const orderData = {
+        telegramUsername: telegramUsername,
+        product: selectedProduct,
+        totalAmount: totalAmount
+    };
+    
+    // Store order data in session storage for later use
+    sessionStorage.setItem('orderData', JSON.stringify(orderData));
+    
+    // Submit the payment form if needed
+    // document.getElementById('aba_merchant_request').submit();
+    
+    // Process payment and redirect based on amount
+    processPaymentAndRedirect(totalAmount);
+}
+
+// Function to process payment and redirect based on amount
+function processPaymentAndRedirect(amount) {
+    // Mock payment processing - this would normally be handled by your payment gateway
+    console.log('Processing payment of $' + amount.toFixed(2));
+    
+    // After successful payment, redirect based on amount
+    setTimeout(() => {
+        if (amount === 1) {
+            window.location.href = '1$.html'; // For $1 products
+        } else if (amount === 3) {
+            window.location.href = '1.5$.html'; // For $3 products
+        } else if (amount === 4) {
+            window.location.href = '2.7$.html'; // For $4 products
+        } else {
+            // Default success page for other amounts
+            window.location.href = 'success_page_default.html';
+        }
+    }, 1000); // Simulating a short delay for the payment process
+}
+
+// Function to toggle terms checkbox and update checkout button state
+function toggleTerms() {
+    const checkBtn = document.getElementById('check_btn');
+    const checkoutButton = document.getElementById('checkout_button');
+    
+    // Check if telegram is valid and a product is selected
+    const telegramValid = document.getElementById('telegram_username').classList.contains('is-valid');
+    const hasProduct = selectedProduct !== null;
+    
+    // Only enable the checkout button if all conditions are met
+    checkoutButton.disabled = !(telegramValid && hasProduct && checkBtn.checked);
+}
+
+// Add CSS for selected product cards and checkout bar formatting
+const style = document.createElement('style');
+style.textContent = `
+.product-card.selected {
+    border: 3px solid #2979ff;
+    box-shadow: 0 0 10px rgba(41, 121, 255, 0.5);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+.checkout-bar {
+    padding: 15px 20px;
+}
+
+.checkout-info-item {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.checkout-label {
+    font-weight: 600;
+    width: 150px;
+    color: #555;
+}
+
+.checkout-value {
+    font-weight: 500;
+    color: #333;
+}
+
+.checkout-value.price-amount {
+    color: #2979ff;
+    font-weight: 700;
+}
+`;
+document.head.appendChild(style);
+
+
+
+function createPreOrder() {
+    const telegramUsername = document.getElementById('telegram_username').value.trim();
+
+    // Validate username
+    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
+        alert('Please enter a valid Telegram username before proceeding.');
+        return;
+    }
+
+    // Check if a product is selected
+    if (selectedProduct === null) {
+        alert('Please select a product before checkout.');
+        return;
+    }
+
+    // Prepare order data
+    const orderData = {
+        telegramUsername: telegramUsername,
+        product: selectedProduct,
+        totalAmount: totalAmount
+    };
+
+    // Store order data in session storage for later use
+    sessionStorage.setItem('orderData', JSON.stringify(orderData));
+
+    // ✨ SEND ORDER TO TELEGRAM BOT
+    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; // 🔁 Replace this with your bot token
+    const chatId = '5007619095';     // 🔁 Replace this with your Telegram user ID or group ID
+    const now = new Date();
+const timestamp = now.toLocaleString('en-US', {
+    hour12: true,
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit'
+});
+
+const messageText = `🛒 *New Order*
+
+🕒 Time: ${timestamp}
+👤 Telegram: ${telegramUsername}
+🎮 Skin: ${selectedProduct.name}
+💵 Total: $${totalAmount.toFixed(2)}`;
+
+fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        chat_id: chatId,
+        text: messageText,
+        parse_mode: 'Markdown'
+    })
+})
+
+    .then(response => response.json())
+    .then(data => {
+        console.log('Telegram message sent:', data);
+        // Continue to payment
+        processPaymentAndRedirect(totalAmount);
+    })
+    .catch(error => {
+        console.error('Error sending message to Telegram:', error);
+        // Still proceed with payment
+        processPaymentAndRedirect(totalAmount);
+    });
+}
+
+
+</script>
