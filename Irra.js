@@ -336,24 +336,22 @@ function createPreOrder() {
     processPaymentAndRedirect(totalAmount);
 }
 
-// Function to process payment and redirect based on amount
+
 function processPaymentAndRedirect(amount) {
     // Mock payment processing - this would normally be handled by your payment gateway
     console.log('Processing payment of $' + amount.toFixed(2));
     
     // After successful payment, redirect based on amount
-    setTimeout(() => {
-        if (amount === 1) {
-            window.location.href = '1$.html'; // For $1 products
-        } else if (amount === 3) {
-            window.location.href = '1.5$.html'; // For $3 products
-        } else if (amount === 4) {
-            window.location.href = '2.7$.html'; // For $4 products
-        } else {
-            // Default success page for other amounts
-            window.location.href = 'success_page_default.html';
-        }
-    }, ); // Simulating a short delay for the payment process
+    if (amount === 1) {
+        window.location.href = '1$.html'; // For $1 products
+    } else if (amount === 3) {
+        window.location.href = '1.5$.html'; // For $3 products
+    } else if (amount === 4) {
+        window.location.href = '2.7$.html'; // For $4 products
+    } else {
+        // Default success page for other amounts
+        window.location.href = 'success_page_default.html';
+    }
 }
 
 // Function to toggle terms checkbox and update checkout button state
