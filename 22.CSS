@@ -57,7 +57,7 @@ body {
 
 .site-logo {
     font-size: 24px;
-    font-family: 'Poppins', sans-serif;
+   
     font-weight: 600px;
     font-size: 1.5rem;
    
@@ -410,3 +410,248 @@ footer {
     }
 }
 
+/* Professional Header Style for Irra Store */
+
+/* Header Base Styles */
+header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  padding: 0.8rem 0;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover .logo {
+  transform: scale(1.1);
+}
+
+.site-logo {
+  font-family: 'Grechen Fuemen', cursive;
+  font-size: 1.8rem;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Menu */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.nav-item {
+  list-style: none;
+}
+
+.nav-link {
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.nav-link.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active::after {
+  width: 80%;
+}
+
+/* Responsive Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1.5rem;
+}
+
+.action-btn {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0.4rem;
+}
+
+.action-btn:hover {
+  color: #3498db;
+}
+
+.cart-btn {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e74c3c;
+  color: #fff;
+  font-size: 0.7rem;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Mobile Menu */
+.mobile-toggle {
+  display: none;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Banner area below header */
+.header-banner {
+  background-color: #3498db;
+  padding: 0.8rem 0;
+  text-align: center;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.header-banner a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.header-banner a:hover {
+  color: #f8f9fa;
+  text-decoration: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .navbar .container {
+    position: relative;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 72px;
+    right: -100%;
+    background-color: #16213e;
+    width: 250px;
+    height: 100vh;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    transition: right 0.3s ease;
+    gap: 1rem;
+    z-index: 1001;
+  }
+  
+  .nav-menu.active {
+    right: 0;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-link::after {
+    left: 0;
+    transform: none;
+  }
+  
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 30%;
+  }
+  
+  .mobile-toggle {
+    display: block;
+    order: 3;
+  }
+  
+  .header-actions {
+    order: 2;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    padding: 0.6rem 0;
+  }
+  
+  .site-logo {
+    font-size: 1.5rem;
+  }
+  
+  .logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .header-actions {
+    margin-left: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    font-size: 1.1rem;
+  }
+  
+  .header-banner {
+    font-size: 0.85rem;
+    padding: 0.6rem 0;
+  }
+}

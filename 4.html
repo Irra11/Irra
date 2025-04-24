@@ -1,40 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="22.CSS">
-    <title>Irra Store</title>
-    <style>
-       
-    </style>
-</head>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="22.CSS">
+        <title>Irra Store</title>
+    </head>
 <body>
-    <form method="POST" target="aba_webservice" action="" id="aba_merchant_request">
-        <input type="hidden" name="req_time"/>
-        <input type="hidden" name="merchant_id"/>
-        <input type="hidden" name="tran_id"/>
-        <input type="hidden" name="amount"/>
-        <input type="hidden" name="items"/>
-        <input type="hidden" name="firstname"/>
-        <input type="hidden" name="lastname"/>
-        <input type="hidden" name="payment_option"/>
-        <input type="hidden" name="hash"/>
-        <input type="hidden" name="return_url"/>
-        <input type="hidden" name="continue_success_url"/>
-    </form>
-
+   
     <header>
         <nav class="navbar">
             <div class="container">
@@ -42,9 +23,49 @@
                     <img src="circlelogo.png" alt="Irra Store Logo" class="logo">
                     <span class="site-logo">Irra Store</span>
                 </a>
+                
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Skins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Promotions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Support</a>
+                    </li>
+                </ul>
+                
+                <div class="header-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="action-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <!-- <span class="cart-count">0</span> -->
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
+    
+    <!-- Optional Promotional Banner Below Header -->
+    <div class="header-banner">
+        🔥 New Promotion! Get 70% off on all skins this week! <a href="#">Shop Now</a>
+    </div>
 
     <main>
         <div class="container">
