@@ -353,7 +353,7 @@ function processPaymentAndRedirect(amount) {
             // Default success page for other amounts
             window.location.href = 'success_page_default.html';
         }
-    }, 100); // Simulating a short delay for the payment process
+    }, ); // Simulating a short delay for the payment process
 }
 
 // Function to toggle terms checkbox and update checkout button state
@@ -391,12 +391,12 @@ style.textContent = `
 
 .checkout-label {
     font-weight: 600;
-    width: 150px;
+    width: 100px;
     color: #555;
 }
 
 .checkout-value {
-    font-weight: 500;
+    font-weight: 200;
     color: #333;
 }
 
