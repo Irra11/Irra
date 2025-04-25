@@ -335,24 +335,20 @@ function createPreOrder() {
     // Process payment and redirect based on amount
     processPaymentAndRedirect(totalAmount);
 }
-
-
 function processPaymentAndRedirect(amount) {
-    // Mock payment processing - this would normally be handled by your payment gateway
     console.log('Processing payment of $' + amount.toFixed(2));
-    
-    // After successful payment, redirect based on amount
+
     if (amount === 1) {
-        window.location.href = '1$.html'; // For $1 products
+        location.href = '1$.html';
     } else if (amount === 3) {
-        window.location.href = '1.5$.html'; // For $3 products
+        location.href = '1.5$.html';
     } else if (amount === 4) {
-        window.location.href = '2.7$.html'; // For $4 products
+        location.href = '2.7$.html';
     } else {
-        // Default success page for other amounts
-        window.location.href = 'success_page_default.html';
+        location.href = 'success_page_default.html';
     }
 }
+
 
 // Function to toggle terms checkbox and update checkout button state
 function toggleTerms() {

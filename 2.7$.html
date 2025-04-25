@@ -192,12 +192,28 @@ body {
     transform: scale(1.05);
 }
 
-/* Text in review popup */
-#reviewPopup p {
-    color: #64748b;
-    font-size: 16px;
-    line-height: 1.5;
+/* NEW FONT STYLES FOR REVIEW POPUP */
+#reviewPopup .popup-content {
+    background: linear-gradient(to bottom, #ffffff, #f5f7fa);
+}
+
+#reviewPopup h2 {
+    font-family: 'Moul', 'Kantumruy', 'Arial', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    color: #3a4b78;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     margin-bottom: 25px;
+}
+
+#reviewPopup p {
+    font-family: 'Battambang', 'Khmer OS', 'Arial', sans-serif;
+    color: #4a5568;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    letter-spacing: 0.3px;
+    font-weight: 500;
     animation: pulse 2s infinite ease-in-out;
 }
 
@@ -205,6 +221,14 @@ body {
     0% { opacity: 1; }
     50% { opacity: 0.7; }
     100% { opacity: 1; }
+}
+
+#reviewPopup .proceed-button {
+    font-family: 'Battambang', 'Khmer OS', 'Arial', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 15px;
 }
 
 /* Button container for review popup */
@@ -267,13 +291,30 @@ body {
     }
     
     #reviewPopup p {
-        font-size: 14px;
+        font-size: 15px;
     }
     
     .proceed-button {
         padding: 10px 20px;
         font-size: 14px;
     }
+    
+    #reviewPopup h2 {
+        font-size: 24px;
+    }
+}
+
+/* Font imports for Khmer fonts */
+@font-face {
+    font-family: 'Battambang';
+    src: url('https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Moul';
+    src: url('https://fonts.googleapis.com/css2?family=Moul&display=swap');
+    font-display: swap;
 }
     </style>
 </head>
@@ -289,7 +330,7 @@ body {
                 <!-- <p><strong>IRRA STORE</strong></p> -->
                 <!-- <p>Amount: <strong>$1</strong></p> -->
             </div>
-            <p id="countdown">Time remaining: 0:30</p>
+            <p id="countdown">Time remaining: 0:20</p>
         </div>
     </div>
     
@@ -299,7 +340,7 @@ body {
             <!-- Logo Section -->
             <img src="circlelogo.png" alt="IRRA Store Logo" class="logo-circle">
             
-            <h2>កំពុងត្រួតពិនិត្យ</h2>
+            <h2></h2>
             <p>សូមរង់ចាំពួកយើងកំពុងត្រួតពិនិត្យ...</p>
             
             <div class="button-container">
@@ -334,7 +375,7 @@ function closePopup() {
 
 // Countdown timer function
 function startCountdown() {
-    var timeLeft = 30; // 30 seconds countdown
+    var timeLeft = 20; // 30 seconds countdown
     var countdownDisplay = document.getElementById("countdown");
     var timer = setInterval(function() {
         var minutes = Math.floor(timeLeft / 60);
