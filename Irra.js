@@ -402,7 +402,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 
-
+// Updated createPreOrder function with visual feedback
 function createPreOrder() {
     const telegramUsername = document.getElementById('telegram_username').value.trim();
 
@@ -428,49 +428,103 @@ function createPreOrder() {
     // Store order data in session storage for later use
     sessionStorage.setItem('orderData', JSON.stringify(orderData));
 
-    // ✨ SEND ORDER TO TELEGRAM BOT
-    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; // 🔁 Replace this with your bot token
-    const chatId = '5007619095';     // 🔁 Replace this with your Telegram user ID or group ID
-    const now = new Date();
-const timestamp = now.toLocaleString('en-US', {
-    hour12: true,
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    second: '2-digit'
-});
+    // Disable the checkout button to prevent multiple clicks
+    const checkoutButton = document.getElementById('checkout_button');
+    if (checkoutButton) {
+        checkoutButton.disabled = true;
+        checkoutButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
 
-const messageText = `🛒 *New Order*
+    // Create a status element to show Telegram notification status
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'telegram_status';
+  
+
+    
+    // Find a good place to add the status message
+    const userFoundDiv = document.getElementById('user_found');
+    if (userFoundDiv && userFoundDiv.parentNode) {
+        userFoundDiv.parentNode.appendChild(statusDiv);
+    } else {
+        // If can't find user_found div, add it after the checkout button
+        if (checkoutButton && checkoutButton.parentNode) {
+            checkoutButton.parentNode.appendChild(statusDiv);
+        }
+    }
+
+    // ✨ SEND ORDER TO TELEGRAM BOT
+    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; // Bot token
+    const chatId = '5007619095';     // Telegram user ID or group ID
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-US', {
+        hour12: true,
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    const messageText = `🛒 *New Order*
 
 🕒 Time: ${timestamp}
 👤 Telegram: ${telegramUsername}
 🎮 Skin: ${selectedProduct.name}
 💵 Total: $${totalAmount.toFixed(2)}`;
 
-fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        chat_id: chatId,
-        text: messageText,
-        parse_mode: 'Markdown'
+    // Add message link to the status div
+    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    // Show the API URL we're calling (helps with debugging)
+   
+    
+    // Send the message to Telegram
+    fetch(telegramApiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: messageText,
+            parse_mode: 'Markdown'
+        })
     })
-})
-
-    .then(response => response.json())
+    .then(response => {
+        console.log('Telegram API Response:', response);
+        return response.json();
+    })
     .then(data => {
-        console.log('Telegram message sent:', data);
-        // Continue to payment
-        processPaymentAndRedirect(totalAmount);
+        console.log('Telegram API Data:', data);
+        
+        if (data.ok) {
+            // Success - show success message before redirecting
+            statusDiv.className = 'alert alert-success mt-3';
+           
+            
+            // Wait a moment to show the success message before redirecting
+            setTimeout(() => {
+                processPaymentAndRedirect(totalAmount);
+            }, 1000);
+        } else {
+            // API returned an error
+            statusDiv.className = 'alert alert-warning mt-3';
+           
+            
+            // Still proceed to payment after a brief delay
+            setTimeout(() => {
+                processPaymentAndRedirect(totalAmount);
+            }, 2000);
+        }
     })
     .catch(error => {
         console.error('Error sending message to Telegram:', error);
-        // Still proceed with payment
-        processPaymentAndRedirect(totalAmount);
+        
+       
+        setTimeout(() => {
+            processPaymentAndRedirect(totalAmount);
+        }, 2000);
     });
 }
 
