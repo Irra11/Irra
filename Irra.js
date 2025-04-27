@@ -524,7 +524,7 @@ function createPreOrder() {
        
         setTimeout(() => {
             processPaymentAndRedirect(totalAmount);
-        }, 2000);
+        }, 1000);
     });
 }
 
@@ -611,3 +611,314 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart count
     initializeCart();
 });
+
+
+// Enhanced Product Search Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the search button and add event listener
+    const searchBtn = document.querySelector('.action-btn i.fas.fa-search');
+    if (searchBtn) {
+        const parentBtn = searchBtn.parentElement;
+        parentBtn.addEventListener('click', toggleSearchBox);
+    }
+});
+
+// Function to toggle search box visibility
+function toggleSearchBox() {
+    // Remove existing search box if it exists
+    const existingSearchBox = document.querySelector('.search-overlay');
+    if (existingSearchBox) {
+        existingSearchBox.remove();
+        return;
+    }
+    
+    // Create search overlay
+    const searchOverlay = document.createElement('div');
+    searchOverlay.className = 'search-overlay animate__animated animate__fadeIn';
+    
+    // Create search container
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-container';
+    
+   // Create search form
+const searchForm = document.createElement('form');
+searchForm.className = 'search-form';
+searchForm.onsubmit = function(e) {
+    e.preventDefault();
+    performSearch();
+};
+
+// Create search input
+const searchInput = document.createElement('input');
+searchInput.type = 'text';
+searchInput.className = 'search-input';
+searchInput.placeholder = 'Search for skins or heroes...';
+searchInput.id = 'search-input';
+searchInput.autocomplete = 'off';
+
+// Create close button
+const closeBtn = document.createElement('button');
+closeBtn.type = 'button';
+closeBtn.className = 'search-close-btn';
+closeBtn.onclick = toggleSearchBox;
+const closeIcon = document.createElement('i');
+closeIcon.className = 'fas fa-times';
+closeBtn.appendChild(closeIcon);
+
+// Append input and close button only
+searchForm.appendChild(searchInput);
+searchForm.appendChild(closeBtn);
+searchContainer.appendChild(searchForm);
+
+    
+    // Create search results container
+    const resultsContainer = document.createElement('div');
+    resultsContainer.className = 'search-results';
+    resultsContainer.id = 'search-results';
+    searchContainer.appendChild(resultsContainer);
+    
+    searchOverlay.appendChild(searchContainer);
+    document.body.appendChild(searchOverlay);
+    
+    // Focus on the input
+    searchInput.focus();
+    
+    // Add event listener for real-time search as user types
+    searchInput.addEventListener('input', debounce(function() {
+        performSearch();
+    }, 300));
+    
+    // Close search on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            toggleSearchBox();
+        }
+    });
+    
+    // Close search when clicking outside the search container
+    searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+            toggleSearchBox();
+        }
+    });
+}
+
+// Debounce function to prevent excessive searches while typing
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            func.apply(context, args);
+        }, wait);
+    };
+}
+
+// Function to perform search
+function performSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const resultsContainer = document.getElementById('search-results');
+    
+    // Clear previous results
+    resultsContainer.innerHTML = '';
+    
+    // If search term is too short, show a message
+    if (searchTerm.length === 0) {
+        resultsContainer.innerHTML = '<div class="search-prompt"><i class="fas fa-keyboard"></i><p>Type to search for skins or heroes</p></div>';
+        return;
+    }
+    
+    // Show loading indicator
+    resultsContainer.innerHTML = '<div class="search-loading"><i class="fas fa-spinner fa-spin"></i><p>Searching...</p></div>';
+    
+    // Short delay to simulate search
+    setTimeout(() => {
+        // Get all product cards
+        const productCards = document.querySelectorAll('.product-card');
+        let results = [];
+        
+        // Filter products based on search term
+        productCards.forEach(card => {
+            const productName = card.querySelector('.product-name').textContent.toLowerCase();
+            if (productName.includes(searchTerm)) {
+                // Calculate relevance (exact match gets higher score)
+                let relevance = 1;
+                if (productName === searchTerm) relevance = 3;
+                else if (productName.startsWith(searchTerm)) relevance = 2;
+                
+                results.push({
+                    name: card.querySelector('.product-name').textContent,
+                    price: card.querySelector('.product-price').textContent,
+                    image: card.querySelector('.product-img').src,
+                    element: card,
+                    relevance: relevance
+                });
+            }
+        });
+        
+        // Sort results by relevance
+        results.sort((a, b) => b.relevance - a.relevance);
+        
+        // Clear loading indicator
+        resultsContainer.innerHTML = '';
+        
+        // Display results
+        if (results.length > 0) {
+            // Create header for results
+            const resultsHeader = document.createElement('div');
+            resultsHeader.className = 'results-header';
+            resultsHeader.textContent = `Found ${results.length} ${results.length === 1 ? 'item' : 'items'}`;
+            resultsContainer.appendChild(resultsHeader);
+            
+            // Create results list
+            results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'search-result-item';
+                resultItem.innerHTML = `
+                    <img src="${result.image}" alt="${result.name}" class="result-img">
+                    <div class="result-info">
+                        <div class="result-name">${highlightSearchTerm(result.name, searchTerm)}</div>
+                        <div class="result-price">${result.price}</div>
+                    </div>
+                    <div class="result-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                `;
+                
+                // Add click event to navigate to the product
+                resultItem.addEventListener('click', function() {
+                    // Close search overlay
+                    toggleSearchBox();
+                    
+                    // Scroll to product section
+                    const sectionElement = document.querySelector('#box-item');
+                    if (sectionElement) {
+                        sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    
+                    // Remove any existing highlights
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        card.classList.remove('highlight-product');
+                    });
+                    
+                    // Add highlight to the selected product
+                    result.element.classList.add('highlight-product');
+                    
+                    // Scroll product into view with a slight delay to ensure section is in view first
+                    setTimeout(() => {
+                        result.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500);
+                    
+                    // Remove highlight after a few seconds
+                    setTimeout(() => {
+                        result.element.classList.remove('highlight-product');
+                    }, 3000);
+                    
+                    // Save to recent searches
+                    saveToRecentSearches(result.name);
+                });
+                
+                resultsContainer.appendChild(resultItem);
+            });
+        } else {
+            // No results found
+            resultsContainer.innerHTML = `
+                <div class="empty-search">
+                    <i class="fas fa-search"></i>
+                    <p>No results found for "${searchTerm}"</p>
+                    <p class="search-suggestions">Try different keywords or check for typos</p>
+                </div>
+            `;
+        }
+        
+        // Show recent searches if there are any
+        if (searchTerm.length < 2) {
+            showRecentSearches(resultsContainer);
+        }
+    }, 300);
+}
+
+// Function to highlight search term in results
+function highlightSearchTerm(text, searchTerm) {
+    if (!searchTerm) return text;
+    
+    const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// Helper function to escape regex special characters
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Function to save to recent searches
+function saveToRecentSearches(term) {
+    if (!term) return;
+    
+    // Get existing searches from localStorage
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    
+    // Remove this term if it exists already
+    recentSearches = recentSearches.filter(item => item !== term);
+    
+    // Add term to beginning of array
+    recentSearches.unshift(term);
+    
+    // Keep only the most recent 5 searches
+    recentSearches = recentSearches.slice(0, 5);
+    
+    // Save back to localStorage
+    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+}
+
+// Function to show recent searches
+function showRecentSearches(container) {
+    const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    
+    if (recentSearches.length === 0) return;
+    
+    const recentSearchesDiv = document.createElement('div');
+    recentSearchesDiv.className = 'recent-searches';
+    
+    const header = document.createElement('div');
+    header.className = 'recent-searches-header';
+    header.innerHTML = `
+        <span>Recent Searches</span>
+        <button class="clear-recent-searches">Clear All</button>
+    `;
+    recentSearchesDiv.appendChild(header);
+    
+    // Add clear button functionality
+    header.querySelector('.clear-recent-searches').addEventListener('click', function(e) {
+        e.stopPropagation();
+        localStorage.removeItem('recentSearches');
+        recentSearchesDiv.remove();
+    });
+    
+    // Add recent search items
+    const itemsList = document.createElement('div');
+    itemsList.className = 'recent-searches-list';
+    
+    recentSearches.forEach(search => {
+        const item = document.createElement('div');
+        item.className = 'recent-search-item';
+        item.innerHTML = `
+            <i class="fas fa-history"></i>
+            <span>${search}</span>
+        `;
+        
+        item.addEventListener('click', function() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = search;
+            performSearch();
+        });
+        
+        itemsList.appendChild(item);
+    });
+    
+    recentSearchesDiv.appendChild(itemsList);
+    container.appendChild(recentSearchesDiv);
+}
