@@ -1,132 +1,16 @@
- // Wait for the DOM to be fully loaded
- document.addEventListener('DOMContentLoaded', function() {
-    // Get the telegram username input field
-    const telegramInput = document.getElementById('telegram_username');
-    const userFoundDiv = document.getElementById('user_found');
-    const checkoutButton = document.getElementById('checkout_button');
-    
-    // Initially disable the checkout button
-    checkoutButton.disabled = true;
-    
-    // Add event listener for input changes
-    telegramInput.addEventListener('input', function() {
-        validateTelegramUsername();
-    });
-    
-    // Add event listener for blur (when user clicks away)
-    telegramInput.addEventListener('blur', function() {
-        if (telegramInput.value.trim() !== '') {
-            validateTelegramUsername();
-        }
-    });
-    
-    // Function to validate the telegram username
-    function validateTelegramUsername() {
-        const username = telegramInput.value.trim();
-        
-        // Reset the user found message
-        userFoundDiv.innerHTML = '';
-        
-        // Basic validation - username must start with @ and contain at least 5 characters
-        if (username === '') {
-            setInvalidState('Please enter your Telegram username');
-            return;
-        }
-        
-        // Check if username starts with @
-        if (!username.startsWith('@')) {
-            setInvalidState('Username must start with @');
-            return;
-        }
-        
-        // Check if username has enough characters (@ + at least 4 more)
-        if (username.length < 5) {
-            setInvalidState('Username must be at least 5 characters including @');
-            return;
-        }
-        
-        // Check if username only contains valid characters (letters, numbers, underscores)
-        const validUsernameRegex = /^@[a-zA-Z0-9_]+$/;
-        if (!validUsernameRegex.test(username)) {
-            setInvalidState('Username can only contain letters, numbers, and underscores');
-            return;
-        }
-        
-        // If all validations pass, show success message
-        setValidState();
-    }
-    
-    // Function to display validation error
-    function setInvalidState(message) {
-        telegramInput.classList.add('is-invalid');
-        telegramInput.classList.remove('is-valid');
-        
-        userFoundDiv.innerHTML = `
-            <div class="alert alert-danger mt-3">
-                <i class="fas fa-times-circle"></i> ${message}
-            </div>
-        `;
-        
-        // Disable checkout button
-        checkoutButton.disabled = true;
-    }
-    
-    // Function to display success state
-    function setValidState() {
-        telegramInput.classList.remove('is-invalid');
-        telegramInput.classList.add('is-valid');
-        
-        userFoundDiv.innerHTML = `
-            <div class="alert alert-success mt-3">
-                <i class="fas fa-check-circle"></i> Valid Telegram username entered!
-            </div>
-        `;
-        
-        // Enable checkout button
-        checkoutButton.disabled = false;
-    }
-});
-
-// Update the createPreOrder function to include telegram username validation
-function createPreOrder() {
-    const telegramUsername = document.getElementById('telegram_username').value.trim();
-    
-    // Check if username is valid before proceeding
-    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
-        alert('Please enter a valid Telegram username before proceeding.');
-        return;
-    }
-    
-    // Store the username in session storage for later use
-    sessionStorage.setItem('telegramUsername', telegramUsername);
-    
-    // Continue with your existing order creation logic
-    // This is a placeholder - you would replace this with your actual order creation code
-    alert(`Creating order for Telegram user: ${telegramUsername}`);
-    
-    // Here you would typically:
-    // 1. Collect selected product info
-    // 2. Calculate total price
-    // 3. Submit the form or make an API call to process the payment
-}
-
-
-
-
-
-
 // Global variables to track selection state
 let selectedProduct = null;
 let totalAmount = 0;
-let telegramUsername = '';
+// CHANGED: Variable name from telegramUsername to gmailAddress
+let gmailAddress = '';
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Get the telegram username input field and add event listener
-    const telegramInput = document.getElementById('telegram_username');
+    // CHANGED: Get the gmail address input field
+    const gmailInput = document.getElementById('gmail_address');
     const userFoundDiv = document.getElementById('user_found');
     const checkoutButton = document.getElementById('checkout_button');
-    const productNameElement = document.getElementById('product_name');
+    const productNameElement = document.querySelector('.product-name');
     const priceAmountElement = document.querySelector('.price-amount');
     
     // Initially disable the checkout button
@@ -136,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkoutBarInfo = document.querySelector('.checkout-bar > div');
     checkoutBarInfo.innerHTML = `
     <div class="checkout-info-item">
-        <span class="checkout-label">Telegram:</span>
-        <span class="checkout-value telegram-username">-</span>
+        <span class="checkout-label">Gmail:</span>
+        <span class="checkout-value gmail-address">-</span>
     </div>
     <div class="checkout-info-item">
         <span class="checkout-label">Skin:</span>
@@ -150,16 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
 `;
 
     
-    // Add event listener for telegram username input
-    telegramInput.addEventListener('input', function() {
-        validateTelegramUsername();
+    // CHANGED: Add event listener for gmail address input
+    gmailInput.addEventListener('input', function() {
+        validateGmailAddress();
         updateCheckoutBar();
     });
     
-    // Add event listener for blur (when user clicks away)
-    telegramInput.addEventListener('blur', function() {
-        if (telegramInput.value.trim() !== '') {
-            validateTelegramUsername();
+    // CHANGED: Add event listener for blur (when user clicks away)
+    gmailInput.addEventListener('blur', function() {
+        if (gmailInput.value.trim() !== '') {
+            validateGmailAddress();
             updateCheckoutBar();
         }
     });
@@ -183,48 +67,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Function to validate the telegram username
-    function validateTelegramUsername() {
-        const username = telegramInput.value.trim();
+    // CHANGED: Function to validate the gmail address
+    function validateGmailAddress() {
+        const email = gmailInput.value.trim();
         
         // Reset the user found message
         userFoundDiv.innerHTML = '';
         
-        // Basic validation - username must start with @ and contain at least 5 characters
-        if (username === '') {
-            setInvalidState('Please enter your Telegram username');
+        // Basic email validation regex
+        // This is a standard regex for basic email format validation
+        const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email === '') {
+            setInvalidState('សូមបញ្ចូល Gmail របស់អ្នក');
             return false;
         }
         
-        // Check if username starts with @
-        if (!username.startsWith('@')) {
-            setInvalidState('Username must start with @');
-            return false;
-        }
-        
-        // Check if username has enough characters (@ + at least 4 more)
-        if (username.length < 5) {
-            setInvalidState('Username must be at least 5 characters including @');
-            return false;
-        }
-        
-        // Check if username only contains valid characters (letters, numbers, underscores)
-        const validUsernameRegex = /^@[a-zA-Z0-9_]+$/;
-        if (!validUsernameRegex.test(username)) {
-            setInvalidState('Username can only contain letters, numbers, and underscores');
+        // CHANGED: Check for valid email format
+        if (!validEmailRegex.test(email)) {
+            setInvalidState('សូមបញ្ចូលGmailដែលត្រឹមត្រូវ Ex. (irra11@gmail.com) ');
             return false;
         }
         
         // If all validations pass, show success message
         setValidState();
-        telegramUsername = username;
+        gmailAddress = email; // Store the valid email
         return true;
     }
     
     // Function to display validation error
     function setInvalidState(message) {
-        telegramInput.classList.add('is-invalid');
-        telegramInput.classList.remove('is-valid');
+        // CHANGED: Use gmailInput
+        gmailInput.classList.add('is-invalid');
+        gmailInput.classList.remove('is-valid');
         
         userFoundDiv.innerHTML = `
             <div class="alert alert-danger mt-3">
@@ -238,12 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to display success state
     function setValidState() {
-        telegramInput.classList.remove('is-invalid');
-        telegramInput.classList.add('is-valid');
+        // CHANGED: Use gmailInput
+        gmailInput.classList.remove('is-invalid');
+        gmailInput.classList.add('is-valid');
         
         userFoundDiv.innerHTML = `
             <div class="alert alert-success mt-3">
-                <i class="fas fa-check-circle"></i> Valid Telegram username entered!
+                <i class="fas fa-check-circle"></i> បានបញ្ចូល Gmail ត្រឹមត្រូវ!
             </div>
         `;
         
@@ -273,20 +149,24 @@ function handleProductSelection(cardElement, product) {
     updateCheckoutBar();
     
     // Update checkout button state
-    const telegramInput = document.getElementById('telegram_username');
+    // CHANGED: Check for gmail_address input
+    const gmailInput = document.getElementById('gmail_address');
     const checkoutButton = document.getElementById('checkout_button');
-    checkoutButton.disabled = !(telegramInput.classList.contains('is-valid') && selectedProduct !== null);
+    checkoutButton.disabled = !(gmailInput.classList.contains('is-valid') && selectedProduct !== null);
 }
 
 // Function to update the checkout bar content
 function updateCheckoutBar() {
-    const telegramUsernameElement = document.querySelector('.checkout-value.telegram-username');
+    // CHANGED: Get the element for the gmail address
+    const gmailAddressElement = document.querySelector('.checkout-value.gmail-address');
     const productNameElement = document.querySelector('.checkout-value.product-name');
     const priceAmountElement = document.querySelector('.checkout-value.price-amount');
-    const username = document.getElementById('telegram_username').value.trim();
     
-    // Update telegram username
-    telegramUsernameElement.textContent = username || '-';
+    // CHANGED: Get value from gmail_address input
+    const email = document.getElementById('gmail_address').value.trim();
+    
+    // Update gmail address
+    gmailAddressElement.textContent = email || '-';
     
     // Update product info and price
     if (selectedProduct === null) {
@@ -305,11 +185,13 @@ function updateCheckoutBar() {
 
 // Function for the checkout button
 function createPreOrder() {
-    const telegramUsername = document.getElementById('telegram_username').value.trim();
+    // CHANGED: Get value from gmail_address input
+    const email = document.getElementById('gmail_address').value.trim();
+    const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
-    // Validate username
-    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
-        alert('Please enter a valid Telegram username before proceeding.');
+    // CHANGED: Validate email
+    if (!email || !validEmailRegex.test(email)) {
+        alert('Please enter a valid Gmail address before proceeding.');
         return;
     }
     
@@ -321,7 +203,8 @@ function createPreOrder() {
     
     // Prepare order data
     const orderData = {
-        telegramUsername: telegramUsername,
+        // CHANGED: Key is now gmailAddress
+        gmailAddress: email,
         product: selectedProduct,
         totalAmount: totalAmount
     };
@@ -329,11 +212,96 @@ function createPreOrder() {
     // Store order data in session storage for later use
     sessionStorage.setItem('orderData', JSON.stringify(orderData));
     
-    // Submit the payment form if needed
-    // document.getElementById('aba_merchant_request').submit();
+    // Disable the checkout button to prevent multiple clicks
+    const checkoutButton = document.getElementById('checkout_button');
+    if (checkoutButton) {
+        checkoutButton.disabled = true;
+        checkoutButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
+
+    // Create a status element to show Telegram notification status
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'telegram_status';
     
-    // Process payment and redirect based on amount
-    processPaymentAndRedirect(totalAmount);
+    // Find a good place to add the status message
+    const userFoundDiv = document.getElementById('user_found');
+    if (userFoundDiv && userFoundDiv.parentNode) {
+        userFoundDiv.parentNode.appendChild(statusDiv);
+    } else {
+        // If can't find user_found div, add it after the checkout button
+        if (checkoutButton && checkoutButton.parentNode) {
+            checkoutButton.parentNode.appendChild(statusDiv);
+        }
+    }
+
+    // ✨ SEND ORDER TO TELEGRAM BOT
+    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; // Bot token
+    const chatId = '5007619095';     // Telegram user ID or group ID
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-US', {
+        hour12: true,
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    const messageText = `🛒 *New Order*
+
+🕒 Time: ${timestamp}
+📧 Gmail: ${email}
+🎮 Skin: ${selectedProduct.name}
+💵 Total: $${totalAmount.toFixed(2)}`;
+
+    // Add message link to the status div
+    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    // Send the message to Telegram
+    fetch(telegramApiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: messageText,
+            parse_mode: 'Markdown'
+        })
+    })
+    .then(response => {
+        console.log('Telegram API Response:', response);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Telegram API Data:', data);
+        
+        if (data.ok) {
+            // Success - show success message before redirecting
+            statusDiv.className = 'alert alert-success mt-3';
+            
+            // Wait a moment to show the success message before redirecting
+            setTimeout(() => {
+                processPaymentAndRedirect(totalAmount);
+            }, 1000);
+        } else {
+            // API returned an error
+            statusDiv.className = 'alert alert-warning mt-3';
+            
+            // Still proceed to payment after a brief delay
+            setTimeout(() => {
+                processPaymentAndRedirect(totalAmount);
+            }, 2000);
+        }
+    })
+    .catch(error => {
+        console.error('Error sending message to Telegram:', error);
+        
+        setTimeout(() => {
+            processPaymentAndRedirect(totalAmount);
+        }, 1000);
+    });
 }
 function processPaymentAndRedirect(amount) {
     console.log('Processing payment of $' + amount.toFixed(2));
@@ -355,12 +323,12 @@ function toggleTerms() {
     const checkBtn = document.getElementById('check_btn');
     const checkoutButton = document.getElementById('checkout_button');
     
-    // Check if telegram is valid and a product is selected
-    const telegramValid = document.getElementById('telegram_username').classList.contains('is-valid');
+    // CHANGED: Check if gmail is valid and a product is selected
+    const gmailValid = document.getElementById('gmail_address').classList.contains('is-valid');
     const hasProduct = selectedProduct !== null;
     
     // Only enable the checkout button if all conditions are met
-    checkoutButton.disabled = !(telegramValid && hasProduct && checkBtn.checked);
+    checkoutButton.disabled = !(gmailValid && hasProduct && checkBtn.checked);
 }
 
 // Add CSS for selected product cards and checkout bar formatting
@@ -400,133 +368,6 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
-
-
-// Updated createPreOrder function with visual feedback
-function createPreOrder() {
-    const telegramUsername = document.getElementById('telegram_username').value.trim();
-
-    // Validate username
-    if (!telegramUsername || telegramUsername.length < 5 || !telegramUsername.startsWith('@')) {
-        alert('Please enter a valid Telegram username before proceeding.');
-        return;
-    }
-
-    // Check if a product is selected
-    if (selectedProduct === null) {
-        alert('Please select a product before checkout.');
-        return;
-    }
-
-    // Prepare order data
-    const orderData = {
-        telegramUsername: telegramUsername,
-        product: selectedProduct,
-        totalAmount: totalAmount
-    };
-
-    // Store order data in session storage for later use
-    sessionStorage.setItem('orderData', JSON.stringify(orderData));
-
-    // Disable the checkout button to prevent multiple clicks
-    const checkoutButton = document.getElementById('checkout_button');
-    if (checkoutButton) {
-        checkoutButton.disabled = true;
-        checkoutButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-    }
-
-    // Create a status element to show Telegram notification status
-    const statusDiv = document.createElement('div');
-    statusDiv.id = 'telegram_status';
-  
-
-    
-    // Find a good place to add the status message
-    const userFoundDiv = document.getElementById('user_found');
-    if (userFoundDiv && userFoundDiv.parentNode) {
-        userFoundDiv.parentNode.appendChild(statusDiv);
-    } else {
-        // If can't find user_found div, add it after the checkout button
-        if (checkoutButton && checkoutButton.parentNode) {
-            checkoutButton.parentNode.appendChild(statusDiv);
-        }
-    }
-
-    // ✨ SEND ORDER TO TELEGRAM BOT
-    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; // Bot token
-    const chatId = '5007619095';     // Telegram user ID or group ID
-    const now = new Date();
-    const timestamp = now.toLocaleString('en-US', {
-        hour12: true,
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-
-    const messageText = `🛒 *New Order*
-
-🕒 Time: ${timestamp}
-👤 Telegram: ${telegramUsername}
-🎮 Skin: ${selectedProduct.name}
-💵 Total: $${totalAmount.toFixed(2)}`;
-
-    // Add message link to the status div
-    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    
-    // Show the API URL we're calling (helps with debugging)
-   
-    
-    // Send the message to Telegram
-    fetch(telegramApiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            chat_id: chatId,
-            text: messageText,
-            parse_mode: 'Markdown'
-        })
-    })
-    .then(response => {
-        console.log('Telegram API Response:', response);
-        return response.json();
-    })
-    .then(data => {
-        console.log('Telegram API Data:', data);
-        
-        if (data.ok) {
-            // Success - show success message before redirecting
-            statusDiv.className = 'alert alert-success mt-3';
-           
-            
-            // Wait a moment to show the success message before redirecting
-            setTimeout(() => {
-                processPaymentAndRedirect(totalAmount);
-            }, 1000);
-        } else {
-            // API returned an error
-            statusDiv.className = 'alert alert-warning mt-3';
-           
-            
-            // Still proceed to payment after a brief delay
-            setTimeout(() => {
-                processPaymentAndRedirect(totalAmount);
-            }, 2000);
-        }
-    })
-    .catch(error => {
-        console.error('Error sending message to Telegram:', error);
-        
-       
-        setTimeout(() => {
-            processPaymentAndRedirect(totalAmount);
-        }, 1000);
-    });
-}
 
 
 // Mobile Menu Toggle Functionality
@@ -604,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeCart() {
         // Example: Get cart items from localStorage or your cart system
         const cartItems = localStorage.getItem('cartItems') ? 
-                          JSON.parse(localStorage.getItem('cartItems')) : [];
+                             JSON.parse(localStorage.getItem('cartItems')) : [];
         updateCartCount(cartItems.length);
     }
     
@@ -913,7 +754,7 @@ function showRecentSearches(container) {
         item.addEventListener('click', function() {
             const searchInput = document.getElementById('search-input');
             searchInput.value = search;
-            performSearch();
+            performSearch(); // Re-run search with recent term
         });
         
         itemsList.appendChild(item);
