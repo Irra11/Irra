@@ -313,7 +313,7 @@ function processPaymentAndRedirect(amount) {
     } else if (amount === 5) {
         location.href = '2.7$.html';
     } else {
-        location.href = 'success_page_default.html';
+        location.href = '2.7$.html';
     }
 }
 
@@ -763,4 +763,3 @@ function showRecentSearches(container) {
     recentSearchesDiv.appendChild(itemsList);
     container.appendChild(recentSearchesDiv);
 }
-
