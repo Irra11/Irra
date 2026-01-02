@@ -592,10 +592,610 @@
         }
 
         function toggleTerms() {
+            // Your existing toggleTerms function<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="22.CSS">
+        <title>Irra Store</title>
+          <style>
+          /* Image Alert Modal Styles */
+.image-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.image-alert-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-alert-modal {
+    /* background: white; */
+    border-radius: 15px;
+    padding: 0;
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.image-alert-overlay.show .image-alert-modal {
+    transform: scale(1);
+}
+
+.alert-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: background 0.2s ease;
+}
+
+.alert-close-btn:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.alert-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 600px;
+    object-fit: contain;
+    display: block;
+}
+
+.alert-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.alert-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.alert-message {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.alert-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.alert-button:hover {
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .image-alert-modal {
+        max-width: 70%;
+        max-height: auto;
+    }
+    
+    .alert-image {
+        max-width: 100%;
+        max-height: 400px;
+    }
+    
+    .alert-title {
+        font-size: 20px;
+    }
+    
+    .alert-message {
+        font-size: 14px;
+    }
+}
+        </style>
+    </head>
+<body>
+     <!-- Image Alert Modal -->
+    <div class="image-alert-overlay" id="imageAlertOverlay">
+        <div class="image-alert-modal">
+            <button class="alert-close-btn" onclick="closeImageAlert()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="photo/3.PNG" alt="Welcome Alert" class="alert-image">
+            <div class="alert-content">
+                <!-- <h3 class="alert-title">ចំណាំ!</h3>
+                <p class="alert-message">⚠️ ដាក់​ Script Skin ត្រូវមាន App Esign​​ ជាមុនសិន​ !</p> -->
+                <!-- <button class="alert-button" onclick="closeImageAlert()">Start Shopping</button> -->
+            </div>
+        </div>
+    </div>
+    
+   
+    <header>
+        
+        <nav class="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="circlelogo.png" alt="Irra Store Logo" class="logo">
+                    <span class="site-logo">Irra Store</span>
+                </a>
+                
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#card-body" class="nav-link">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#box-user" class="nav-link">Promotions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://t.me/irra11store/116" class="nav-link">របៀបទិញ Script​ Skins</a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a href="https://t.me/irra_11" class="nav-link">Contact Us</a>
+                    </li>
+                </ul>
+                
+                <div class="header-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="action-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <!-- <span class="cart-count">0</span> -->
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Optional Promotional Banner Below Header -->
+    <div class="header-banner">
+        🛑 ចំណាំ : សូមបង់ប្រាក់ហេីយទេីបទទួលបាន​ File Skin តាម​ Gmail <a href="#card-body">ទិញឥឡូវ</a>
+    </div>
+
+    <main>
+
+        <div class="container">
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-lg-4 mb-4">
+                    <!-- Banner Slider -->
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="gif.mp4" alt="Promo Banner">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Logo
+                    <div class="card animate__animated animate__fadeIn">
+                        <img src="mlbe.webp" alt="Mobile Legends" class="w-100">
+                    </div>
+                </div> -->
+                
+                <!-- Right Column -->
+                <div class="col-lg-8">
+                 <!-- Step 1: User ID -->
+<div class="card animate__animated animate__fadeIn" id="box-user">
+    <div class="card-body">
+        <div class="step-badge">
+            <span class="badge">1</span>
+            <h3 class="step-title">សូមបំពេញ​ Gmail </h3>
+        </div>
+        
+        <form class="user_game_form">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <input type="email" id="gmail_address" name="gmail_address" class="form-control" placeholder="Enter your Gmail address">
+                </div>
+            </div>
+        </form>
+        
+        <div id="user_found"></div>
+    </div>
+</div>          
+                    <!-- Step 2: Products -->
+               
+                       <!-- Step 2: Products -->
+                       <div class="card animate__animated animate__fadeIn" id="box-item">
+                        <div class="card animate__animated animate__fadeIn" id="box-item">
+                            <div class="card-body">
+                                <div class="step-badge">
+                                    <span class="badge">2</span>
+                                    <h3 class="step-title">កញ្ចប់ Promotion</h3>
+                                </div>
+                                
+                                <!-- <div class="products-grid">
+                                
+                                    <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                        <img src="pic/pro1.jpg" alt="Weekly Pass" class="product-img">
+                                        <div class="product-price">$3</div>
+                                        <div class="product-name">10 Skin</div>
+                                    </div> -->
+                                   
+                                    <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                        <img src="black.jpg" alt="Weekly Pass" class="product-img">
+                                        <div class="product-price">$3</div>
+                                        <div class="product-name">Promotion</div>
+                                    </div>
+                                  
+    
+    
+    
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-body">
+                            <div class="step-badge">
+                                <span class="badge">3</span>
+                                <h3 class="step-title">Select Skin</h3>
+                            </div>
+                            
+                            <div class="products-grid">
+                                <!-- Weekly Passes -->
+                              
+                              
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="fa1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Fanny    (The Aspirants)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="fa.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Fanny (AOT)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/li.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Ling (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/lane.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Lancelot (DAWNING)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/chou.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Chou (KOF)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/chouuu.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Chou (Saintseiya)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/hero.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Chou (Dawning)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/eco.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Chou (Echo)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/ju.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Julian (HxH)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/jjk.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Julian (JJK)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/mo.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Moskov (Allstar)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/gojo.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Xavier (JJK)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/gs.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Gusion (KOF)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/yi.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">YI SUN-SHIN (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/g1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Granger (Exorcist)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/h1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Hayabusa (Exorcist)</div>
+                                </div>
+                                 <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="granger2.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Granger (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="alot.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Arlott (Collecter)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/granger.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Granger (Legend)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/fra.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">FRANCO (Legend)</div>
+                                </div>
+
+                                 <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/lieo.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Ling  (Neobeast)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/gu33.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Gusion (Legend)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="alu.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Alucard (Legend)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/11.11.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Gusion (11.11)</div>
+                                </div>
+                                 <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/prime.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Roger (Prime)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="metro.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Roger (MetroZero)</div>
+                                </div>
+
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/haya.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Hayabusa (11.11)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/no.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Nolan (11.11)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/abs.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Moskov (Abyss)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/exor.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Yu Zhong (Exorcist)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/lan.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Johnson (Transformers)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/war.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Argus (StarWar)</div>
+                                </div>
+
+                                 <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/al1.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Aldous (Transformers)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/al2.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Aldous (Collecter)</div>
+                                </div>
+
+                                 <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/fre.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Freya (Legend)</div>
+                                </div>
+                                <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <img src="pic/yin.jpg" alt="Weekly Pass" class="product-img">
+                                    <div class="product-price">$0.5</div>
+                                    <div class="product-name">Yin (AOT)</div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                   
+        
+                    
+                    <!-- Step 3: Payment Method -->
+                    <div class="card animate__animated animate__fadeIn" id="box-payment_option">
+                        <div class="card-body">
+                            <div class="step-badge">
+                                <span class="badge">4</span>
+                                <h3 class="step-title">Choose Payment Method</h3>
+                            </div>
+                            
+                            <div class="payment-option selected">
+                                <input type="radio" name="payment_option" class="payment_option_radio" checked value="abapay_khqr" style="display: none;">
+                                <img src="khqr.webp" alt="KHQR" class="payment-logo">
+                                <div class="payment-details">
+                                    <div class="payment-title">ABA KHQR</div>
+                                    <div class="payment-description">Scan to pay with any banking app</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mt-3">
+                                <input type="checkbox" class="form-check-input" id="check_btn" checked onchange="toggleTerms()">
+                                <label class="form-check-label" for="check_btn">
+                                    I agree to the <a href="#" style="color: var(--secondary);">Terms and Conditions</a>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <!-- Checkout Bar -->
+        <div class="checkout-bar">
+            <div>
+                <div id="product_name" class="product-info">Select a package</div>
+                <div class="total-price">Total: <span class="price-amount">$0.00</span></div>
+            </div>
+            <button class="btn btn-primary" id="checkout_button" onclick="createPreOrder()">Pay Now</button>
+        </div>
+        
+        <!-- Support Button -->
+        <a href="https://t.me/irra_11" class="support-button">
+            <i class="fas fa-headset support-icon"></i>
+        </a>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>© 2025 Irra Store. All Rights Reserved.</div>
+                <!-- <div class="payment-methods">
+                    <span>We accept:</span>
+                    <img src="aba-lg.webp" alt="KHQR">
+                </div> -->
+            </div>
+        </div>
+    </footer>
+     <script>
+        // Image Alert Functions
+        function showImageAlert() {
+            const overlay = document.getElementById('imageAlertOverlay');
+            overlay.classList.add('show');
+        }
+
+        function closeImageAlert() {
+            const overlay = document.getElementById('imageAlertOverlay');
+            overlay.classList.remove('show');
+        }
+
+        // Show alert when page loads
+        window.addEventListener('load', function() {
+            setTimeout(showImageAlert, 10); // Show after 0.5 seconds
+        });
+
+        // Close alert when clicking outside the modal
+        document.getElementById('imageAlertOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageAlert();
+            }
+        });
+
+        // Close alert with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageAlert();
+            }
+        });
+
+        // Your existing JavaScript functions would go here
+        function selectProduct(id, type) {
+            // Your existing selectProduct function
+        }
+
+        function createPreOrder() {
+            // Your existing createPreOrder function
+        }
+
+        function toggleTerms() {
             // Your existing toggleTerms function
         }
     </script>
 <script src="Irra.js"></script>
+</body>
+</html>
+        }
+    </script>
+<script src="Irra.js"></script>
+
 
 
 
