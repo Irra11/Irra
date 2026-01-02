@@ -306,8 +306,8 @@ function createPreOrder() {
 function processPaymentAndRedirect(amount) {
     console.log('Processing payment of $' + amount.toFixed(2));
 
-    if (amount === 1) {
-        location.href = '1$.html';
+    if (amount === 0.5) {
+        location.href = 'https://pay.ababank.com/oRF8/k1scr4bt';
     } else if (amount === 3) {
         location.href = '1.5$.html';
     } else if (amount === 5) {
@@ -764,3 +764,4 @@ function showRecentSearches(container) {
     container.appendChild(recentSearchesDiv);
 
 }
+
