@@ -306,10 +306,10 @@ function createPreOrder() {
 function processPaymentAndRedirect(amount) {
     console.log('Processing payment of $' + amount.toFixed(2));
 
-    if (amount === 0.5) {
-        location.href = 'https://pay.ababank.com/oRF8/k1scr4bt';
-    } else if (amount === 3) {
-        location.href = '1.5$.html';
+    if (amount === 1) {
+        location.href = 'https://pay.ababank.com/oRF8/oq1z33v6';
+    } else if (amount === 4) {
+        location.href = 'https://pay.ababank.com/oRF8/irqyoyp2';
     } else if (amount === 5) {
         location.href = '2.7$.html';
     } else {
@@ -764,4 +764,5 @@ function showRecentSearches(container) {
     container.appendChild(recentSearchesDiv);
 
 }
+
 
