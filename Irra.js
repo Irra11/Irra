@@ -67,33 +67,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // CHANGED: Function to validate the gmail address
-    function validateGmailAddress() {
-        const email = gmailInput.value.trim();
+    // // CHANGED: Function to validate the gmail address
+    // function validateGmailAddress() {
+    //     const email = gmailInput.value.trim();
         
-        // Reset the user found message
-        userFoundDiv.innerHTML = '';
+    //     // Reset the user found message
+    //     userFoundDiv.innerHTML = '';
         
-        // Basic email validation regex
-        // This is a standard regex for basic email format validation
-        const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     // Basic email validation regex
+    //     // This is a standard regex for basic email format validation
+    //     const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
-        if (email === '') {
-            setInvalidState('សូមបញ្ចូល Gmail របស់អ្នក');
-            return false;
-        }
+    //     if (email === '') {
+    //         setInvalidState('សូមបញ្ចូល Gmail របស់អ្នក');
+    //         return false;
+    //     }
         
-        // CHANGED: Check for valid email format
-        if (!validEmailRegex.test(email)) {
-            setInvalidState('សូមបញ្ចូលGmailដែលត្រឹមត្រូវ Ex. (irra11@gmail.com) ');
-            return false;
-        }
+    //     // CHANGED: Check for valid email format
+    //     if (!validEmailRegex.test(email)) {
+    //         setInvalidState('សូមបញ្ចូលGmailដែលត្រឹមត្រូវ Ex. (irra11@gmail.com) ');
+    //         return false;
+    //     }
         
-        // If all validations pass, show success message
-        setValidState();
-        gmailAddress = email; // Store the valid email
-        return true;
-    }
+    //     // If all validations pass, show success message
+    //     setValidState();
+    //     gmailAddress = email; // Store the valid email
+    //     return true;
+    // }
     
     // Function to display validation error
     function setInvalidState(message) {
@@ -766,3 +766,306 @@ function showRecentSearches(container) {
 }
 
 
+/**
+ * IRRA STORE - FULL INTEGRATED JAVASCRIPT
+ */
+
+(function() {
+    // Variables
+    let selectedProduct = null;
+    let totalAmount = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. INITIALIZATION ---
+        const gmailInput = document.getElementById('gmail_address');
+        const userFoundDiv = document.getElementById('user_found');
+        const checkoutButton = document.getElementById('checkout_button');
+        const checkoutBarInfo = document.querySelector('.checkout-bar > div');
+
+        if (checkoutButton) checkoutButton.disabled = true;
+
+        // Setup Checkout Bar HTML
+        if (checkoutBarInfo) {
+            checkoutBarInfo.innerHTML = `
+                <div class="checkout-info-item"><span class="checkout-label">Gmail:</span> <span class="checkout-value gmail-address">-</span></div>
+                <div class="checkout-info-item"><span class="checkout-label">Skin:</span> <span class="checkout-value product-name">-</span></div>
+                <div class="checkout-info-item"><span class="checkout-label">Total:</span> <span class="checkout-value price-amount">$0.00</span></div>`;
+        }
+
+        // --- 2. GMAIL VALIDATION ---
+        if (gmailInput) {
+            gmailInput.addEventListener('input', function() {
+                const email = gmailInput.value.trim();
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                
+                if (email === '') {
+                    updateUI(false, 'សូមបញ្ចូល Gmail របស់អ្នក');
+                } else if (!isValid) {
+                    updateUI(false, 'Gmail មិនត្រឹមត្រូវ (ex: name@gmail.com)');
+                } else {
+                    updateUI(true, 'បានបញ្ចូល Gmail ត្រឹមត្រូវ!');
+                }
+                syncBar();
+            });
+        }
+
+        function updateUI(isValid, msg) {
+            gmailInput.classList.toggle('is-valid', isValid);
+            gmailInput.classList.toggle('is-invalid', !isValid);
+            userFoundDiv.innerHTML = `<div class="alert alert-${isValid?'success':'danger'} mt-3">${msg}</div>`;
+            checkBtn();
+        }
+
+        // --- 3. PRODUCT SELECTION ---
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+
+                selectedProduct = {
+                    name: this.querySelector('.product-name').textContent,
+                    price: parseFloat(this.querySelector('.product-price').textContent.replace('$', ''))
+                };
+                totalAmount = selectedProduct.price;
+
+                syncBar();
+                checkBtn();
+            });
+        });
+
+        function syncBar() {
+            document.querySelector('.gmail-address').textContent = gmailInput.value || '-';
+            document.querySelector('.product-name').textContent = selectedProduct ? selectedProduct.name : '-';
+            document.querySelector('.price-amount').textContent = `$${totalAmount.toFixed(2)}`;
+        }
+
+        function checkBtn() {
+            const emailOk = gmailInput.classList.contains('is-valid');
+            checkoutButton.disabled = !(emailOk && selectedProduct);
+        }
+
+        // --- 4. MOBILE MENU ---
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('navMenu');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileToggle.querySelector('i').className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+            });
+        }
+
+        // --- 5. SEARCH SYSTEM ---
+        const searchBtn = document.querySelector('.action-btn i.fa-search');
+        if (searchBtn) searchBtn.parentElement.onclick = toggleSearchBox;
+    });
+
+    // --- 6. CORE: SAVE TO PANEL & REDIRECT ---
+    window.createPreOrder = function() {
+        const gmail = document.getElementById('gmail_address').value.trim();
+        const btn = document.getElementById('checkout_button');
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+        // Save to Python Backend (Port 5001 to avoid conflicts)
+        fetch('https://adminpanel-jtf9.onrender.com/api/save-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                gmailAddress: gmail,
+                product: selectedProduct,
+                totalAmount: totalAmount
+            })
+        })
+        .then(res => {
+            if (res.ok) {
+                // REDIRECT TO PAYMENT
+                processPaymentAndRedirect(totalAmount);
+            } else {
+                alert("Error saving to panel.");
+                btn.disabled = false;
+            }
+        })
+        .catch(() => {
+            alert("Error: សូមបើក Python app.py ជាមុនសិន!");
+            btn.disabled = false;
+            btn.innerHTML = 'Pay Now';
+        });
+    };
+
+    function processPaymentAndRedirect(amount) {
+        if (amount === 1) window.location.href = 'https://pay.ababank.com/oRF8/oq1z33v6';
+        else if (amount === 4) window.location.href = 'https://pay.ababank.com/oRF8/irqyoyp2';
+        else if (amount === 5) window.location.href = '2.7$.html';
+        else window.location.href = '1.5$.html';
+    }
+
+    // --- 7. SEARCH LOGIC ---
+    function toggleSearchBox() {
+        let overlay = document.querySelector('.search-overlay');
+        if (overlay) { overlay.remove(); return; }
+
+        overlay = document.createElement('div');
+        overlay.className = 'search-overlay animate__animated animate__fadeIn';
+        overlay.innerHTML = `
+            <div class="search-container">
+                <div class="search-form">
+                    <input type="text" class="search-input" placeholder="Search skins..." id="search-input">
+                    <button class="search-close-btn" onclick="this.closest('.search-overlay').remove()"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="search-results" class="search-results"></div>
+            </div>`;
+        document.body.appendChild(overlay);
+
+        const input = document.getElementById('search-input');
+        input.focus();
+        input.oninput = function() {
+            const term = this.value.toLowerCase().trim();
+            const results = document.getElementById('search-results');
+            results.innerHTML = '';
+            if (!term) return;
+
+            document.querySelectorAll('.product-card').forEach(card => {
+                const name = card.querySelector('.product-name').textContent;
+                if (name.toLowerCase().includes(term)) {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.innerHTML = `<span>${name}</span> <i class="fas fa-chevron-right"></i>`;
+                    div.onclick = () => {
+                        overlay.remove();
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.style.outline = "4px solid #2979ff";
+                        setTimeout(() => card.style.outline = "none", 2000);
+                    };
+                    results.appendChild(div);
+                }
+            });
+        };
+    }
+
+    // Styles for search
+    const style = document.createElement('style');
+    style.textContent = `
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; justify-content: center; padding-top: 80px; }
+        .search-container { width: 90%; max-width: 500px; }
+        .search-form { display: flex; background: white; border-radius: 50px; padding: 5px 20px; align-items: center; }
+        .search-input { border: none; flex: 1; padding: 10px; outline: none; font-size: 16px; }
+        .search-results { margin-top: 20px; max-height: 60vh; overflow-y: auto; }
+        .search-result-item { background: rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 10px; margin-bottom: 5px; cursor: pointer; display: flex; justify-content: space-between; }
+    `;
+    document.head.appendChild(style);
+})();
+(function() {
+    let selectedProduct = null;
+    let totalAmount = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const gmailInput = document.getElementById('gmail_address');
+        const checkoutButton = document.getElementById('checkout_button');
+
+        // Product Click
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+
+                selectedProduct = {
+                    name: this.querySelector('.product-name').textContent,
+                    price: parseFloat(this.querySelector('.product-price').textContent.replace('$', ''))
+                };
+                totalAmount = selectedProduct.price;
+                
+                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmailInput.value);
+                checkoutButton.disabled = !(isEmail && selectedProduct);
+            });
+        });
+
+        // Pay Now Click
+        window.createPreOrder = function() {
+            const email = gmailInput.value.trim();
+            checkoutButton.disabled = true;
+            checkoutButton.innerHTML = "កំពុងរក្សាទុក...";
+
+            fetch('https://adminpanel-jtf9.onrender.com/api/save-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    gmailAddress: email,
+                    product: selectedProduct,
+                    totalAmount: totalAmount
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    // បើក Link បង់ប្រាក់
+                    if (totalAmount === 1) window.location.href = 'https://pay.ababank.com/oRF8/oq1z33v6';
+                    else if (totalAmount === 4) window.location.href = 'https://pay.ababank.com/oRF8/irqyoyp2';
+                    else window.location.href = '1.5$.html';
+                } else {
+                    alert("Error saving order!");
+                    checkoutButton.disabled = false;
+                }
+            })
+            .catch(() => {
+                alert("សូមបើក Python app.py ជាមុនសិន!");
+                checkoutButton.disabled = false;
+            });
+        };
+    });
+})();
+// --- មុខងារផ្ញើសារជោគជ័យ ---
+async function sendSuccess(id, gmail) {
+    const link = await showModal({
+        title: "ផ្ញើ Link File",
+        body: `ផ្ញើ Link ទៅកាន់: ${gmail}`,
+        icon: '<i class="fas fa-check-circle"></i>',
+        showInput: true,
+        confirmText: "ផ្ញើឥឡូវនេះ",
+        color: "#27ae60"
+    });
+
+    if (link) {
+        const subject = "ការទិញរបស់អ្នកបានជោគជ័យ ✅"; // Subject សម្រាប់ជោគជ័យ
+        const msg = `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យសូម Save File\n\nLink Download: ${link}\n\nសូមអរគុណ!`;
+        await postResponse(id, gmail, msg, subject);
+    }
+}
+
+// --- មុខងារផ្ញើសារបរាជ័យ ---
+async function sendFailed(id, gmail) {
+    const confirmAction = await showModal({
+        title: "បដិសេធការទិញ",
+        body: `ផ្ញើសារ 'ការទិញបរាជ័យ' ទៅកាន់: ${gmail}?`,
+        icon: '<i class="fas fa-exclamation-triangle"></i>',
+        showInput: false,
+        confirmText: "បដិសេធ & ផ្ញើសារ",
+        color: "#f39c12"
+    });
+
+    if (confirmAction) {
+        const subject = "ការទិញរបស់អ្នកបានបរាជ័យ ❌"; // Subject សម្រាប់បរាជ័យ
+        const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។ សូមព្យាយាមម្ដងទៀត!`;
+        await postResponse(id, gmail, msg, subject);
+    }
+}
+
+// --- មុខងារផ្ញើទិន្នន័យទៅ Python (កែបន្ថែម subject parameter) ---
+async function postResponse(id, gmail, message, subject) {
+    const res = await fetch(`${API}/admin/send-response`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            id: id, 
+            gmail: gmail, 
+            message: message, 
+            subject: subject // បញ្ជូន Subject ទៅ Backend
+        })
+    });
+    
+    if(res.ok) {
+        alert("Email ត្រូវបានផ្ញើរួចរាល់!");
+        fetchOrders();
+    } else {
+        alert("ការផ្ញើបរាជ័យ!");
+    }
+}
