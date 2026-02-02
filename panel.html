@@ -1,123 +1,149 @@
-
 <!DOCTYPE html>
 <html lang="km">
 <head>
     <meta charset="UTF-8">
-    <title>Irra Admin | Manage Orders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irra Store Admin | Dashboard</title>
+    <!-- CSS Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
-        body { background: #f0f2f5; font-family: 'Hanuman', serif; padding: 20px; }
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-bg: #f0f2f5;
+        }
+
+        body { background: var(--dark-bg); font-family: 'Hanuman', serif; padding: 20px; transition: 0.3s; }
         
-        /* Login Overlay Style */
+        /* Login Overlay */
         #loginOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f0f2f5; display: flex; justify-content: center;
+            background: var(--dark-bg); display: flex; justify-content: center;
             align-items: center; z-index: 10000;
         }
         .login-card {
-            background: white; padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center;
+            background: white; padding: 40px; border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center;
         }
 
-        /* Hide main content initially */
+        /* Main Content (Hidden initially) */
         #mainDashboard { display: none; }
 
-        .card { border-radius: 15px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .status-completed { color: #27ae60; font-weight: bold; background: #eafaf1; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
-        .status-failed { color: #e74c3c; font-weight: bold; background: #fdedec; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
-        .status-pending { color: #f39c12; font-weight: bold; background: #fef9e7; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
-        .btn-action { margin-right: 5px; border-radius: 8px; transition: 0.2s; color: white; }
-        .btn-action:hover { transform: translateY(-2px); opacity: 0.9; color: white; }
+        .card { border-radius: 20px; border: none; box-shadow: 0 8px 25px rgba(0,0,0,0.05); overflow: hidden; }
+        
+        /* Status Badges */
+        .status-completed { color: #1e8449; font-weight: bold; background: #d4efdf; padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; }
+        .status-failed { color: #a93226; font-weight: bold; background: #f9ebea; padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; }
+        .status-pending { color: #9a7d0a; font-weight: bold; background: #fcf3cf; padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; }
 
+        /* Clock & Controls */
         .clock-box {
-            background: #fff; padding: 10px 20px; border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: inline-block; border-left: 5px solid #0d6efd;
+            background: white; padding: 12px 25px; border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: inline-block; border-left: 6px solid var(--primary-color);
         }
-        #khmerTime { font-weight: bold; color: #0d6efd; font-size: 1.2rem; }
+        #khmerTime { font-weight: 700; color: var(--primary-color); font-size: 1.3rem; margin-left: 10px; }
 
         .search-container { max-width: 400px; position: relative; }
-        .search-container input { border-radius: 12px; padding-left: 40px; border: 2px solid #ddd; transition: 0.3s; }
-        .search-container i { position: absolute; left: 15px; top: 12px; color: #888; }
+        .search-container input { border-radius: 15px; padding: 12px 12px 12px 45px; border: 2px solid #eee; transition: 0.3s; font-size: 15px; }
+        .search-container input:focus { border-color: var(--primary-color); box-shadow: none; }
+        .search-container i { position: absolute; left: 18px; top: 16px; color: #aaa; }
 
+        .btn-action { width: 35px; height: 35px; border-radius: 10px; border: none; transition: 0.3s; color: white; margin-right: 5px; }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
+
+        /* Modal Customization */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); display: none;
-            justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5); display: none;
+            justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(8px);
         }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
+        .modal-content-custom { background: white; padding: 35px; border-radius: 25px; width: 90%; max-width: 450px; text-align: center; }
+        .modal-input { border-radius: 12px; padding: 15px; border: 2px solid #eee; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<!-- Login Panel -->
+<!-- Login Page -->
 <div id="loginOverlay">
-    <div class="login-card animate__animated animate__fadeInDown">
+    <div class="login-card animate__animated animate__zoomIn">
         <div class="mb-4">
-            <i class="fas fa-lock text-primary" style="font-size: 50px;"></i>
+            <div class="bg-primary d-inline-block p-4 rounded-circle mb-3 shadow">
+                <i class="fas fa-shield-alt text-white" style="font-size: 40px;"></i>
+            </div>
+            <h3 class="fw-bold">Irra Admin Panel</h3>
+            <p class="text-muted">សូមបញ្ចូលលេខសម្ងាត់គ្រប់គ្រង</p>
         </div>
-        <h4 class="fw-bold mb-3">Admin Login</h4>
-        <input type="password" id="adminPassInput" class="form-control mb-3 text-center" placeholder="បញ្ចូលលេខសម្ងាត់..." style="border-radius: 10px; padding: 12px;">
-        <button onclick="handleLogin()" class="btn btn-primary w-100 py-2" style="border-radius: 10px; font-weight: bold;">ចូលប្រើប្រាស់</button>
-        <p id="loginError" class="text-danger mt-3" style="display: none; font-size: 14px;">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
+        <input type="password" id="adminPassInput" class="form-control mb-4 text-center border-0 bg-light" placeholder="••••••••" style="padding: 15px; font-size: 20px; border-radius: 15px;">
+        <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow" style="border-radius: 15px;">LOGIN NOW</button>
+        <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none; font-size: 14px;">លេខសម្ងាត់មិនត្រឹមត្រូវទេ!</p>
     </div>
 </div>
 
-<!-- Main Dashboard -->
+<!-- Main Dashboard Content -->
 <div id="mainDashboard" class="container-fluid animate__animated animate__fadeIn">
+    
+    <!-- Modal for Inputs/Alerts -->
     <div id="customModal" class="modal-overlay">
-        <div class="modal-content animate__animated animate__zoomIn">
-            <div id="modalIcon" style="font-size: 50px; margin-bottom: 15px;"></div>
-            <h3 id="modalTitle" style="font-weight: 700;">ចំណងជើង</h3>
-            <p id="modalBody" style="color: #7f8c8d;">ខ្លឹមសារសារ...</p>
+        <div class="modal-content-custom animate__animated animate__backInDown">
+            <div id="modalIcon" style="font-size: 60px; margin-bottom: 20px;"></div>
+            <h4 id="modalTitle" class="fw-bold mb-2"></h4>
+            <p id="modalBody" class="text-muted mb-4"></p>
             <div id="inputContainer" style="display: none;">
-                <input type="text" id="modalInput" class="form-control mb-3" style="border-radius: 10px;">
+                <input type="text" id="modalInput" class="form-control modal-input" placeholder="https://...">
             </div>
-            <div class="modal-footer d-flex justify-content-center border-0">
-                <button onclick="closeCustomModal()" class="btn btn-light" style="border-radius: 10px; margin-right: 10px;">បោះបង់</button>
-                <button id="modalConfirmBtn" class="btn btn-primary" style="border-radius: 10px;">យល់ព្រម</button>
+            <div class="d-flex justify-content-center gap-2 mt-2">
+                <button onclick="closeCustomModal()" class="btn btn-light px-4 py-2 border-0" style="border-radius: 12px;">បោះបង់</button>
+                <button id="modalConfirmBtn" class="btn btn-primary px-4 py-2" style="border-radius: 12px;">យល់ព្រម</button>
             </div>
         </div>
     </div>
 
-    <!-- Header Section -->
-    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap">
-        <div>
-            <h2 class="fw-bold m-0"><i class="fas fa-tasks text-primary"></i> គ្រប់គ្រងការបញ្ជាទិញ</h2>
-            <div class="mt-2 clock-box"><i class="far fa-clock text-muted"></i> ម៉ោងនៅកម្ពុជា៖ <span id="khmerTime">--:--:--</span></div>
+    <!-- Top Header -->
+    <div class="row align-items-center mb-5 mt-2">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+            <h2 class="fw-bold m-0"><i class="fas fa-store-alt text-primary me-2"></i> IRRA STORE ADMIN</h2>
+            <div class="mt-3 clock-box">
+                <i class="far fa-clock text-muted"></i> ម៉ោងនៅកម្ពុជា៖ <span id="khmerTime">--:--:--</span>
+            </div>
         </div>
-        
-        <div class="d-flex align-items-center gap-3 mt-3">
-            <div class="search-container">
+        <div class="col-lg-6 d-flex justify-content-lg-end align-items-center gap-3">
+            <div class="search-container flex-grow-1 flex-lg-grow-0">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" class="form-control" placeholder="ស្វែងរកតាម Gmail..." onkeyup="filterOrders()">
+                <input type="text" id="searchInput" class="form-control shadow-sm" placeholder="ស្វែងរកតាម Gmail..." onkeyup="filterOrders()">
             </div>
-            <button onclick="fetchOrders()" class="btn btn-dark btn-lg" style="border-radius: 12px;"><i class="fas fa-sync-alt"></i></button>
-            <button onclick="logout()" class="btn btn-danger btn-lg" style="border-radius: 12px;"><i class="fas fa-sign-out-alt"></i></button>
+            <button onclick="fetchOrders()" class="btn btn-white shadow-sm p-3 rounded-circle" style="background: white;"><i class="fas fa-sync-alt text-dark"></i></button>
+            <button onclick="logout()" class="btn btn-danger shadow-sm p-3 rounded-circle"><i class="fas fa-power-off"></i></button>
         </div>
     </div>
 
-    <!-- Table Section -->
-    <div class="card p-3 shadow-sm">
+    <!-- Data Table -->
+    <div class="card shadow">
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
+            <table class="table table-hover align-middle m-0">
+                <thead class="bg-dark text-white">
                     <tr>
-                        <th>កាលបរិច្ឆេទ (ម៉ោងខ្មែរ)</th>
+                        <th class="p-4">កាលបរិច្ឆេទ (ម៉ោងខ្មែរ)</th>
                         <th>Gmail ភ្ញៀវ</th>
                         <th>ឈ្មោះ Skin</th>
                         <th>តម្លៃ</th>
                         <th>ស្ថានភាព</th>
-                        <th>សកម្មភាព</th>
+                        <th class="text-center">សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody id="orderList">
-                    <tr><td colspan="6" class="text-center p-5">កំពុងទាញយកទិន្នន័យ...</td></tr>
+                    <tr><td colspan="6" class="text-center p-5 text-muted">កំពុងទាញយកទិន្នន័យពី Server...</td></tr>
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="text-center mt-4 text-muted" style="font-size: 13px;">
+        © 2026 Irra Store Management System. All rights reserved.
     </div>
 </div>
 
@@ -125,7 +151,7 @@
     const API = "https://adminpanel-jtf9.onrender.com/api";
     let allOrders = [];
 
-    // --- ១. Security & Auth Logic ---
+    // --- ១. ការពារសុវត្ថិភាព (Login & Auth) ---
     function getStoredPass() { return sessionStorage.getItem('admin_password'); }
 
     async function handleLogin() {
@@ -146,7 +172,7 @@
                 errorMsg.style.display = 'block';
                 document.getElementById('adminPassInput').value = '';
             }
-        } catch (e) { alert("Server connection failed."); }
+        } catch (e) { alert("មិនអាចភ្ជាប់ទៅកាន់ Server បានទេ។"); }
     }
 
     function checkAuthStatus() {
@@ -159,12 +185,9 @@
         }
     }
 
-    function logout() {
-        sessionStorage.removeItem('admin_password');
-        location.reload();
-    }
+    function logout() { sessionStorage.removeItem('admin_password'); location.reload(); }
 
-    // --- ២. Time Logic ---
+    // --- ២. ម៉ោងខ្មែរ (Live Time) ---
     function updateKhmerTime() {
         const now = new Date();
         document.getElementById('khmerTime').innerText = new Intl.DateTimeFormat('en-US', {
@@ -173,9 +196,10 @@
     }
     setInterval(updateKhmerTime, 1000);
 
-    // --- ៣. API Interaction with Auth Header ---
+    // --- ៣. ការទាញទិន្នន័យ (API with Security Header) ---
     async function fetchOrders() {
         const password = getStoredPass();
+        if(!password) return;
         try {
             const res = await fetch(`${API}/admin/orders`, {
                 headers: { 'x-admin-password': password }
@@ -190,26 +214,26 @@
         const list = document.getElementById('orderList');
         list.innerHTML = '';
         if (orders.length === 0) {
-            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted">រកមិនឃើញទិន្នន័យឡើយ</td></tr>';
+            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted">មិនមានទិន្នន័យឡើយ</td></tr>';
             return;
         }
         orders.forEach(o => {
-            let badge = `<span class="status-pending">Pending</span>`;
-            if(o.status === 'Completed') badge = `<span class="status-completed">Completed</span>`;
-            if(o.status === 'Failed') badge = `<span class="status-failed">Failed</span>`;
+            let statusBadge = `<span class="status-pending">Pending</span>`;
+            if(o.status === 'Completed') statusBadge = `<span class="status-completed">Completed</span>`;
+            if(o.status === 'Failed') statusBadge = `<span class="status-failed">Failed</span>`;
 
             list.innerHTML += `
             <tr class="animate__animated animate__fadeIn">
-                <td><small class="text-muted">${o.timestamp}</small></td>
-                <td><strong>${o.gmail}</strong></td>
-                <td><span class="badge bg-dark">${o.skin_name}</span></td>
+                <td class="p-4"><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${o.timestamp}</small></td>
+                <td><strong class="text-dark">${o.gmail}</strong></td>
+                <td><span class="badge bg-secondary rounded-pill fw-normal px-3">${o.skin_name}</span></td>
                 <td><span class="text-primary fw-bold">${o.amount}</span></td>
-                <td>${badge}</td>
-                <td>
-                    <button onclick="sendSuccess('${o.id}', '${o.gmail}')" class="btn btn-sm btn-success btn-action"><i class="fas fa-check"></i></button>
-                    <button onclick="sendFailed('${o.id}', '${o.gmail}')" class="btn btn-sm btn-warning btn-action"><i class="fas fa-times"></i></button>
-                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn btn-sm btn-info btn-action"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteOrder('${o.id}')" class="btn btn-sm btn-danger btn-action"><i class="fas fa-trash"></i></button>
+                <td>${statusBadge}</td>
+                <td class="text-center">
+                    <button onclick="sendSuccess('${o.id}', '${o.gmail}')" class="btn-action bg-success" title="ជោគជ័យ"><i class="fas fa-check"></i></button>
+                    <button onclick="sendFailed('${o.id}', '${o.gmail}')" class="btn-action bg-warning" title="បដិសេធ"><i class="fas fa-times"></i></button>
+                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn-action bg-primary" title="កែប្រែ"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteOrder('${o.id}')" class="btn-action bg-danger" title="លុប"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>`;
         });
@@ -221,54 +245,91 @@
         displayOrders(filtered);
     }
 
-    async function editOrder(id, oldGmail, oldSkin, oldAmount) {
+    // --- ៤. មុខងារបញ្ជូនអ៊ីមែល (Response Functions) ---
+    async function sendSuccess(id, gmail) {
+        const link = await showModal({
+            title: "បញ្ចប់ការលក់",
+            body: `សូមបញ្ចូល Link ផលិតផលសម្រាប់ផ្ញើទៅ: ${gmail}`,
+            icon: '<i class="fas fa- उपहार text-success"></i>',
+            showInput: true,
+            confirmText: "ផ្ញើអ៊ីមែលឥឡូវនេះ",
+            color: "#27ae60"
+        });
+
+        if (link) {
+            const subject = "ការទិញរបស់អ្នកបានជោគជ័យ ✅";
+            // រៀបចំ Style សារតាមតម្រូវការ
+            const msg = `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យសូម Download File\n\n🔗 Link Download: ${link}\n\nសូមអរគុណដែលបានគាំទ្រ Irra Store!`;
+            postResponse(id, gmail, msg, subject);
+        }
+    }
+
+    async function sendFailed(id, gmail) {
+        const ok = await showModal({
+            title: "បដិសេធការលក់",
+            body: `តើអ្នកប្រាកដទេថានឹងផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
+            icon: '<i class="fas fa-exclamation-circle text-warning"></i>',
+            showInput: false,
+            confirmText: "យល់ព្រមផ្ញើសារ",
+            color: "#f39c12"
+        });
+        if (ok) {
+            const subject = "ការទិញរបស់អ្នកបានបរាជ័យ ❌";
+            const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។\n\nសូមព្យាយាមម្ដងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!`;
+            postResponse(id, gmail, msg, subject);
+        }
+    }
+
+    async function postResponse(id, gmail, message, subject) {
         const password = getStoredPass();
-        const newGmail = prompt("កែប្រែ Gmail:", oldGmail); if (newGmail === null) return;
-        const newSkin = prompt("កែប្រែឈ្មោះ Skin:", oldSkin); if (newSkin === null) return;
-        const newAmount = prompt("កែប្រែតម្លៃ:", oldAmount); if (newAmount === null) return;
+        try {
+            const res = await fetch(`${API}/admin/send-response`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+                body: JSON.stringify({ id, gmail, message, subject })
+            });
+            if (res.ok) fetchOrders();
+        } catch (e) { alert("ផ្ញើបរាជ័យ!"); }
+    }
+
+    // --- ៥. មុខងារ Edit & Delete ---
+    async function editOrder(id, gmail, skin, amount) {
+        const password = getStoredPass();
+        const nGmail = prompt("កែប្រែ Gmail:", gmail); if(!nGmail) return;
+        const nSkin = prompt("កែប្រែ Skin:", skin); if(!nSkin) return;
+        const nAmount = prompt("កែប្រែ តម្លៃ:", amount); if(!nAmount) return;
 
         try {
             await fetch(`${API}/admin/edit-order`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-admin-password': password 
-                },
-                body: JSON.stringify({ id, gmail: newGmail, skin_name: newSkin, amount: newAmount })
+                headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+                body: JSON.stringify({ id, gmail: nGmail, skin_name: nSkin, amount: nAmount })
             });
             fetchOrders();
-        } catch (err) { alert("Error updating!"); }
+        } catch (e) { alert("Error updating!"); }
     }
 
     async function deleteOrder(id) {
         const password = getStoredPass();
-        if(confirm("តើអ្នកច្បាស់ទេថានឹងលុបទិន្នន័យនេះ?")) {
+        const ok = await showModal({
+            title: "លុបទិន្នន័យ",
+            body: "តើអ្នកច្បាស់ទេថានឹងលុបទិន្នន័យនេះចេញពីប្រព័ន្ធ?",
+            icon: '<i class="fas fa-trash-alt text-danger"></i>',
+            showInput: false,
+            confirmText: "លុបចោល",
+            color: "#e74c3c"
+        });
+        if (ok) {
             await fetch(`${API}/admin/delete-order`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-admin-password': password 
-                },
+                headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
                 body: JSON.stringify({ id })
             });
             fetchOrders();
         }
     }
 
-    async function postResponse(id, gmail, message, subject) {
-        const password = getStoredPass();
-        await fetch(`${API}/admin/send-response`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'x-admin-password': password 
-            },
-            body: JSON.stringify({ id, gmail, message, subject })
-        });
-        fetchOrders();
-    }
-
-    // --- ៤. Modal & Helpers ---
+    // --- ៦. UI Modal Helpers ---
     function closeCustomModal() { document.getElementById('customModal').style.display = 'none'; }
     function showModal({ title, body, icon, showInput, confirmText, color }) {
         return new Promise((resolve) => {
@@ -280,48 +341,32 @@
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerText = body;
             document.getElementById('modalIcon').innerHTML = icon;
-            document.getElementById('modalIcon').style.color = color;
+            
             confirmBtn.innerText = confirmText || "យល់ព្រម";
             confirmBtn.style.backgroundColor = color;
             confirmBtn.style.borderColor = color;
 
             inputContainer.style.display = showInput ? 'block' : 'none';
             modal.style.display = 'flex';
+            
             confirmBtn.onclick = () => {
-                const value = showInput ? modalInput.value.trim() : true;
-                if (showInput && !value) return;
+                const val = showInput ? modalInput.value.trim() : true;
+                if (showInput && !val) return;
                 modal.style.display = 'none';
-                resolve(value);
+                resolve(val);
             };
         });
     }
 
-    async function sendSuccess(id, gmail) {
-        const link = await showModal({
-            title: "បញ្ចប់ការលក់", body: `បញ្ចូល Link សម្រាប់ផ្ញើទៅ: ${gmail}`,
-            icon: '<i class="fas fa-gift"></i>', showInput: true, confirmText: "ផ្ញើ Link", color: "#27ae60"
-        });
-        if (link) postResponse(id, gmail, `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n🔗 Link: ${link}`, "ការទិញរបស់អ្នកបានជោគជ័យ ✅");
-    }
-
-    async function sendFailed(id, gmail) {
-        const ok = await showModal({
-            title: "បដិសេធ", body: `ផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
-            icon: '<i class="fas fa-times-circle"></i>', showInput: false, confirmText: "ផ្ញើសារ", color: "#f39c12"
-        });
-        if (ok) postResponse(id, gmail, `ការទិញរបស់អ្នកបានបរាជ័យ ❌`, "ការទិញរបស់អ្នកបានបរាជ័យ ❌");
-    }
-
-    // Initialization
+    // --- ៧. បើកដំណើរការដំបូង ---
     window.onload = function() {
         updateKhmerTime();
         checkAuthStatus();
+        document.getElementById('adminPassInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
     };
-
-    // Allow Enter key to login
-    document.getElementById('adminPassInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-    });
 </script>
+
 </body>
 </html>
