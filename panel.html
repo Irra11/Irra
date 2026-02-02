@@ -301,7 +301,7 @@
             title: "បញ្ចប់ការលក់", body: `បញ្ចូល Link សម្រាប់ផ្ញើទៅ: ${gmail}`,
             icon: '<i class="fas fa-gift"></i>', showInput: true, confirmText: "ផ្ញើ Link", color: "#27ae60"
         });
-        if (link) postResponse(id, gmail, `ការទិញជោគជ័យ ✅\n🔗 Link: ${link}`, "ការទិញជោគជ័យ ✅");
+        if (link) postResponse(id, gmail, `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n🔗 Link: ${link}`, "ការទិញរបស់អ្នកបានជោគជ័យ ✅");
     }
 
     async function sendFailed(id, gmail) {
@@ -309,7 +309,7 @@
             title: "បដិសេធ", body: `ផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
             icon: '<i class="fas fa-times-circle"></i>', showInput: false, confirmText: "ផ្ញើសារ", color: "#f39c12"
         });
-        if (ok) postResponse(id, gmail, `ការទិញបរាជ័យ ❌`, "ការទិញបរាជ័យ ❌");
+        if (ok) postResponse(id, gmail, `ការទិញរបស់អ្នកបានបរាជ័យ ❌`, "ការទិញរបស់អ្នកបានបរាជ័យ ❌");
     }
 
     // Initialization
