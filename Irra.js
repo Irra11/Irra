@@ -984,7 +984,7 @@ function showRecentSearches(container) {
         window.createPreOrder = function() {
             const email = gmailInput.value.trim();
             checkoutButton.disabled = true;
-            checkoutButton.innerHTML = "កំពុងរក្សាទុក...";
+            checkoutButton.innerHTML = "PROCESSING...";
 
             fetch('https://adminpanel-jtf9.onrender.com/api/save-order', {
                 method: 'POST',
@@ -1068,4 +1068,5 @@ async function postResponse(id, gmail, message, subject) {
     } else {
         alert("ការផ្ញើបរាជ័យ!");
     }
+
 }
