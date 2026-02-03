@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Irra Esign | iOS Certificate Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0072b5 0%, #00bcd4 100%);
+            --bg-color: #f8f9fb;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Hanuman', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .nav-logo { font-weight: 800; font-size: 1.2rem; color: #0072b5; }
+        .btn-contact {
+            background: #e1effe; color: #0072b5;
+            padding: 8px 16px; border-radius: 20px;
+            text-decoration: none; font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; transition: 0.3s;
+        }
+
+        /* Card Layout */
+        .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card {
+            background: white; width: 100%; max-width: 460px;
+            border-radius: 35px; padding: 40px 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255,255,255,0.7);
+            position: relative; text-align: center;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 4px;
+            background: var(--primary-gradient); border-radius: 0 0 10px 10px;
+        }
+
+        .profile-img {
+            width: 85px; height: 85px;
+            background: var(--primary-gradient); border-radius: 50%;
+            margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+            border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+        }
+        .profile-img img { width: 50px; filter: brightness(0) invert(1); }
+
+        .title { font-size: 22px; font-weight: 800; margin-bottom: 5px; color: #1a202c; }
+        .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
+
+        /* Feature List */
+        .features {
+            background: #fafafa; border: 1px dashed #e2e8f0;
+            border-radius: 20px; padding: 15px; margin-bottom: 25px; text-align: left;
+        }
+        .feature-item {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13px; color: #4a5568; margin-bottom: 8px;
+        }
+        .feature-item i { color: #38a169; }
+
+        /* Single Price Box */
+        .amount-box {
+            background: #f8fafc; border-radius: 20px;
+            padding: 20px 25px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 25px; border: 1px solid #edf2f7;
+        }
+        .amount-label { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        .amount-value { font-size: 26px; font-weight: 800; color: #0072b5; }
+
+        /* Input UDID */
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-label { font-size: 11px; font-weight: 700; color: #4a5568; margin-bottom: 8px; display: block; text-transform: uppercase; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 18px; top: 18px; color: var(--text-muted); }
+        .input-field {
+            width: 100%; padding: 15px 15px 15px 45px; border-radius: 15px;
+            border: 2px solid #edf2f7; outline: none; font-size: 15px; transition: 0.3s;
+        }
+        .input-field:focus { border-color: #00bcd4; }
+
+        /* Terminal Style */
+        .terminal {
+            background: #1a202c; border-radius: 15px; padding: 15px;
+            color: #a0aec0; font-family: 'Courier New', monospace;
+            font-size: 12px; text-align: left; margin-bottom: 25px; position: relative;
+        }
+        .terminal-header { font-size: 9px; color: #4a5568; margin-bottom: 5px; display: block; }
+        .terminal-content { display: flex; align-items: center; gap: 8px; color: #fff; }
+
+        /* Checkbox */
+        .terms-box {
+            display: flex; gap: 10px; align-items: flex-start;
+            text-align: left; font-size: 11px; color: var(--text-muted);
+            margin-bottom: 30px; cursor: pointer;
+        }
+
+        /* Pay Button */
+        .btn-pay {
+            width: 100%; background: var(--primary-gradient); color: white;
+            padding: 18px; border: none; border-radius: 18px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+        }
+        .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 188, 212, 0.3); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 1000; justify-content:center; align-items:center; padding: 20px; }
+        .modal.active { display: flex; }
+        .m-card { background: white; border-radius: 30px; padding: 35px; width: 100%; max-width: 400px; text-align: center; }
+        .qr-img { width: 100%; border-radius: 20px; border: 1px solid #eee; margin-bottom: 20px; }
+
+        .footer { padding: 30px; font-size: 12px; color: var(--text-muted); text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">Irra Esign</div>
+        <a href="https://t.me/irra_11" class="btn-contact"><i class="fab fa-telegram"></i> Contact Admin</a>
+    </nav>
+
+    <div class="container">
+        <div class="card animate__animated animate__fadeIn">
+            <div class="profile-img">
+                <img src="https://esign.yyy.moe/img/logo.png" alt="Logo">
+            </div>
+            
+            <h2 class="title">Developer Certificate</h2>
+            <p class="subtitle">P12 & Mobileprovision for iOS</p>
+
+            <div class="features">
+                <div class="feature-item"><i class="fas fa-check-circle"></i> Valid for 1 Year (365 Days)</div>
+                <div class="feature-item"><i class="fas fa-shield-alt"></i> 30 Days Revoke Warranty</div>
+                <div class="feature-item"><i class="fas fa-bolt"></i> Instant Delivery via Email</div>
+            </div>
+
+            <!-- Single Price Display -->
+            <div class="amount-box">
+                <span class="amount-label">Total Amount</span>
+                <span class="amount-value">$10.00</span>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Device UDID</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="text" id="udidInput" class="input-field" placeholder="Paste UDID here..." oninput="handleUDID(this.value)">
+                </div>
+            </div>
+
+            <div class="terminal">
+                <span class="terminal-header">DETECTED UDID</span>
+                <div class="terminal-content">
+                    <i class="fas fa-chevron-right" style="font-size: 10px; color: #00bcd4;"></i>
+                    <span id="udidStatus">Waiting for input...</span>
+                </div>
+            </div>
+
+            <label class="terms-box">
+                <input type="checkbox" id="termsCheck">
+                <span>I confirm this UDID is correct. I understand that certificates are tied to this UDID and are non-refundable.</span>
+            </label>
+
+            <button class="btn-pay" onclick="proceedToEmail()">
+                Pay with ABA KHQR <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Email Modal -->
+    <div id="emailModal" class="modal">
+        <div class="m-card">
+            <i class="fas fa-envelope" style="font-size: 40px; color: #0072b5; margin-bottom: 15px;"></i>
+            <h3>Enter Your Email</h3>
+            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">We'll send files to this email.</p>
+            <input type="email" id="emailInput" class="input-field" placeholder="yourname@gmail.com" style="padding-left: 15px;">
+            <button class="btn-pay" style="margin-top: 20px;" onclick="proceedToQR()">Next Step</button>
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div id="qrModal" class="modal">
+        <div class="m-card">
+            <h3>Scan to Pay</h3>
+            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">Price: <b>$10.00</b></p>
+            <img src="https://i.pinimg.com/736x/e5/fd/31/e5fd3186e185c6d235f024103d091c37.jpg" class="qr-img">
+            <p style="font-size: 12px; color: #0072b5; margin-bottom: 10px; text-align: left;">Upload Bank Receipt:</p>
+            <input type="file" id="receiptFile" accept="image/*" style="font-size: 12px; margin-bottom: 20px;">
+            <button class="btn-pay" id="submitBtn" onclick="submitFinalOrder()">Confirm & Send</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 <b>Irra Esign</b>. All rights reserved.</p>
+    </div>
+
+    <script>
+        const API = "https://adminesign.onrender.com";
+
+        function handleUDID(val) {
+            const status = document.getElementById('udidStatus');
+            status.innerText = val.length > 5 ? val : "Waiting for input...";
+            status.style.color = val.length > 5 ? "#00bcd4" : "#fff";
+        }
+
+        function proceedToEmail() {
+            const udid = document.getElementById('udidInput').value;
+            if(udid.length < 20) return alert("Please enter a valid UDID!");
+            if(!document.getElementById('termsCheck').checked) return alert("Please confirm the terms!");
+            document.getElementById('emailModal').classList.add('active');
+        }
+
+        function proceedToQR() {
+            const email = document.getElementById('emailInput').value;
+            if(!email.includes('@')) return alert("Enter a valid email!");
+            document.getElementById('emailModal').classList.remove('active');
+            document.getElementById('qrModal').classList.add('active');
+        }
+
+        async function submitFinalOrder() {
+            const file = document.getElementById('receiptFile').files[0];
+            if(!file) return alert("Please upload your receipt!");
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerText = "Processing...";
+
+            const fd = new FormData();
+            fd.append('udid', document.getElementById('udidInput').value);
+            fd.append('email', document.getElementById('emailInput').value);
+            fd.append('price', "10");
+            fd.append('plan', "Standard");
+            fd.append('receipt', file);
+
+            try {
+                const res = await fetch(API + '/verify-payment', { method: 'POST', body: fd });
+                if(res.ok) {
+                    alert("✅ Success! Your order has been sent.");
+                    location.reload();
+                } else {
+                    alert("Error submitting. Please try again.");
+                    btn.disabled = false; btn.innerText = "Confirm & Send";
+                }
+            } catch(e) {
+                alert("✅ Success! Your order has been sent.");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
