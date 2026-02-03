@@ -8,132 +8,689 @@
 
     <!-- CSS Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
     <style>
         :root {
-            --primary-color: #0d6efd;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --dark-bg: #f8f9fa;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --danger-gradient: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --dark-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --hover-shadow: 0 15px 50px rgba(0,0,0,0.15);
         }
 
-        body { background: var(--dark-bg); font-family: 'Hanuman', serif; transition: 0.3s; margin: 0; padding-top: 80px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Hanuman', serif;
+            transition: 0.3s;
+            margin: 0;
+            padding-top: 90px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
 
         /* --- Login Overlay --- */
         #loginOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; display: flex; justify-content: center;
-            align-items: center; z-index: 10000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
         }
+
+        #loginOverlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
         .login-card {
-            background: white; padding: 40px; border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 90%; max-width: 380px; text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255,255,255,0.3);
         }
+
         .login-logo {
-            width: 100px; height: 100px; border-radius: 50%;
-            object-fit: cover; border: 4px solid var(--primary-color);
-            margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .login-logo:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .login-card h4 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        #adminPassInput {
+            background: rgba(102, 126, 234, 0.1) !important;
+            border: 2px solid rgba(102, 126, 234, 0.3) !important;
+            transition: all 0.3s;
+        }
+
+        #adminPassInput:focus {
+            background: white !important;
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1) !important;
+        }
+
+        .login-card .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+
+        .login-card .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #667eea;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: #764ba2;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
         }
 
         /* --- Header Panel (Sticky) --- */
         .main-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            padding: 10px 15px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 15px 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .header-container {
-            max-width: 1300px; margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .header-left { display: flex; align-items: center; gap: 10px; }
+        .header-left { 
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
         
         .admin-logo {
-            width: 40px; height: 40px; border-radius: 50%; 
-            object-fit: cover; border: 2px solid var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid transparent;
+            background: var(--primary-gradient);
+            padding: 2px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
         }
 
-        .store-name { font-weight: 700; font-size: 1.1rem; margin: 0; color: #333; letter-spacing: 0.5px; }
+        .admin-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .store-name {
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin: 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
 
         .clock-box {
-            background: #f1f3f5; padding: 5px 12px; border-radius: 50px;
-            font-weight: 700; color: var(--primary-color); font-size: 0.85rem;
-            display: inline-flex; align-items: center; gap: 5px;
+            background: var(--primary-gradient);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: white;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+
+        .clock-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         /* --- Action Bar --- */
         .action-bar {
-            max-width: 1300px; margin: 15px auto; padding: 0 15px;
-            display: flex; gap: 10px; align-items: center;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
-        .search-container { position: relative; flex-grow: 1; }
-        .search-container input { 
-            border-radius: 12px; padding: 10px 10px 10px 40px; 
-            border: 1px solid #ddd; width: 100%; font-size: 16px; background: white;
+        .search-container {
+            position: relative;
+            flex-grow: 1;
         }
-        .search-container i { position: absolute; left: 15px; top: 14px; color: #aaa; }
+
+        .search-container input {
+            border-radius: 20px;
+            padding: 14px 14px 14px 50px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 17px;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
 
         .btn-sync {
-            width: 45px; height: 45px; border-radius: 12px; border: 1px solid #ddd;
-            background: white; color: var(--primary-color); transition: 0.2s;
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            font-size: 1.2rem;
+        }
+
+        .btn-sync:hover {
+            transform: translateY(-3px) rotate(180deg);
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.3);
         }
 
         .btn-logout {
-            width: 35px; height: 35px; border-radius: 50%; border: none;
-            background: #fff0f0; color: var(--danger-color); font-size: 0.9rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--danger-gradient);
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(235, 51, 73, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-3px) rotate(15deg);
+            box-shadow: 0 6px 25px rgba(235, 51, 73, 0.4);
         }
 
         /* --- Table Styling --- */
         .table-card {
-            background: white; border-radius: 20px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin: 0 10px; overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin: 0 15px 30px 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
         }
 
-        .status-completed { color: #27ae60; font-weight: bold; background: #eafaf1; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
-        .status-failed { color: #e74c3c; font-weight: bold; background: #fdedec; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
-        .status-pending { color: #f39c12; font-weight: bold; background: #fef9e7; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
+        .table {
+            margin: 0;
+        }
 
-        .btn-action { width: 38px; height: 38px; border-radius: 10px; border: none; color: white; margin: 2px; }
+        .table thead {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .table thead th {
+            border: none;
+            font-weight: 700;
+            color: #667eea;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 18px 15px;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.01);
+        }
+
+        .table tbody td {
+            padding: 18px 15px;
+            vertical-align: middle;
+            border: none;
+        }
+
+        .status-completed {
+            color: white;
+            font-weight: 700;
+            background: var(--success-gradient);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .status-failed {
+            color: white;
+            font-weight: 700;
+            background: var(--danger-gradient);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(235, 51, 73, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            color: white;
+            font-weight: 700;
+            background: var(--warning-gradient);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-action {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            margin: 3px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-action.bg-success {
+            background: var(--success-gradient);
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-action.bg-success:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-action.bg-danger {
+            background: var(--danger-gradient);
+            box-shadow: 0 4px 15px rgba(235, 51, 73, 0.3);
+        }
+
+        .btn-action.bg-danger:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(235, 51, 73, 0.4);
+        }
+
+        .btn-action.bg-primary {
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-action.bg-primary:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-action.bg-secondary {
+            background: linear-gradient(135deg, #868f96 0%, #596164 100%);
+            box-shadow: 0 4px 15px rgba(134, 143, 150, 0.3);
+        }
+
+        .btn-action.bg-secondary:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(134, 143, 150, 0.4);
+        }
+
+        /* --- Enhanced Modal Styling --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content-custom {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .modal-icon-wrapper {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            position: relative;
+        }
+
+        .modal-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
+
+        .modal-icon-success {
+            background: var(--success-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        .modal-icon-success::before {
+            background: var(--success-gradient);
+        }
+
+        .modal-icon-danger {
+            background: var(--danger-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(235, 51, 73, 0.4);
+        }
+
+        .modal-icon-danger::before {
+            background: var(--danger-gradient);
+        }
+
+        #modalInput {
+            border: 2px solid #e9ecef;
+            border-radius: 18px;
+            padding: 16px 20px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+            font-weight: 500;
+        }
+
+        #modalInput:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 16px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-modal-cancel {
+            background: #f1f3f5;
+            color: #495057;
+        }
+
+        .btn-modal-cancel:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-modal-confirm {
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-modal-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        #modalTitle {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #212529;
+        }
+
+        #modalBody {
+            font-size: 1rem;
+            color: #6c757d;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .badge {
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
 
         /* --- iPhone Responsive Optimization --- */
         @media (max-width: 768px) {
-            body { padding-top: 75px; }
-            .store-name { font-size: 0.95rem; } /* បង្ហាញឈ្មោះហាងតែតូចជាងមុនបន្តិច */
-            .admin-logo { width: 35px; height: 35px; }
-            .clock-box { padding: 4px 10px; font-size: 0.75rem; }
+            body { padding-top: 80px; }
+            
+            .store-name { font-size: 1.1rem; }
+            .admin-logo { width: 42px; height: 42px; }
+            .clock-box { padding: 6px 12px; font-size: 0.8rem; }
+            
+            .action-bar { margin: 15px auto; }
+            
+            .table-card { margin: 0 10px 20px 10px; }
             
             .table-responsive thead { display: none; }
-            .table-responsive tr { 
-                display: block; background: white; margin-bottom: 10px; 
-                border-radius: 15px; padding: 15px; border: 1px solid #eee;
+            .table-responsive tr {
+                display: block;
+                background: white;
+                margin-bottom: 15px;
+                border-radius: 20px;
+                padding: 20px;
+                border: 1px solid rgba(0,0,0,0.05);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             }
-            .table-responsive td { 
-                display: flex; justify-content: space-between; align-items: center; 
-                padding: 7px 0 !important; border: none; border-bottom: 1px solid #f8f9fa;
+
+            .table-responsive td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0 !important;
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
             }
-            .table-responsive td:last-child { border: none; justify-content: center; gap: 10px; padding-top: 15px !important; }
-            .table-responsive td::before { content: attr(data-label); font-weight: bold; color: #888; font-size: 0.8rem; }
-            .btn-action { width: 42px !important; height: 42px !important; }
+
+            .table-responsive td:last-child {
+                border: none;
+                justify-content: center;
+                gap: 8px;
+                padding-top: 20px !important;
+                flex-wrap: wrap;
+            }
+
+            .table-responsive td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #667eea;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .btn-action {
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 1rem;
+            }
+
+            .modal-content-custom {
+                padding: 30px 25px;
+                max-width: 95%;
+            }
+
+            .modal-icon-wrapper {
+                width: 75px;
+                height: 75px;
+                font-size: 38px;
+            }
+
+            #modalTitle {
+                font-size: 1.3rem;
+            }
+
+            #modalBody {
+                font-size: 0.95rem;
+            }
         }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); display: none;
-            justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(5px);
-        }
-        .modal-content-custom { background: white; padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; }
-        
         #mainDashboard { display: none; }
+
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table tbody tr {
+            animation: fadeInUp 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -143,10 +700,17 @@
     <div class="login-card animate__animated animate__fadeInDown">
         <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="login-logo" alt="Logo">
         <h4 class="fw-bold mb-1">IRRA STORE</h4>
-        <p class="text-muted mb-4 small">Administrator Access</p>
-        <input type="password" id="adminPassInput" class="form-control mb-4 text-center border-0 bg-light" placeholder="បញ្ចូលលេខសម្ងាត់..." style="padding: 15px; border-radius: 15px;">
-        <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" style="border-radius: 15px;">ចូលទៅកាន់ប្រព័ន្ធ</button>
-        <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none; font-size: 14px;">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
+        <p class="text-muted mb-4 small" style="font-weight: 500;">Administrator Access</p>
+        <div class="password-wrapper">
+            <input type="password" id="adminPassInput" class="form-control text-center border-0" placeholder="បញ្ចូលលេខសម្ងាត់..." style="padding: 16px 45px 16px 20px; border-radius: 18px; font-weight: 600;">
+            <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+        </div>
+        <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" style="border-radius: 18px;">
+            <i class="fas fa-sign-in-alt me-2"></i>ចូលទៅកាន់ប្រព័ន្ធ
+        </button>
+        <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none; font-size: 14px; font-weight: 600;">
+            <i class="fas fa-exclamation-circle me-1"></i>លេខសម្ងាត់មិនត្រឹមត្រូវ!
+        </p>
     </div>
 </div>
 
@@ -158,7 +722,7 @@
                 <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="admin-logo" alt="Logo">
                 <h1 class="store-name">IRRA STORE</h1>
             </div>
-            <div class="header-right d-flex align-items-center gap-2">
+            <div class="header-right d-flex align-items-center gap-3">
                 <div class="clock-box">
                     <i class="far fa-clock"></i> <span id="khmerTime">--:--:--</span>
                 </div>
@@ -169,17 +733,24 @@
         </div>
     </header>
 
+    <!-- Enhanced Modal -->
     <div id="customModal" class="modal-overlay">
-        <div class="modal-content-custom animate__animated animate__zoomIn">
-            <div id="modalIcon" style="font-size: 45px; margin-bottom: 15px;"></div>
-            <h5 id="modalTitle" class="fw-bold mb-2"></h5>
-            <p id="modalBody" class="text-muted mb-4 small"></p>
-            <div id="inputContainer" style="display: none;">
-                <input type="text" id="modalInput" class="form-control mb-4 text-center" placeholder="https://..." style="border-radius: 12px; padding: 12px;">
+        <div class="modal-content-custom animate__animated animate__zoomIn animate__faster">
+            <div id="modalIconWrapper" class="modal-icon-wrapper">
+                <i id="modalIcon"></i>
             </div>
-            <div class="d-flex justify-content-center gap-2">
-                <button onclick="closeCustomModal()" class="btn btn-light px-4 py-2 border-0" style="border-radius: 12px;">បោះបង់</button>
-                <button id="modalConfirmBtn" class="btn btn-primary px-4 py-2" style="border-radius: 12px;">យល់ព្រម</button>
+            <h5 id="modalTitle"></h5>
+            <p id="modalBody"></p>
+            <div id="inputContainer" style="display: none;">
+                <input type="text" id="modalInput" placeholder="https://example.com/download" class="w-100">
+            </div>
+            <div class="modal-buttons">
+                <button onclick="closeCustomModal()" class="btn-modal-cancel">
+                    <i class="fas fa-times me-2"></i>បោះបង់
+                </button>
+                <button id="modalConfirmBtn" class="btn-modal-confirm">
+                    <i class="fas fa-check me-2"></i>យល់ព្រម
+                </button>
             </div>
         </div>
     </div>
@@ -197,14 +768,14 @@
     <div class="table-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle m-0">
-                <thead class="bg-light d-none d-md-table-header-group">
+                <thead class="d-none d-md-table-header-group">
                     <tr>
-                        <th class="ps-4 py-3">ម៉ោង</th>
-                        <th>Gmail ភ្ញៀវ</th>
-                        <th>ឈ្មោះ Skin</th>
-                        <th>តម្លៃ</th>
-                        <th>ស្ថានភាព</th>
-                        <th class="text-center">សកម្មភាព</th>
+                        <th class="ps-4 py-3"><i class="far fa-clock me-2"></i>ម៉ោង</th>
+                        <th><i class="far fa-envelope me-2"></i>Gmail ភ្ញៀវ</th>
+                        <th><i class="fas fa-tag me-2"></i>ឈ្មោះ Skin</th>
+                        <th><i class="fas fa-dollar-sign me-2"></i>តម្លៃ</th>
+                        <th><i class="fas fa-info-circle me-2"></i>ស្ថានភាព</th>
+                        <th class="text-center"><i class="fas fa-cog me-2"></i>សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody id="orderList">
@@ -217,6 +788,21 @@
 <script>
     const API = "https://adminpanel-jtf9.onrender.com/api";
     let allOrders = [];
+
+    // Password toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('adminPassInput');
+        
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    });
 
     function getStoredPass() { return sessionStorage.getItem('admin_password'); }
 
@@ -272,26 +858,34 @@
         const list = document.getElementById('orderList');
         list.innerHTML = '';
         if (orders.length === 0) {
-            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted small">មិនទាន់មានទិន្នន័យ</td></tr>';
+            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted" style="font-weight: 600;"><i class="fas fa-inbox fa-3x mb-3 d-block" style="opacity: 0.3;"></i>មិនទាន់មានទិន្នន័យ</td></tr>';
             return;
         }
         orders.forEach(o => {
-            let badge = `<span class="status-pending">Pending</span>`;
-            if(o.status === 'Completed') badge = `<span class="status-completed">Completed</span>`;
-            if(o.status === 'Failed') badge = `<span class="status-failed">Failed</span>`;
+            let badge = `<span class="status-pending">⏳ Pending</span>`;
+            if(o.status === 'Completed') badge = `<span class="status-completed">✓ Completed</span>`;
+            if(o.status === 'Failed') badge = `<span class="status-failed">✗ Failed</span>`;
 
             list.innerHTML += `
             <tr class="animate__animated animate__fadeIn">
-                <td data-label="ម៉ោង" class="ps-md-4 small text-muted">${o.timestamp}</td>
-                <td data-label="Gmail ភ្ញៀវ"><strong style="font-size:0.85rem">${o.gmail}</strong></td>
-                <td data-label="Skin"><span class="badge bg-dark rounded-pill fw-normal px-3">${o.skin_name}</span></td>
-                <td data-label="តម្លៃ"><span class="text-primary fw-bold">${o.amount}</span></td>
+                <td data-label="ម៉ោង" class="ps-md-4 small text-muted" style="font-weight: 600;">${o.timestamp}</td>
+                <td data-label="Gmail ភ្ញៀវ"><strong style="font-size:0.9rem; color: #667eea;">${o.gmail}</strong></td>
+                <td data-label="Skin"><span class="badge bg-dark rounded-pill fw-normal px-3 py-2">${o.skin_name}</span></td>
+                <td data-label="តម្លៃ"><span class="fw-bold" style="font-size: 1rem; color: #667eea;">${o.amount}</span></td>
                 <td data-label="ស្ថានភាព">${badge}</td>
                 <td class="text-center">
-                    <button onclick="sendSuccess('${o.id}', '${o.gmail}')" class="btn-action bg-success"><i class="fas fa-check"></i></button>
-                    <button onclick="sendFailed('${o.id}', '${o.gmail}')" class="btn-action bg-danger"><i class="fas fa-times"></i></button>
-                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn-action bg-primary"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteOrder('${o.id}')" class="btn-action bg-secondary"><i class="fas fa-trash-alt"></i></button>
+                    <button onclick="sendSuccess('${o.id}', '${o.gmail}', '${o.skin_name}')" class="btn-action bg-success" title="Success">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button onclick="sendFailed('${o.id}', '${o.gmail}', '${o.skin_name}')" class="btn-action bg-danger" title="Failed">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn-action bg-primary" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteOrder('${o.id}')" class="btn-action bg-secondary" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </td>
             </tr>`;
         });
@@ -303,27 +897,185 @@
         displayOrders(filtered);
     }
 
-    async function sendSuccess(id, gmail) {
+    function createStyledEmailHTML(type, skinName, gmail, downloadLink = '') {
+        const isSuccess = type === 'success';
+        const headerGradient = isSuccess 
+            ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
+            : 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
+        const icon = isSuccess ? '✅' : '❌';
+        const title = isSuccess ? 'ការទិញបានជោគជ័យ' : 'ការទិញបានបរាជ័យ';
+        const statusText = isSuccess ? 'ជោគជ័យ' : 'បរាជ័យ';
+        
+        return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f5f7fa; }
+        .email-container { max-width: 600px; margin: 30px auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .header { background: ${headerGradient}; padding: 40px 30px; text-align: center; color: white; }
+        .header-icon { font-size: 60px; margin-bottom: 15px; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        .content { padding: 40px 30px; }
+        .status-badge { display: inline-block; padding: 12px 30px; border-radius: 50px; font-weight: 700; font-size: 16px; margin: 20px 0; background: ${headerGradient}; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .info-box { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%); border-left: 4px solid; border-image: ${headerGradient} 1; padding: 20px; border-radius: 12px; margin: 25px 0; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { font-weight: 700; color: #667eea; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-value { font-weight: 600; color: #2d3748; font-size: 15px; }
+        .download-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 15px; text-align: center; margin: 30px 0; }
+        .download-button { display: inline-block; background: white; color: #667eea; padding: 16px 40px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); transition: transform 0.3s; }
+        .download-button:hover { transform: translateY(-3px); }
+        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 12px; margin: 25px 0; }
+        .warning-box p { margin: 8px 0; color: #856404; font-size: 14px; line-height: 1.7; }
+        .failure-reason { background: #ffe6e6; border-left: 4px solid #eb3349; padding: 20px; border-radius: 12px; margin: 25px 0; }
+        .failure-reason h3 { color: #eb3349; margin: 0 0 15px 0; font-size: 18px; }
+        .failure-reason ul { margin: 10px 0; padding-left: 25px; }
+        .failure-reason li { color: #721c24; margin: 8px 0; line-height: 1.6; }
+        .next-steps { background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 25px; border-radius: 12px; margin: 25px 0; }
+        .next-steps h3 { color: #667eea; margin: 0 0 15px 0; font-size: 18px; }
+        .next-steps ol { margin: 10px 0; padding-left: 25px; }
+        .next-steps li { color: #2d3748; margin: 10px 0; line-height: 1.8; font-weight: 500; }
+        .footer { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 30px; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); }
+        .footer-logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        .footer p { margin: 8px 0; color: #718096; font-size: 13px; line-height: 1.6; }
+        .social-links { margin: 20px 0; }
+        .social-links a { display: inline-block; margin: 0 8px; color: #667eea; text-decoration: none; font-size: 20px; }
+        @media (max-width: 600px) {
+            .email-container { margin: 10px; border-radius: 15px; }
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 24px; }
+            .content { padding: 25px 20px; }
+            .info-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="header-icon">${icon}</div>
+            <h1>${title}</h1>
+        </div>
+        
+        <div class="content">
+            <div style="text-align: center;">
+                <div class="status-badge">${icon} ${statusText.toUpperCase()}</div>
+            </div>
+            
+            <p style="font-size: 16px; color: #2d3748; line-height: 1.8; margin: 25px 0;">សូមជម្រាបជូន,</p>
+            
+            <p style="font-size: 16px; color: #2d3748; line-height: 1.8;">
+                ${isSuccess 
+                    ? '✅ ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យ! យើងរីករាយដែលបានបម្រើអ្នក។' 
+                    : '❌ ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ។ សូមអភ័យទោសចំពោះភាពរអាក់រអួលនេះ។'}
+            </p>
+            
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">📦 ផលិតផល</span>
+                    <span class="info-value">${skinName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">📧 Gmail</span>
+                    <span class="info-value">${gmail}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">📅 កាលបរិច្ឆេទ</span>
+                    <span class="info-value">${new Date().toLocaleDateString('km-KH')}</span>
+                </div>
+            </div>
+            
+            ${isSuccess ? `
+            <div class="download-section">
+                <p style="color: white; font-size: 18px; font-weight: 700; margin: 0 0 20px 0;">🎁 ទាញយកឥឡូវនេះ</p>
+                <a href="${downloadLink}" class="download-button">
+                    📥 DOWNLOAD FILE
+                </a>
+                <p style="color: rgba(255,255,255,0.9); font-size: 13px; margin: 20px 0 0 0;">សូមចុចលើប៊ូតុងខាងលើដើម្បីទាញយកឯកសាររបស់អ្នក</p>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>⚠️ សំខាន់:</strong></p>
+                <p>• Link នេះត្រូវបានបង្កើតសម្រាប់តែអ្នកប៉ុណ្ណោះ</p>
+                <p>• សូមរក្សាទុក Link សម្រាប់ការប្រើប្រាស់នាពេលអនាគត</p>
+                <p>• ប្រសិនបើមានបញ្ហា សូមទាក់ទងមកយើងខ្ញុំភ្លាមៗ</p>
+            </div>
+            ` : `
+            <div class="failure-reason">
+                <h3>🔍 មូលហេតុបរាជ័យ</h3>
+                <ul>
+                    <li>មិនមានការបង់ប្រាក់ត្រឹមត្រូវ</li>
+                    <li>ព័ត៌មានមិនពេញលេញ ឬមិនត្រឹមត្រូវ</li>
+                    <li>ផលិតផលអស់ស្តុក</li>
+                </ul>
+            </div>
+            
+            <div class="next-steps">
+                <h3>💡 អ្វីដែលអ្នកអាចធ្វើបន្ទាប់</h3>
+                <ol>
+                    <li>ពិនិត្យមើលការបង់ប្រាក់របស់អ្នក</li>
+                    <li>ធ្វើការបញ្ជាទិញម្តងទៀតជាមួយព័ត៌មានត្រឹមត្រូវ</li>
+                    <li>ទាក់ទងមកកាន់យើងខ្ញុំសម្រាប់ជំនួយបន្ថែម</li>
+                </ol>
+            </div>
+            `}
+            
+            <p style="font-size: 16px; color: #2d3748; line-height: 1.8; margin: 30px 0 0 0; text-align: center;">
+                ${isSuccess 
+                    ? '💝 <strong>សូមអរគុណ</strong>ដែលបានជឿទុកចិត្ត និងគាំទ្រ <strong>IRRA STORE</strong>!' 
+                    : '🙏 យើងខ្ញុំសូមទោសចំពោះភាពរអាក់រអួលនេះ ហើយសង្ឃឹមថាអ្នកនឹងបន្តគាំទ្រយើងខ្ញុំ។'}
+            </p>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-logo">🏪 IRRA STORE</div>
+            <p><strong>${isSuccess ? 'Your Trusted Gaming Partner' : 'Customer Support Team'}</strong></p>
+            <p>📧 Email: support@irrastore.com | 📱 Telegram: @IrraStore</p>
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">📷</a>
+                <a href="#">✈️</a>
+            </div>
+            <p style="font-size: 12px; margin-top: 15px;">© 2024 IRRA STORE. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>`;
+    }
+
+    async function sendSuccess(id, gmail, skinName) {
         const link = await showModal({
-            title: "បញ្ចប់ការលក់", body: `បញ្ចូល Link សម្រាប់ផ្ញើទៅ: ${gmail}`,
-            icon: '<i class="fas fa-circle-check text-success"></i>', showInput: true, color: "#27ae60"
+            title: "✅ បញ្ចប់ការលក់",
+            body: `សូមបញ្ចូល Link Download សម្រាប់ផ្ញើទៅ:\n${gmail}`,
+            icon: 'fa-circle-check',
+            iconClass: 'modal-icon-success',
+            showInput: true,
+            confirmColor: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)"
         });
+        
         if (link) {
-            const subject = "ការទិញរបស់អ្នកបានជោគជ័យ ✅";
-            const msg = `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យសូម Download File\n\n🔗 Link Download: ${link}\n\nសូមអរគុណដែលបានគាំទ្រ Irra Store!`;
-            postResponse(id, gmail, msg, subject);
+            const subject = "🎉 ការទិញរបស់អ្នកបានជោគជ័យ - IRRA STORE";
+            const htmlMessage = createStyledEmailHTML('success', skinName, gmail, link);
+            postResponse(id, gmail, htmlMessage, subject);
         }
     }
 
-    async function sendFailed(id, gmail) {
+    async function sendFailed(id, gmail, skinName) {
         const ok = await showModal({
-            title: "ការបញ្ជាទិញបរាជ័យ", body: `ផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
-            icon: '<i class="fas fa-circle-xmark text-danger"></i>', showInput: false, color: "#e74c3c"
+            title: "❌ ការបញ្ជាទិញបរាជ័យ",
+            body: `តើអ្នកប្រាកដថាចង់ផ្ញើសារ "បរាជ័យ" ទៅកាន់:\n${gmail}?`,
+            icon: 'fa-circle-xmark',
+            iconClass: 'modal-icon-danger',
+            showInput: false,
+            confirmColor: "linear-gradient(135deg, #eb3349 0%, #f45c43 100%)"
         });
+        
         if (ok) {
-            const subject = "ការទិញរបស់អ្នកបានបរាជ័យ ❌";
-            const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។\n\nសូមព្យាយាមម្ដងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!`;
-            postResponse(id, gmail, msg, subject);
+            const subject = "❌ ការទិញរបស់អ្នកបានបរាជ័យ - IRRA STORE";
+            const htmlMessage = createStyledEmailHTML('failed', skinName, gmail);
+            postResponse(id, gmail, htmlMessage, subject);
         }
     }
 
@@ -362,20 +1114,38 @@
         fetchOrders();
     }
 
-    function closeCustomModal() { document.getElementById('customModal').style.display = 'none'; }
-    function showModal({ title, body, icon, showInput, color }) {
+    function closeCustomModal() { 
+        document.getElementById('customModal').style.display = 'none'; 
+    }
+
+    function showModal({ title, body, icon, iconClass, showInput, confirmColor }) {
         return new Promise((resolve) => {
             const modal = document.getElementById('customModal');
+            const iconWrapper = document.getElementById('modalIconWrapper');
+            const iconElement = document.getElementById('modalIcon');
+            
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerText = body;
-            document.getElementById('modalIcon').innerHTML = icon;
-            document.getElementById('modalConfirmBtn').style.backgroundColor = color;
+            
+            iconElement.className = `fas ${icon}`;
+            iconWrapper.className = `modal-icon-wrapper ${iconClass}`;
+            
+            document.getElementById('modalConfirmBtn').style.background = confirmColor;
             document.getElementById('inputContainer').style.display = showInput ? 'block' : 'none';
+            
             if(showInput) document.getElementById('modalInput').value = '';
+            
             modal.style.display = 'flex';
+            
             document.getElementById('modalConfirmBtn').onclick = () => {
                 const val = showInput ? document.getElementById('modalInput').value.trim() : true;
-                if(showInput && !val) return;
+                if(showInput && !val) {
+                    document.getElementById('modalInput').style.borderColor = '#eb3349';
+                    setTimeout(() => {
+                        document.getElementById('modalInput').style.borderColor = '#e9ecef';
+                    }, 1000);
+                    return;
+                }
                 modal.style.display = 'none';
                 resolve(val);
             };
@@ -384,7 +1154,9 @@
 
     window.onload = function() {
         checkAuthStatus();
-        document.getElementById('adminPassInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+        document.getElementById('adminPassInput').addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') handleLogin(); 
+        });
     };
 </script>
 </body>
