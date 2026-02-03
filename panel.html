@@ -291,7 +291,10 @@
             title: "បដិសេធ", body: `ផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
             icon: '<i class="fas fa-exclamation-circle text-warning"></i>', showInput: false, color: "#f39c12"
         });
-        if (ok) postResponse(id, gmail, `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមព្យាយាមម្ដងទៀត!`, "ការទិញរបស់អ្នកបានបរាជ័យ ❌");
+         if (ok) {
+            const subject = "ការទិញរបស់អ្នកបានបរាជ័យ ❌";
+            const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។\n\nសូមព្យាយាមម្ដងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!`;
+            postResponse(id, gmail, msg, subject);
     }
 
     async function postResponse(id, gmail, message, subject) {
