@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Irra Esign </title>
+    <title>Irra Esign | iOS Certificate Checkout</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -146,8 +146,8 @@
     <!-- Header Navbar -->
     <nav class="navbar">
         <div class="nav-logo">Irra Esign</div>
-        <a href="https://t.me/irra_11" class="btn-contact">
-            <i class="fab fa-telegram-plane"></i> Contact Admin
+        <a href="https://t.me/Irra_Esign/3" class="btn-contact">
+            <i class="fas fa-play-circle"></i> របៀបយកUDID
         </a>
     </nav>
 
@@ -167,10 +167,17 @@
                 <div class="feature-item"><i class="fas fa-bolt"></i> Instant Delivery via Email</div>
             </div>
 
-            <div class="amount-box">
-                <span class="amount-label">តម្លៃសរុប</span>
-                <span class="amount-value">$10.00</span>
-            </div>
+          <div class="amount-box" style="display: flex; justify-content: space-between; align-items: center; background: #f4f7f9; border-radius: 18px; padding: 15px 25px; border: 1px solid #edf2f7; margin-bottom: 25px;">
+    <span class="amount-label" style="color: #718096; font-size: 16px; font-family: 'Hanuman';">តម្លៃ</span>
+    <div style="text-align: right;">
+        <!-- តម្លៃចាស់ (ឆូតពីលើ) -->
+        <span style="text-decoration: line-through; color: #ff2d0c; font-size: 16px; font-weight: 500; margin-right: 8px;">$15.00</span>
+        <!-- តម្លៃថ្មី -->
+        <span class="amount-value" style="font-size: 28px; font-weight: 800; color: #005a92;">$10.00</span>
+        <!-- ស្លាកបញ្ជាក់ការបញ្ចុះតម្លៃ (Optional) -->
+     
+    </div>
+</div>
 
             <div class="input-group">
                 <label class="input-label">DEVICE UDID</label>
@@ -210,18 +217,66 @@
         </div>
     </div>
 
-    <!-- QR Modal -->
-    <div id="qrModal" class="modal">
-        <div class="m-card animate__animated animate__zoomIn">
-            <h4 class="fw-bold mb-3">ស្កេនដើម្បីបង់ប្រាក់</h4>
-            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">តម្លៃសរុប: <b style="color: var(--primary-blue); font-size: 18px;">$10.00</b></p>
-            <img src="https://i.pinimg.com/736x/e5/fd/31/e5fd3186e185c6d235f024103d091c37.jpg" class="qr-img">
-            <p style="font-size: 12px; color: var(--primary-blue); margin-bottom: 10px; text-align: left; font-weight: 600;">Upload វិក្កយបត្របង់ប្រាក់:</p>
-            <input type="file" id="receiptFile" accept="image/*" style="font-size: 12px; margin-bottom: 20px; width: 100%;">
-            <button class="btn-pay active" id="submitBtn" onclick="submitFinalOrder()">បញ្ជាក់ និងផ្ញើភស្តុតាង</button>
-            <button class="btn btn-sm btn-link mt-2 text-muted" style="text-decoration:none; font-size:12px;" onclick="location.reload()">បោះបង់</button>
+   <!-- QR Modal -->
+<div id="qrModal" class="modal">
+    <!-- បន្ថែម position: relative នៅទីនេះ ដើម្បីឱ្យប៊ូតុង X រត់តាម Card -->
+    <div class="m-card animate__animated animate__zoomIn" style="position: relative; padding: 35px 25px;">
+        
+        <!-- ប៊ូតុង X បោះបង់ (Wrong Cross) -->
+        <button onclick="location.reload()" 
+                style="position: absolute; 
+                       top: 15px; 
+                       right: 15px; 
+                       border: none; 
+                       background: #f9f1f1; 
+                       color: #b41d17; 
+                       width: 32px; 
+                       height: 32px; 
+                       border-radius: 50%; 
+                       display: flex; 
+                       align-items: center; 
+                       justify-content: center; 
+                       cursor: pointer; 
+                       font-size: 14px;
+                       z-index: 10;
+                       transition: 0.3s;"
+                onmouseover="this.style.background='#e2e8f0'"
+                onmouseout="this.style.background='#f1f5f9'">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <h4 class="fw-bold mb-2" style="font-family: 'Hanuman';">ស្កេនដើម្បីបង់ប្រាក់</h4>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+            តម្លៃសរុប: <b style="color: var(--primary-blue); font-size: 20px;">$10.00</b>
+        </p>
+
+        <!-- រូបភាព QR -->
+        <img src="https://i.pinimg.com/736x/e5/fd/31/e5fd3186e185c6d235f024103d091c37.jpg" class="qr-img" style="width: 100%; border-radius: 20px; margin-bottom: 20px; border: 1px solid #eee;">
+
+        <!-- ផ្នែក Upload -->
+        <div style="text-align: left;">
+            <p style="font-size: 13px; color: var(--primary-blue); margin-bottom: 10px; font-weight: 700; font-family: 'Hanuman';">
+                <i class="fas fa-image me-1"></i> Upload វិក្កយបត្របង់ប្រាក់:
+            </p>
+            <input type="file" id="receiptFile" accept="image/*" 
+                style="font-size: 13px; 
+                       margin-bottom: 20px; 
+                       width: 100%; 
+                       border: 2px dashed #0072b5; 
+                       border-radius: 15px; 
+                       padding: 15px; 
+                       background-color: #f8faff; 
+                       cursor: pointer; 
+                       color: #4a5568;
+                       outline: none;">
         </div>
+
+        <!-- ប៊ូតុងបញ្ជាក់ -->
+        <button class="btn-pay active" id="submitBtn" onclick="submitFinalOrder()" style="width: 100%; border-radius: 15px;">
+            Confirm & Send 
+        </button>
     </div>
+</div>
 
     <div class="footer">
         <p>© 2026 <b>Irra Esign</b>. All rights reserved.</p>
