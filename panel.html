@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Irra Store Admin | Dashboard</title>
 
     <!-- CSS Dependencies -->
@@ -19,20 +18,19 @@
             --success-color: #27ae60;
             --danger-color: #e74c3c;
             --warning-color: #f39c12;
-            --dark-bg: #f0f2f5;
+            --dark-bg: #f8f9fa;
         }
 
-        body { background: var(--dark-bg); font-family: 'Hanuman', serif; padding: 10px; transition: 0.3s; }
-        @media (min-width: 768px) { body { padding: 30px; } }
+        body { background: var(--dark-bg); font-family: 'Hanuman', serif; transition: 0.3s; margin: 0; padding-top: 80px; }
 
-        /* Login Overlay */
+        /* --- Login Overlay --- */
         #loginOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark-bg); display: flex; justify-content: center;
+            background: #ffffff; display: flex; justify-content: center;
             align-items: center; z-index: 10000;
         }
         .login-card {
-            background: white; padding: 35px; border-radius: 30px;
+            background: white; padding: 40px; border-radius: 30px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 90%; max-width: 380px; text-align: center;
         }
         .login-logo {
@@ -41,68 +39,101 @@
             margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        #mainDashboard { display: none; }
-
-        /* Header Style */
-        .admin-logo {
-            width: 50px; height: 50px; border-radius: 50%; 
-            object-fit: cover; border: 3px solid var(--primary-color);
-            margin-right: 12px;
+        /* --- Header Panel (Sticky) --- */
+        .main-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 10px 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
+
+        .header-container {
+            max-width: 1300px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        
+        .admin-logo {
+            width: 40px; height: 40px; border-radius: 50%; 
+            object-fit: cover; border: 2px solid var(--primary-color);
+        }
+
+        .store-name { font-weight: 700; font-size: 1.1rem; margin: 0; color: #333; letter-spacing: 0.5px; }
 
         .clock-box {
-            background: white; padding: 10px 15px; border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: inline-flex; 
-            align-items: center; border-left: 5px solid var(--primary-color);
+            background: #f1f3f5; padding: 5px 12px; border-radius: 50px;
+            font-weight: 700; color: var(--primary-color); font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 5px;
         }
-        #khmerTime { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-left: 10px; }
 
-        /* iPhone Responsive Table to Cards */
+        /* --- Action Bar --- */
+        .action-bar {
+            max-width: 1300px; margin: 15px auto; padding: 0 15px;
+            display: flex; gap: 10px; align-items: center;
+        }
+
+        .search-container { position: relative; flex-grow: 1; }
+        .search-container input { 
+            border-radius: 12px; padding: 10px 10px 10px 40px; 
+            border: 1px solid #ddd; width: 100%; font-size: 16px; background: white;
+        }
+        .search-container i { position: absolute; left: 15px; top: 14px; color: #aaa; }
+
+        .btn-sync {
+            width: 45px; height: 45px; border-radius: 12px; border: 1px solid #ddd;
+            background: white; color: var(--primary-color); transition: 0.2s;
+        }
+
+        .btn-logout {
+            width: 35px; height: 35px; border-radius: 50%; border: none;
+            background: #fff0f0; color: var(--danger-color); font-size: 0.9rem;
+        }
+
+        /* --- Table Styling --- */
+        .table-card {
+            background: white; border-radius: 20px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin: 0 10px; overflow: hidden;
+        }
+
+        .status-completed { color: #27ae60; font-weight: bold; background: #eafaf1; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
+        .status-failed { color: #e74c3c; font-weight: bold; background: #fdedec; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
+        .status-pending { color: #f39c12; font-weight: bold; background: #fef9e7; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; }
+
+        .btn-action { width: 38px; height: 38px; border-radius: 10px; border: none; color: white; margin: 2px; }
+
+        /* --- iPhone Responsive Optimization --- */
         @media (max-width: 768px) {
+            body { padding-top: 75px; }
+            .store-name { font-size: 0.95rem; } /* បង្ហាញឈ្មោះហាងតែតូចជាងមុនបន្តិច */
+            .admin-logo { width: 35px; height: 35px; }
+            .clock-box { padding: 4px 10px; font-size: 0.75rem; }
+            
             .table-responsive thead { display: none; }
             .table-responsive tr { 
-                display: block; background: white; margin-bottom: 15px; 
-                border-radius: 20px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                display: block; background: white; margin-bottom: 10px; 
+                border-radius: 15px; padding: 15px; border: 1px solid #eee;
             }
             .table-responsive td { 
                 display: flex; justify-content: space-between; align-items: center; 
-                padding: 10px 0 !important; border: none; border-bottom: 1px solid #f8f9fa;
-                text-align: right;
+                padding: 7px 0 !important; border: none; border-bottom: 1px solid #f8f9fa;
             }
-            .table-responsive td:last-child { border-bottom: none; justify-content: center; padding-top: 15px !important; gap: 8px; }
-            .table-responsive td::before { 
-                content: attr(data-label); font-weight: bold; color: #7f8c8d; 
-                text-align: left; font-size: 0.85rem;
-            }
-            .btn-action { width: 45px !important; height: 45px !important; }
+            .table-responsive td:last-child { border: none; justify-content: center; gap: 10px; padding-top: 15px !important; }
+            .table-responsive td::before { content: attr(data-label); font-weight: bold; color: #888; font-size: 0.8rem; }
+            .btn-action { width: 42px !important; height: 42px !important; }
         }
 
-        .search-container { width: 100%; max-width: 400px; position: relative; }
-        .search-container input { 
-            border-radius: 15px; padding: 12px 12px 12px 45px; 
-            border: 2px solid #eee; width: 100%; font-size: 16px; 
-        }
-        .search-container i { position: absolute; left: 18px; top: 16px; color: #aaa; }
-
-        .btn-action { 
-            width: 38px; height: 38px; border-radius: 12px; border: none; 
-            transition: 0.3s; color: white;
-        }
-        .btn-action:hover { transform: translateY(-3px); }
-
-        /* Modal Settings */
+        /* Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5); display: none;
-            justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.4); display: none;
+            justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(5px);
         }
-        .modal-content-custom { 
-            background: white; padding: 30px; border-radius: 30px; 
-            width: 90%; max-width: 450px; text-align: center; 
-        }
-        .status-completed { color: #27ae60; font-weight: bold; background: #eafaf1; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
-        .status-failed { color: #e74c3c; font-weight: bold; background: #fdedec; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
-        .status-pending { color: #f39c12; font-weight: bold; background: #fef9e7; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+        .modal-content-custom { background: white; padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; }
+        
+        #mainDashboard { display: none; }
     </style>
 </head>
 <body>
@@ -110,76 +141,76 @@
 <!-- Login Section -->
 <div id="loginOverlay">
     <div class="login-card animate__animated animate__fadeInDown">
-        <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="login-logo" class="login-logo" alt="Store Logo">
-        <h3 class="fw-bold">Irra Admin</h3>
-        <p class="text-muted mb-4">សូមបញ្ចូលលេខសម្ងាត់គ្រប់គ្រង</p>
-        <input type="password" id="adminPassInput" class="form-control mb-4 text-center border-0 bg-light" placeholder="••••••••" style="padding: 15px; border-radius: 15px;">
-        <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow" style="border-radius: 15px;">LOGIN</button>
-        <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none;">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
+        <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="login-logo" alt="Logo">
+        <h4 class="fw-bold mb-1">IRRA STORE</h4>
+        <p class="text-muted mb-4 small">Administrator Access</p>
+        <input type="password" id="adminPassInput" class="form-control mb-4 text-center border-0 bg-light" placeholder="បញ្ចូលលេខសម្ងាត់..." style="padding: 15px; border-radius: 15px;">
+        <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" style="border-radius: 15px;">ចូលទៅកាន់ប្រព័ន្ធ</button>
+        <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none; font-size: 14px;">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
     </div>
 </div>
 
-<!-- Dashboard Content -->
-<div id="mainDashboard" class="animate__animated animate__fadeIn">
-    
-    <!-- Modal Control -->
+<!-- Main Dashboard -->
+<div id="mainDashboard">
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-left">
+                <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="admin-logo" alt="Logo">
+                <h1 class="store-name">IRRA STORE</h1>
+            </div>
+            <div class="header-right d-flex align-items-center gap-2">
+                <div class="clock-box">
+                    <i class="far fa-clock"></i> <span id="khmerTime">--:--:--</span>
+                </div>
+                <button onclick="logout()" class="btn-logout">
+                    <i class="fas fa-power-off"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
     <div id="customModal" class="modal-overlay">
         <div class="modal-content-custom animate__animated animate__zoomIn">
-            <div id="modalIcon" style="font-size: 55px; margin-bottom: 15px;"></div>
-            <h4 id="modalTitle" class="fw-bold mb-2"></h4>
-            <p id="modalBody" class="text-muted mb-4"></p>
+            <div id="modalIcon" style="font-size: 45px; margin-bottom: 15px;"></div>
+            <h5 id="modalTitle" class="fw-bold mb-2"></h5>
+            <p id="modalBody" class="text-muted mb-4 small"></p>
             <div id="inputContainer" style="display: none;">
-                <input type="text" id="modalInput" class="form-control mb-4 text-center" placeholder="បញ្ចូល Link នៅទីនេះ..." style="border-radius: 15px; padding: 12px;">
+                <input type="text" id="modalInput" class="form-control mb-4 text-center" placeholder="https://..." style="border-radius: 12px; padding: 12px;">
             </div>
             <div class="d-flex justify-content-center gap-2">
-                <button onclick="closeCustomModal()" class="btn btn-light px-4 py-2 border-0" style="border-radius: 15px;">បោះបង់</button>
-                <button id="modalConfirmBtn" class="btn btn-primary px-4 py-2" style="border-radius: 15px;">យល់ព្រម</button>
+                <button onclick="closeCustomModal()" class="btn btn-light px-4 py-2 border-0" style="border-radius: 12px;">បោះបង់</button>
+                <button id="modalConfirmBtn" class="btn btn-primary px-4 py-2" style="border-radius: 12px;">យល់ព្រម</button>
             </div>
         </div>
     </div>
 
-    <!-- Header -->
-    <div class="row align-items-center mb-4 g-3">
-        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
-            <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="login-logo" class="admin-logo" alt="Logo">
-            <h4 class="fw-bold m-0 text-uppercase">Irra Store Admin</h4>
+    <div class="action-bar">
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ស្វែងរកតាម Gmail..." onkeyup="filterOrders()">
         </div>
-        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-2">
-            <div class="clock-box shadow-sm">
-                <i class="far fa-clock text-muted"></i> <span id="khmerTime">--:--:--</span>
-            </div>
-            <button onclick="logout()" class="btn btn-danger rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fas fa-power-off"></i></button>
-        </div>
+        <button onclick="fetchOrders()" class="btn-sync">
+            <i class="fas fa-rotate"></i>
+        </button>
     </div>
 
-    <!-- Search & Sync -->
-    <div class="row mb-4">
-        <div class="col-12 d-flex gap-2">
-            <div class="search-container flex-grow-1">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" class="shadow-sm" placeholder="ស្វែងរកតាម Gmail..." onkeyup="filterOrders()">
-            </div>
-            <button onclick="fetchOrders()" class="btn btn-dark rounded-3 px-3 shadow-sm"><i class="fas fa-sync-alt"></i></button>
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle m-0">
+                <thead class="bg-light d-none d-md-table-header-group">
+                    <tr>
+                        <th class="ps-4 py-3">ម៉ោង</th>
+                        <th>Gmail ភ្ញៀវ</th>
+                        <th>ឈ្មោះ Skin</th>
+                        <th>តម្លៃ</th>
+                        <th>ស្ថានភាព</th>
+                        <th class="text-center">សកម្មភាព</th>
+                    </tr>
+                </thead>
+                <tbody id="orderList">
+                </tbody>
+            </table>
         </div>
-    </div>
-
-    <!-- Table / Card List -->
-    <div class="table-responsive">
-        <table class="table table-hover align-middle m-0" style="border-collapse: separate; border-spacing: 0 8px;">
-            <thead class="bg-dark text-white d-none d-md-table-header-group">
-                <tr>
-                    <th class="ps-4">ម៉ោង</th>
-                    <th>Gmail ភ្ញៀវ</th>
-                    <th>ឈ្មោះ Skin</th>
-                    <th>តម្លៃ</th>
-                    <th>ស្ថានភាព</th>
-                    <th class="text-center">សកម្មភាព</th>
-                </tr>
-            </thead>
-            <tbody id="orderList">
-                <!-- Records will load here -->
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -187,12 +218,10 @@
     const API = "https://adminpanel-jtf9.onrender.com/api";
     let allOrders = [];
 
-    // --- ១. Security ---
     function getStoredPass() { return sessionStorage.getItem('admin_password'); }
 
     async function handleLogin() {
         const password = document.getElementById('adminPassInput').value;
-        const errorMsg = document.getElementById('loginError');
         try {
             const res = await fetch(`${API}/admin/login`, {
                 method: 'POST',
@@ -203,8 +232,7 @@
                 sessionStorage.setItem('admin_password', password);
                 checkAuthStatus();
             } else {
-                errorMsg.style.display = 'block';
-                document.getElementById('adminPassInput').value = '';
+                document.getElementById('loginError').style.display = 'block';
             }
         } catch (e) { alert("Error connecting to server."); }
     }
@@ -221,16 +249,14 @@
 
     function logout() { sessionStorage.removeItem('admin_password'); location.reload(); }
 
-    // --- ២. Time ---
     function updateKhmerTime() {
         const now = new Date();
         document.getElementById('khmerTime').innerText = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Phnom_Penh', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
         }).format(now);
     }
-    setInterval(updateKhmerTime, 1000);
+    setInterval(updateKhmerTime, 1000); updateKhmerTime();
 
-    // --- ៣. API Operations ---
     async function fetchOrders() {
         const password = getStoredPass();
         if(!password) return;
@@ -246,7 +272,7 @@
         const list = document.getElementById('orderList');
         list.innerHTML = '';
         if (orders.length === 0) {
-            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted">មិនមានទិន្នន័យឡើយ</td></tr>';
+            list.innerHTML = '<tr><td colspan="6" class="text-center p-5 text-muted small">មិនទាន់មានទិន្នន័យ</td></tr>';
             return;
         }
         orders.forEach(o => {
@@ -256,16 +282,16 @@
 
             list.innerHTML += `
             <tr class="animate__animated animate__fadeIn">
-                <td data-label="កាលបរិច្ឆេទ" class="ps-md-4"><small class="text-muted">${o.timestamp}</small></td>
-                <td data-label="Gmail ភ្ញៀវ"><strong>${o.gmail}</strong></td>
-                <td data-label="Skin"><span class="badge bg-secondary rounded-pill fw-normal px-3">${o.skin_name}</span></td>
+                <td data-label="ម៉ោង" class="ps-md-4 small text-muted">${o.timestamp}</td>
+                <td data-label="Gmail ភ្ញៀវ"><strong style="font-size:0.85rem">${o.gmail}</strong></td>
+                <td data-label="Skin"><span class="badge bg-dark rounded-pill fw-normal px-3">${o.skin_name}</span></td>
                 <td data-label="តម្លៃ"><span class="text-primary fw-bold">${o.amount}</span></td>
                 <td data-label="ស្ថានភាព">${badge}</td>
                 <td class="text-center">
-                    <button onclick="sendSuccess('${o.id}', '${o.gmail}')" class="btn-action bg-success" title="Success"><i class="fas fa-check"></i></button>
-                    <button onclick="sendFailed('${o.id}', '${o.gmail}')" class="btn-action bg-danger" title="Fail"><i class="fas fa-times"></i></button>
-                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn-action bg-primary" title="Edit"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteOrder('${o.id}')" class="btn-action bg-secondary" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                    <button onclick="sendSuccess('${o.id}', '${o.gmail}')" class="btn-action bg-success"><i class="fas fa-check"></i></button>
+                    <button onclick="sendFailed('${o.id}', '${o.gmail}')" class="btn-action bg-danger"><i class="fas fa-times"></i></button>
+                    <button onclick="editOrder('${o.id}', '${o.gmail}', '${o.skin_name}', '${o.amount}')" class="btn-action bg-primary"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteOrder('${o.id}')" class="btn-action bg-secondary"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>`;
         });
@@ -277,34 +303,26 @@
         displayOrders(filtered);
     }
 
-    // --- ៤. Response Logic (Success/Fail) ---
     async function sendSuccess(id, gmail) {
         const link = await showModal({
-            title: "ការបញ្ជាទិញជោគជ័យ", 
-            body: `បញ្ចូល Link សម្រាប់ផ្ញើទៅ: ${gmail}`,
-            icon: '<i class="fas fa-check-circle text-success"></i>', 
-            showInput: true, 
-            color: "#27ae60"
+            title: "បញ្ចប់ការលក់", body: `បញ្ចូល Link សម្រាប់ផ្ញើទៅ: ${gmail}`,
+            icon: '<i class="fas fa-circle-check text-success"></i>', showInput: true, color: "#27ae60"
         });
         if (link) {
             const subject = "ការទិញរបស់អ្នកបានជោគជ័យ ✅";
-            const msg = `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យសូម Download File\n\n🔗 Link Download: ${link}\n\nសូមអរគុណដែលបានគាំទ្រ Irra Store!\n`;
+            const msg = `ការទិញរបស់អ្នកបានជោគជ័យ ✅\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យសូម Download File\n\n🔗 Link Download: ${link}\n\nសូមអរគុណដែលបានគាំទ្រ Irra Store!`;
             postResponse(id, gmail, msg, subject);
         }
     }
 
     async function sendFailed(id, gmail) {
         const ok = await showModal({
-            title: "ការបញ្ជាទិញបរាជ័យ", 
-            body: `តើអ្នកច្បាស់ទេថានឹងផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
-            icon: '<i class="fas fa-times-circle text-danger"></i>', 
-            showInput: false, 
-            color: "#e74c3c"
+            title: "ការបញ្ជាទិញបរាជ័យ", body: `ផ្ញើសារ 'បរាជ័យ' ទៅកាន់: ${gmail}?`,
+            icon: '<i class="fas fa-circle-xmark text-danger"></i>', showInput: false, color: "#e74c3c"
         });
-        
         if (ok) {
             const subject = "ការទិញរបស់អ្នកបានបរាជ័យ ❌";
-            const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។\n\nសូមព្យាយាមម្ដងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!\n`;
+            const msg = `ការទិញរបស់អ្នកបានបរាជ័យ ❌\n\nសូមជម្រាបជូន,\n• ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ ដោយសារមិនមានការបង់ប្រាក់ត្រឹមត្រូវ។\n\nសូមព្យាយាមម្ដងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!`;
             postResponse(id, gmail, msg, subject);
         }
     }
@@ -319,23 +337,8 @@
         fetchOrders();
     }
 
-    // --- ៥. Admin Operations ---
-    async function editOrder(id, gmail, skin, amount) {
-        const password = getStoredPass();
-        const nGmail = prompt("Gmail ថ្មី:", gmail); 
-        const nSkin = prompt("ឈ្មោះ Skin ថ្មី:", skin);
-        const nAmount = prompt("តម្លៃថ្មី:", amount);
-        if(!nGmail || !nSkin || !nAmount) return;
-        await fetch(`${API}/admin/edit-order`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
-            body: JSON.stringify({ id, gmail: nGmail, skin_name: nSkin, amount: nAmount })
-        });
-        fetchOrders();
-    }
-
     async function deleteOrder(id) {
-        if(!confirm("តើអ្នកច្បាស់ទេថានឹងលុបទិន្នន័យនេះ?")) return;
+        if(!confirm("លុបទិន្នន័យនេះ?")) return;
         const password = getStoredPass();
         await fetch(`${API}/admin/delete-order`, {
             method: 'POST',
@@ -345,7 +348,20 @@
         fetchOrders();
     }
 
-    // --- ៦. Custom Modal Helper ---
+    async function editOrder(id, gmail, skin, amount) {
+        const password = getStoredPass();
+        const nG = prompt("Gmail ថ្មី:", gmail); 
+        const nS = prompt("Skin ថ្មី:", skin);
+        const nA = prompt("តម្លៃថ្មី:", amount);
+        if(!nG || !nS || !nA) return;
+        await fetch(`${API}/admin/edit-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+            body: JSON.stringify({ id, gmail: nG, skin_name: nS, amount: nA })
+        });
+        fetchOrders();
+    }
+
     function closeCustomModal() { document.getElementById('customModal').style.display = 'none'; }
     function showModal({ title, body, icon, showInput, color }) {
         return new Promise((resolve) => {
@@ -367,7 +383,6 @@
     }
 
     window.onload = function() {
-        updateKhmerTime();
         checkAuthStatus();
         document.getElementById('adminPassInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     };
