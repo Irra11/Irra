@@ -142,27 +142,6 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #667eea;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        .password-toggle:hover {
-            color: #764ba2;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .password-wrapper {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
         /* --- Header Panel (Sticky) --- */
         .main-header {
             position: fixed;
@@ -701,12 +680,12 @@
         <img src="https://i.pinimg.com/736x/93/1a/b7/931ab7b0393dab7b07fedb2b22b70a89.jpg" class="login-logo" alt="Logo">
         <h4 class="fw-bold mb-1">IRRA STORE</h4>
         <p class="text-muted mb-4 small" style="font-weight: 500;">Administrator Access</p>
-        <div class="password-wrapper">
-            <input type="password" id="adminPassInput" class="form-control text-center border-0" placeholder="បញ្ចូលលេខសម្ងាត់..." style="padding: 16px 45px 16px 20px; border-radius: 18px; font-weight: 600;">
-            <i class="fas fa-eye password-toggle" id="togglePassword"></i>
-        </div>
+        <input type="password" id="adminPassInput" class="form-control mb-4 text-center border-0" placeholder="បញ្ចូលលេខសម្ងាត់..." style="padding: 16px; border-radius: 18px; font-weight: 600;">
         <button onclick="handleLogin()" class="btn btn-primary w-100 py-3 fw-bold shadow-sm" style="border-radius: 18px;">
             <i class="fas fa-sign-in-alt me-2"></i>ចូលទៅកាន់ប្រព័ន្ធ
+        </button>
+        <button onclick="testModeLogin()" class="btn btn-outline-secondary w-100 py-2 mt-2" style="border-radius: 18px; font-size: 0.9rem;">
+            <i class="fas fa-flask me-2"></i>Test Mode (Skip Login)
         </button>
         <p id="loginError" class="text-danger mt-3 animate__animated animate__shakeX" style="display: none; font-size: 14px; font-weight: 600;">
             <i class="fas fa-exclamation-circle me-1"></i>លេខសម្ងាត់មិនត្រឹមត្រូវ!
@@ -742,7 +721,7 @@
             <h5 id="modalTitle"></h5>
             <p id="modalBody"></p>
             <div id="inputContainer" style="display: none;">
-                <input type="text" id="modalInput" placeholder="https://example.com/download" class="w-100">
+                <input type="text" id="modalInput" placeholder="https://example.com/download">
             </div>
             <div class="modal-buttons">
                 <button onclick="closeCustomModal()" class="btn-modal-cancel">
@@ -789,47 +768,87 @@
     const API = "https://adminpanel-jtf9.onrender.com/api";
     let allOrders = [];
 
-    // Password toggle functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('adminPassInput');
-        
-        if (togglePassword && passwordInput) {
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        }
-    });
-
     function getStoredPass() { return sessionStorage.getItem('admin_password'); }
 
     async function handleLogin() {
         const password = document.getElementById('adminPassInput').value;
+        console.log('Attempting login with password:', password);
+        
+        if (!password) {
+            document.getElementById('loginError').style.display = 'block';
+            document.getElementById('loginError').innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>សូមបញ្ចូលលេខសម្ងាត់!';
+            return;
+        }
+        
         try {
             const res = await fetch(`${API}/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
             });
+            
+            console.log('Login response status:', res.status);
+            
             if (res.ok) {
                 sessionStorage.setItem('admin_password', password);
                 checkAuthStatus();
             } else {
                 document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginError').innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>លេខសម្ងាត់មិនត្រឹមត្រូវ!';
             }
-        } catch (e) { alert("Error connecting to server."); }
+        } catch (e) { 
+            console.error('Login error:', e);
+            alert("Error connecting to server: " + e.message + "\n\nClick 'Test Mode' button to skip login and test the interface."); 
+        }
+    }
+
+    function testModeLogin() {
+        console.log('Test mode activated - bypassing login');
+        sessionStorage.setItem('admin_password', 'test_mode');
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('mainDashboard').style.display = 'block';
+        
+        // Show test data
+        displayOrders([
+            {
+                id: 'test1',
+                timestamp: '10:30 AM',
+                gmail: 'test@gmail.com',
+                skin_name: 'M416 Glacier',
+                amount: '$25.00',
+                status: 'Pending'
+            },
+            {
+                id: 'test2',
+                timestamp: '11:45 AM',
+                gmail: 'demo@gmail.com',
+                skin_name: 'AKM Golden',
+                amount: '$35.00',
+                status: 'Completed'
+            },
+            {
+                id: 'test3',
+                timestamp: '02:15 PM',
+                gmail: 'user@gmail.com',
+                skin_name: 'Kar98 Desert',
+                amount: '$20.00',
+                status: 'Failed'
+            }
+        ]);
+        
+        alert('🧪 Test Mode Activated!\n\nYou can now test the interface with sample data.\n\nNote: Actions won\'t actually send emails in test mode.');
     }
 
     function checkAuthStatus() {
         const pass = getStoredPass();
+        console.log('Checking auth status, password:', pass ? 'exists' : 'not found');
         if (pass) {
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('mainDashboard').style.display = 'block';
             fetchOrders();
             setInterval(fetchOrders, 40000);
+        } else {
+            console.log('No password found, showing login');
         }
     }
 
@@ -897,15 +916,8 @@
         displayOrders(filtered);
     }
 
-    function createStyledEmailHTML(type, skinName, gmail, downloadLink = '') {
-        const isSuccess = type === 'success';
-        const headerGradient = isSuccess 
-            ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
-            : 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
-        const icon = isSuccess ? '✅' : '❌';
-        const title = isSuccess ? 'ការទិញបានជោគជ័យ' : 'ការទិញបានបរាជ័យ';
-        const statusText = isSuccess ? 'ជោគជ័យ' : 'បរាជ័យ';
-        
+    // Generate HTML Email Template for Success
+    function generateSuccessEmailHTML(skinName, gmail, downloadLink) {
         return `
 <!DOCTYPE html>
 <html>
@@ -913,136 +925,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f5f7fa; }
-        .email-container { max-width: 600px; margin: 30px auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
-        .header { background: ${headerGradient}; padding: 40px 30px; text-align: center; color: white; }
-        .header-icon { font-size: 60px; margin-bottom: 15px; }
-        .header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
-        .content { padding: 40px 30px; }
-        .status-badge { display: inline-block; padding: 12px 30px; border-radius: 50px; font-weight: 700; font-size: 16px; margin: 20px 0; background: ${headerGradient}; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .info-box { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%); border-left: 4px solid; border-image: ${headerGradient} 1; padding: 20px; border-radius: 12px; margin: 25px 0; }
-        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .info-row:last-child { border-bottom: none; }
-        .info-label { font-weight: 700; color: #667eea; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .info-value { font-weight: 600; color: #2d3748; font-size: 15px; }
-        .download-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 15px; text-align: center; margin: 30px 0; }
-        .download-button { display: inline-block; background: white; color: #667eea; padding: 16px 40px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); transition: transform 0.3s; }
-        .download-button:hover { transform: translateY(-3px); }
-        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 12px; margin: 25px 0; }
-        .warning-box p { margin: 8px 0; color: #856404; font-size: 14px; line-height: 1.7; }
-        .failure-reason { background: #ffe6e6; border-left: 4px solid #eb3349; padding: 20px; border-radius: 12px; margin: 25px 0; }
-        .failure-reason h3 { color: #eb3349; margin: 0 0 15px 0; font-size: 18px; }
-        .failure-reason ul { margin: 10px 0; padding-left: 25px; }
-        .failure-reason li { color: #721c24; margin: 8px 0; line-height: 1.6; }
-        .next-steps { background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 25px; border-radius: 12px; margin: 25px 0; }
-        .next-steps h3 { color: #667eea; margin: 0 0 15px 0; font-size: 18px; }
-        .next-steps ol { margin: 10px 0; padding-left: 25px; }
-        .next-steps li { color: #2d3748; margin: 10px 0; line-height: 1.8; font-weight: 500; }
-        .footer { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 30px; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); }
-        .footer-logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
-        .footer p { margin: 8px 0; color: #718096; font-size: 13px; line-height: 1.6; }
-        .social-links { margin: 20px 0; }
-        .social-links a { display: inline-block; margin: 0 8px; color: #667eea; text-decoration: none; font-size: 20px; }
-        @media (max-width: 600px) {
-            .email-container { margin: 10px; border-radius: 15px; }
-            .header { padding: 30px 20px; }
-            .header h1 { font-size: 24px; }
-            .content { padding: 25px 20px; }
-            .info-row { flex-direction: column; align-items: flex-start; gap: 5px; }
-        }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .email-container { max-width: 600px; margin: 40px auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .email-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; color: white; }
+        .email-header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        .email-header p { margin: 10px 0 0; font-size: 14px; opacity: 0.9; }
+        .success-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto; font-size: 40px; }
+        .email-body { padding: 40px 30px; }
+        .status-badge { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 12px 24px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 14px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3); }
+        .info-box { background: #f8f9fa; border-left: 4px solid #667eea; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .info-box p { margin: 8px 0; font-size: 14px; color: #495057; }
+        .info-box strong { color: #667eea; font-weight: 700; }
+        .download-button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 16px; margin: 20px 0; box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4); transition: all 0.3s; }
+        .download-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5); }
+        .warning-box { background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border: 2px solid #667eea; padding: 20px; border-radius: 12px; margin: 25px 0; }
+        .warning-box h3 { color: #667eea; margin: 0 0 15px; font-size: 16px; font-weight: 800; }
+        .warning-box ul { margin: 0; padding-left: 20px; }
+        .warning-box li { color: #495057; margin: 8px 0; font-size: 14px; }
+        .email-footer { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; color: white; }
+        .email-footer p { margin: 5px 0; font-size: 14px; opacity: 0.9; }
+        .divider { height: 2px; background: linear-gradient(90deg, transparent, #667eea, transparent); margin: 30px 0; }
     </style>
 </head>
 <body>
     <div class="email-container">
-        <div class="header">
-            <div class="header-icon">${icon}</div>
-            <h1>${title}</h1>
+        <div class="email-header">
+            <div class="success-icon">✓</div>
+            <h1>IRRA STORE</h1>
+            <p>Your Trusted Gaming Partner</p>
         </div>
         
-        <div class="content">
+        <div class="email-body">
             <div style="text-align: center;">
-                <div class="status-badge">${icon} ${statusText.toUpperCase()}</div>
+                <span class="status-badge">🎉 ការទិញបានជោគជ័យ</span>
             </div>
             
-            <p style="font-size: 16px; color: #2d3748; line-height: 1.8; margin: 25px 0;">សូមជម្រាបជូន,</p>
+            <h2 style="color: #667eea; text-align: center; font-size: 24px; margin: 20px 0;">សូមជម្រាបជូន,</h2>
             
-            <p style="font-size: 16px; color: #2d3748; line-height: 1.8;">
-                ${isSuccess 
-                    ? '✅ ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យ! យើងរីករាយដែលបានបម្រើអ្នក។' 
-                    : '❌ ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ។ សូមអភ័យទោសចំពោះភាពរអាក់រអួលនេះ។'}
+            <p style="font-size: 16px; color: #495057; line-height: 1.8; text-align: center;">
+                ការបញ្ជាទិញរបស់អ្នកបានបញ្ចប់ដោយជោគជ័យ!
             </p>
             
             <div class="info-box">
-                <div class="info-row">
-                    <span class="info-label">📦 ផលិតផល</span>
-                    <span class="info-value">${skinName}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">📧 Gmail</span>
-                    <span class="info-value">${gmail}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">📅 កាលបរិច្ឆេទ</span>
-                    <span class="info-value">${new Date().toLocaleDateString('km-KH')}</span>
-                </div>
+                <p><strong>📦 ផលិតផល:</strong> ${skinName}</p>
+                <p><strong>📧 Gmail:</strong> ${gmail}</p>
             </div>
             
-            ${isSuccess ? `
-            <div class="download-section">
-                <p style="color: white; font-size: 18px; font-weight: 700; margin: 0 0 20px 0;">🎁 ទាញយកឥឡូវនេះ</p>
-                <a href="${downloadLink}" class="download-button">
-                    📥 DOWNLOAD FILE
-                </a>
-                <p style="color: rgba(255,255,255,0.9); font-size: 13px; margin: 20px 0 0 0;">សូមចុចលើប៊ូតុងខាងលើដើម្បីទាញយកឯកសាររបស់អ្នក</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${downloadLink}" class="download-button">🔗 ចុចទីនេះដើម្បី Download</a>
             </div>
+            
+            <div class="divider"></div>
             
             <div class="warning-box">
-                <p><strong>⚠️ សំខាន់:</strong></p>
-                <p>• Link នេះត្រូវបានបង្កើតសម្រាប់តែអ្នកប៉ុណ្ណោះ</p>
-                <p>• សូមរក្សាទុក Link សម្រាប់ការប្រើប្រាស់នាពេលអនាគត</p>
-                <p>• ប្រសិនបើមានបញ្ហា សូមទាក់ទងមកយើងខ្ញុំភ្លាមៗ</p>
-            </div>
-            ` : `
-            <div class="failure-reason">
-                <h3>🔍 មូលហេតុបរាជ័យ</h3>
+                <h3>⚠️ សំខាន់៖</h3>
                 <ul>
-                    <li>មិនមានការបង់ប្រាក់ត្រឹមត្រូវ</li>
-                    <li>ព័ត៌មានមិនពេញលេញ ឬមិនត្រឹមត្រូវ</li>
-                    <li>ផលិតផលអស់ស្តុក</li>
+                    <li>Link នេះត្រូវបានបង្កើតសម្រាប់តែអ្នកប៉ុណ្ណោះ</li>
+                    <li>សូមរក្សាទុក Link សម្រាប់ការប្រើប្រាស់នាពេលអនាគត</li>
+                    <li>ប្រសិនបើមានបញ្ហា សូមទាក់ទងមកយើងខ្ញុំ</li>
                 </ul>
             </div>
             
-            <div class="next-steps">
-                <h3>💡 អ្វីដែលអ្នកអាចធ្វើបន្ទាប់</h3>
-                <ol>
-                    <li>ពិនិត្យមើលការបង់ប្រាក់របស់អ្នក</li>
-                    <li>ធ្វើការបញ្ជាទិញម្តងទៀតជាមួយព័ត៌មានត្រឹមត្រូវ</li>
-                    <li>ទាក់ទងមកកាន់យើងខ្ញុំសម្រាប់ជំនួយបន្ថែម</li>
-                </ol>
-            </div>
-            `}
-            
-            <p style="font-size: 16px; color: #2d3748; line-height: 1.8; margin: 30px 0 0 0; text-align: center;">
-                ${isSuccess 
-                    ? '💝 <strong>សូមអរគុណ</strong>ដែលបានជឿទុកចិត្ត និងគាំទ្រ <strong>IRRA STORE</strong>!' 
-                    : '🙏 យើងខ្ញុំសូមទោសចំពោះភាពរអាក់រអួលនេះ ហើយសង្ឃឹមថាអ្នកនឹងបន្តគាំទ្រយើងខ្ញុំ។'}
+            <p style="font-size: 16px; color: #667eea; text-align: center; font-weight: 700; margin-top: 30px;">
+                💝 សូមអរគុណដែលបានជឿទុកចិត្ត និងគាំទ្រ IRRA STORE!
             </p>
         </div>
         
-        <div class="footer">
-            <div class="footer-logo">🏪 IRRA STORE</div>
-            <p><strong>${isSuccess ? 'Your Trusted Gaming Partner' : 'Customer Support Team'}</strong></p>
-            <p>📧 Email: support@irrastore.com | 📱 Telegram: @IrraStore</p>
-            <div class="social-links">
-                <a href="#">📘</a>
-                <a href="#">📷</a>
-                <a href="#">✈️</a>
-            </div>
-            <p style="font-size: 12px; margin-top: 15px;">© 2024 IRRA STORE. All rights reserved.</p>
+        <div class="email-footer">
+            <p style="font-weight: 700; font-size: 16px; margin-bottom: 10px;">🏪 IRRA STORE</p>
+            <p>Your Trusted Gaming Partner</p>
+            <p style="font-size: 12px; opacity: 0.8; margin-top: 15px;">© 2024 IRRA STORE. All rights reserved.</p>
         </div>
     </div>
 </body>
-</html>`;
+</html>
+        `.trim();
+    }
+
+    // Generate HTML Email Template for Failed
+    function generateFailedEmailHTML(skinName, gmail) {
+        return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
+        .email-container { max-width: 600px; margin: 40px auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .email-header { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); padding: 40px 30px; text-align: center; color: white; }
+        .email-header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        .email-header p { margin: 10px 0 0; font-size: 14px; opacity: 0.9; }
+        .failed-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto; font-size: 40px; }
+        .email-body { padding: 40px 30px; }
+        .status-badge { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; padding: 12px 24px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 14px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(235, 51, 73, 0.3); }
+        .info-box { background: #f8f9fa; border-left: 4px solid #eb3349; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .info-box p { margin: 8px 0; font-size: 14px; color: #495057; }
+        .info-box strong { color: #eb3349; font-weight: 700; }
+        .reason-box { background: linear-gradient(135deg, rgba(235, 51, 73, 0.1) 0%, rgba(244, 92, 67, 0.1) 100%); border: 2px solid #eb3349; padding: 20px; border-radius: 12px; margin: 25px 0; }
+        .reason-box h3 { color: #eb3349; margin: 0 0 15px; font-size: 16px; font-weight: 800; }
+        .reason-box ul { margin: 0; padding-left: 20px; }
+        .reason-box li { color: #495057; margin: 8px 0; font-size: 14px; }
+        .steps-box { background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0; }
+        .steps-box h3 { color: #667eea; margin: 0 0 15px; font-size: 16px; font-weight: 800; }
+        .steps-box ol { margin: 0; padding-left: 20px; }
+        .steps-box li { color: #495057; margin: 12px 0; font-size: 14px; font-weight: 500; }
+        .email-footer { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); padding: 30px; text-align: center; color: white; }
+        .email-footer p { margin: 5px 0; font-size: 14px; opacity: 0.9; }
+        .divider { height: 2px; background: linear-gradient(90deg, transparent, #eb3349, transparent); margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="failed-icon">✗</div>
+            <h1>IRRA STORE</h1>
+            <p>Your Trusted Gaming Partner</p>
+        </div>
+        
+        <div class="email-body">
+            <div style="text-align: center;">
+                <span class="status-badge">❌ ការទិញបានបរាជ័យ</span>
+            </div>
+            
+            <h2 style="color: #eb3349; text-align: center; font-size: 24px; margin: 20px 0;">សូមជម្រាបជូន,</h2>
+            
+            <p style="font-size: 16px; color: #495057; line-height: 1.8; text-align: center;">
+                ការបញ្ជាទិញរបស់អ្នកត្រូវបានបដិសេធ
+            </p>
+            
+            <div class="info-box">
+                <p><strong>📦 ផលិតផល:</strong> ${skinName}</p>
+                <p><strong>📧 Gmail:</strong> ${gmail}</p>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="reason-box">
+                <h3>🔍 មូលហេតុ:</h3>
+                <ul>
+                    <li>មិនមានការបង់ប្រាក់ត្រឹមត្រូវ</li>
+                    <li>ឬព័ត៌មានមិនពេញលេញ</li>
+                </ul>
+            </div>
+            
+            <div class="steps-box">
+                <h3>💡 អ្វីដែលអ្នកអាចធ្វើបន្ទាប់:</h3>
+                <ol>
+                    <li>ពិនិត្យមើលការបង់ប្រាក់របស់អ្នក</li>
+                    <li>ធ្វើការបញ្ជាទិញម្តងទៀត</li>
+                    <li>ទាក់ទងមកកាន់យើងខ្ញុំសម្រាប់ជំនួយ</li>
+                </ol>
+            </div>
+            
+            <p style="font-size: 16px; color: #495057; text-align: center; margin-top: 30px; line-height: 1.8;">
+                🙏 យើងខ្ញុំសូមទោសចំពោះភាពរអាក់រអួលនេះ។<br>
+                <strong style="color: #eb3349;">សូមព្យាយាមម្តងទៀត ឬទាក់ទងមកកាន់យើងខ្ញុំ!</strong>
+            </p>
+        </div>
+        
+        <div class="email-footer">
+            <p style="font-weight: 700; font-size: 16px; margin-bottom: 10px;">🏪 IRRA STORE</p>
+            <p>Customer Support Team</p>
+            <p style="font-size: 12px; opacity: 0.8; margin-top: 15px;">© 2024 IRRA STORE. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+        `.trim();
     }
 
     async function sendSuccess(id, gmail, skinName) {
@@ -1057,7 +1107,7 @@
         
         if (link) {
             const subject = "🎉 ការទិញរបស់អ្នកបានជោគជ័យ - IRRA STORE";
-            const htmlMessage = createStyledEmailHTML('success', skinName, gmail, link);
+            const htmlMessage = generateSuccessEmailHTML(skinName, gmail, link);
             postResponse(id, gmail, htmlMessage, subject);
         }
     }
@@ -1074,7 +1124,7 @@
         
         if (ok) {
             const subject = "❌ ការទិញរបស់អ្នកបានបរាជ័យ - IRRA STORE";
-            const htmlMessage = createStyledEmailHTML('failed', skinName, gmail);
+            const htmlMessage = generateFailedEmailHTML(skinName, gmail);
             postResponse(id, gmail, htmlMessage, subject);
         }
     }
@@ -1153,10 +1203,15 @@
     }
 
     window.onload = function() {
+        console.log('Page loaded, initializing...');
         checkAuthStatus();
         document.getElementById('adminPassInput').addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') handleLogin(); 
+            if (e.key === 'Enter') {
+                console.log('Enter key pressed');
+                handleLogin();
+            }
         });
+        console.log('Event listeners attached');
     };
 </script>
 </body>
