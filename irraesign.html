@@ -18,47 +18,73 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Hanuman', sans-serif; }
 
-        body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px);
-            background-size: 24px 24px; /* Dotted background pattern */
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        /* --- កែប្រែផ្នែក Body ដើម្បីទុកកន្លែងឱ្យ Header --- */
+body {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px);
+    background-size: 24px 24px;
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px; /* បន្ថែម Padding ខាងលើដើម្បីកុំឱ្យ Header បាំង Content */
+}
 
-        /* --- ផ្នែក Header Navbar ថ្មី --- */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .nav-logo { 
-            font-weight: 800; 
-            font-size: 1.4rem; 
-            color: var(--primary-blue); 
-            letter-spacing: -0.5px;
-        }
-        .btn-contact {
-            background: #e1effe;
-            color: var(--primary-blue);
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-        .btn-contact:hover { background: #d0e5ff; transform: translateY(-1px); }
+/* --- កែប្រែ Navbar ឱ្យនៅជាប់មួយកន្លែង (Fixed Header) --- */
+.navbar {
+    position: fixed; /* ធ្វើឱ្យជាប់ខាងលើ */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px; /* កំណត់កម្ពស់ឱ្យថេរ */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    max-width: 100% !important; /* ឱ្យវាលាតពេញទទឹងអេក្រង់ */
+    background: rgba(255, 255, 255, 0.8); /* ពណ៌សថ្លា */
+    backdrop-filter: blur(15px); /* Effect ព្រាលៗបែប iPhone */
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1000; /* ឱ្យវានៅលើគេជានិច្ច */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
 
+/* --- កែសម្រួល Logo និង Button ក្នុង Navbar ឱ្យសមរម្យ --- */
+.nav-logo { 
+    font-weight: 800; 
+    font-size: 1.2rem; 
+    color: var(--primary-blue); 
+    letter-spacing: -0.5px;
+}
+
+.btn-contact {
+    background: #e1effe;
+    color: var(--primary-blue);
+    padding: 8px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+/* --- ការកំណត់សម្រាប់អេក្រង់ iPhone (Mobile) --- */
+@media (max-width: 768px) {
+    .navbar {
+        height: 65px;
+        padding: 0 15px;
+    }
+    .nav-logo {
+        font-size: 1.1rem;
+    }
+    .btn-contact {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+}
         /* Card Layout */
         .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         
