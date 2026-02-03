@@ -9,26 +9,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #0072b5 0%, #00bcd4 100%);
+            --primary-blue: #0072b5;
+            --primary-cyan: #00bcd4;
             --bg-color: #f8f9fb;
             --text-main: #2d3748;
             --text-muted: #718096;
-            --card-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Hanuman', sans-serif; }
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px);
+            background-size: 24px 24px; /* Dotted background pattern */
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Navbar */
+        /* --- ផ្នែក Header Navbar ថ្មី --- */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -38,119 +38,127 @@
             margin: 0 auto;
             width: 100%;
         }
-        .nav-logo { font-weight: 800; font-size: 1.2rem; color: #0072b5; }
-        .btn-contact {
-            background: #e1effe; color: #0072b5;
-            padding: 8px 16px; border-radius: 20px;
-            text-decoration: none; font-size: 13px; font-weight: 600;
-            display: flex; align-items: center; gap: 8px; transition: 0.3s;
+        .nav-logo { 
+            font-weight: 800; 
+            font-size: 1.4rem; 
+            color: var(--primary-blue); 
+            letter-spacing: -0.5px;
         }
+        .btn-contact {
+            background: #e1effe;
+            color: var(--primary-blue);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+        .btn-contact:hover { background: #d0e5ff; transform: translateY(-1px); }
 
         /* Card Layout */
         .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        
         .card {
-            background: white; width: 100%; max-width: 460px;
-            border-radius: 35px; padding: 40px 30px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(255,255,255,0.7);
-            position: relative; text-align: center;
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 35px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,1);
+            position: relative;
+            text-align: center;
         }
+        
+        /* បន្ទាត់ពណ៌ខៀវនៅខាងលើ Card */
         .card::before {
-            content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 4px;
-            background: var(--primary-gradient); border-radius: 0 0 10px 10px;
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 35px 35px 0 0;
         }
 
-        .profile-img {
-            width: 85px; height: 85px;
-            background: var(--primary-gradient); border-radius: 50%;
-            margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
-            border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+        /* Logo រង្វង់មូល */
+        .product-icon {
+            width: 95px; height: 95px;
+            background: linear-gradient(135deg, #0072b5 0%, #00bcd4 100%);
+            border-radius: 50%;
+            margin: 10px auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 114, 181, 0.2);
+            overflow: hidden;
         }
-        .profile-img img { width: 50px; filter: brightness(0) invert(1); }
+        .logo-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .title { font-size: 22px; font-weight: 800; margin-bottom: 5px; color: #1a202c; }
+        .title { font-size: 24px; font-weight: 800; color: #1a202c; margin-bottom: 5px; }
         .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
 
-        /* Feature List */
-        .features {
-            background: #fafafa; border: 1px dashed #e2e8f0;
-            border-radius: 20px; padding: 15px; margin-bottom: 25px; text-align: left;
-        }
-        .feature-item {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 13px; color: #4a5568; margin-bottom: 8px;
-        }
-        .feature-item i { color: #38a169; }
+        .features { background: #fafafa; border: 1px dashed #e2e8f0; border-radius: 20px; padding: 18px; margin-bottom: 25px; text-align: left; }
+        .feature-item { display: flex; align-items: center; gap: 12px; font-size: 13px; color: #4a5568; margin-bottom: 10px; }
+        .feature-item i { color: #4cd964; font-size: 14px; }
+        .feature-item:last-child { margin-bottom: 0; }
 
-        /* Single Price Box */
-        .amount-box {
-            background: #f8fafc; border-radius: 20px;
-            padding: 20px 25px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 25px; border: 1px solid #edf2f7;
-        }
-        .amount-label { color: var(--text-muted); font-size: 14px; font-weight: 500; }
-        .amount-value { font-size: 26px; font-weight: 800; color: #0072b5; }
+        .amount-box { background: #f4f7f9; border-radius: 18px; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border: 1px solid #edf2f7; }
+        .amount-label { color: #718096; font-size: 16px; font-family: 'Hanuman'; }
+        .amount-value { font-size: 28px; font-weight: 800; color: #005a92; }
 
-        /* Input UDID */
         .input-group { text-align: left; margin-bottom: 20px; }
-        .input-label { font-size: 11px; font-weight: 700; color: #4a5568; margin-bottom: 8px; display: block; text-transform: uppercase; }
+        .input-label { font-size: 12px; font-weight: 700; color: #4a5568; margin-bottom: 8px; display: block; }
+        .input-field { width: 100%; padding: 16px 15px 16px 45px; border-radius: 15px; border: 1.5px solid #edf2f7; outline: none; transition: 0.3s; font-size: 15px; }
+        .input-field:focus { border-color: #42a5f5; }
         .input-wrapper { position: relative; }
-        .input-wrapper i { position: absolute; left: 18px; top: 18px; color: var(--text-muted); }
-        .input-field {
-            width: 100%; padding: 15px 15px 15px 45px; border-radius: 15px;
-            border: 2px solid #edf2f7; outline: none; font-size: 15px; transition: 0.3s;
-        }
-        .input-field:focus { border-color: #00bcd4; }
+        .input-wrapper i { position: absolute; left: 18px; top: 18px; color: #a0aec0; }
 
-        /* Terminal Style */
-        .terminal {
-            background: #1a202c; border-radius: 15px; padding: 15px;
-            color: #a0aec0; font-family: 'Courier New', monospace;
-            font-size: 12px; text-align: left; margin-bottom: 25px; position: relative;
-        }
-        .terminal-header { font-size: 9px; color: #4a5568; margin-bottom: 5px; display: block; }
-        .terminal-content { display: flex; align-items: center; gap: 8px; color: #fff; }
+        .terminal { background: #1a202c; border-radius: 15px; padding: 15px; text-align: left; margin-bottom: 25px; }
+        .terminal-header { font-size: 9px; color: #4a5568; margin-bottom: 5px; font-weight: bold; letter-spacing: 1px; }
+        .terminal-content { color: #cbd5e1; font-family: 'Courier New', monospace; font-size: 12.5px; display: flex; align-items: center; gap: 10px; }
 
-        /* Checkbox */
-        .terms-box {
-            display: flex; gap: 10px; align-items: flex-start;
-            text-align: left; font-size: 11px; color: var(--text-muted);
-            margin-bottom: 30px; cursor: pointer;
-        }
+        .terms-box { display: flex; gap: 12px; align-items: flex-start; text-align: left; font-size: 13px; color: #718096; margin-bottom: 30px; cursor: pointer; font-family: 'Hanuman'; line-height: 1.6; }
+        .terms-box input { width: 22px; height: 22px; margin-top: 2px; cursor: pointer; }
 
-        /* Pay Button */
         .btn-pay {
-            width: 100%; background: var(--primary-gradient); color: white;
-            padding: 18px; border: none; border-radius: 18px;
-            font-size: 16px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+            width: 100%; background: linear-gradient(to right, #0072b5, #00bcd4); color: white; padding: 18px; border: none; border-radius: 15px; font-size: 16px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; opacity: 0.3; pointer-events: none;
         }
-        .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 188, 212, 0.3); }
+        .btn-pay.active { opacity: 1; pointer-events: auto; box-shadow: 0 10px 20px rgba(0, 114, 181, 0.2); }
 
-        /* Modals */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 1000; justify-content:center; align-items:center; padding: 20px; }
+        .footer { padding-bottom: 40px; font-size: 12px; color: var(--text-muted); text-align: center; }
+        .footer a { color: var(--primary-blue); text-decoration: none; margin: 0 5px; }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 1000; justify-content:center; align-items:center; padding: 20px; }
         .modal.active { display: flex; }
-        .m-card { background: white; border-radius: 30px; padding: 35px; width: 100%; max-width: 400px; text-align: center; }
-        .qr-img { width: 100%; border-radius: 20px; border: 1px solid #eee; margin-bottom: 20px; }
-
-        .footer { padding: 30px; font-size: 12px; color: var(--text-muted); text-align: center; }
+        .m-card { background: white; border-radius: 30px; padding: 35px; width: 100%; max-width: 420px; text-align: center; }
+        .qr-img { width: 100%; border-radius: 20px; margin-bottom: 20px; border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
+    <!-- Header Navbar -->
     <nav class="navbar">
         <div class="nav-logo">Irra Esign</div>
-        <a href="https://t.me/irra_11" class="btn-contact"><i class="fab fa-telegram"></i> Contact Admin</a>
+        <a href="https://t.me/irra_11" class="btn-contact">
+            <i class="fab fa-telegram-plane"></i> Contact Admin
+        </a>
     </nav>
 
     <div class="container">
-        <div class="card animate__animated animate__fadeIn">
-            <div class="profile-img">
-                <img src="https://esign.yyy.moe/img/logo.png" alt="Logo">
+        <div class="card animate__animated animate__fadeInUp">
+            <!-- Logo Section -->
+            <div class="product-icon">
+                <img src="https://i.pinimg.com/474x/da/83/78/da8378a6ddba21823631bd644bee4266.jpg" alt="Logo" class="logo-img">
             </div>
             
-            <h2 class="title">Developer Certificate</h2>
+            <h2 class="title">Certificate</h2>
             <p class="subtitle">P12 & Mobileprovision for iOS</p>
 
             <div class="features">
@@ -159,16 +167,15 @@
                 <div class="feature-item"><i class="fas fa-bolt"></i> Instant Delivery via Email</div>
             </div>
 
-            <!-- Single Price Display -->
             <div class="amount-box">
-                <span class="amount-label">Total Amount</span>
+                <span class="amount-label">តម្លៃសរុប</span>
                 <span class="amount-value">$10.00</span>
             </div>
 
             <div class="input-group">
-                <label class="input-label">Device UDID</label>
+                <label class="input-label">DEVICE UDID</label>
                 <div class="input-wrapper">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-mobile-screen-button"></i>
                     <input type="text" id="udidInput" class="input-field" placeholder="Paste UDID here..." oninput="handleUDID(this.value)">
                 </div>
             </div>
@@ -176,47 +183,49 @@
             <div class="terminal">
                 <span class="terminal-header">DETECTED UDID</span>
                 <div class="terminal-content">
-                    <i class="fas fa-chevron-right" style="font-size: 10px; color: #00bcd4;"></i>
+                    <span style="color: var(--primary-cyan); font-weight: bold;">>_</span> 
                     <span id="udidStatus">Waiting for input...</span>
                 </div>
             </div>
 
             <label class="terms-box">
-                <input type="checkbox" id="termsCheck">
-                <span>I confirm this UDID is correct. I understand that certificates are tied to this UDID and are non-refundable.</span>
+                <input type="checkbox" id="termsCheck" onchange="validateForm()">
+                <span>ខ្ញុំសូមបញ្ជាក់ថា UDID នេះពិតជាត្រឹមត្រូវ។ ខ្ញុំយល់ថាវិញ្ញាបនបត្រនឹងត្រូវភ្ជាប់ជាមួយ UDID នេះ ហើយមិនអាចប្តូរប្រាក់វិញបានទេ។</span>
             </label>
 
-            <button class="btn-pay" onclick="proceedToEmail()">
-                Pay with ABA KHQR <i class="fas fa-arrow-right"></i>
+            <button id="payBtn" class="btn-pay" onclick="proceedToEmail()">
+                Pay with KHQR <i class="fas fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
     <!-- Email Modal -->
     <div id="emailModal" class="modal">
-        <div class="m-card">
-            <i class="fas fa-envelope" style="font-size: 40px; color: #0072b5; margin-bottom: 15px;"></i>
-            <h3>Enter Your Email</h3>
-            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">We'll send files to this email.</p>
-            <input type="email" id="emailInput" class="input-field" placeholder="yourname@gmail.com" style="padding-left: 15px;">
-            <button class="btn-pay" style="margin-top: 20px;" onclick="proceedToQR()">Next Step</button>
+        <div class="m-card animate__animated animate__zoomIn">
+            <i class="fas fa-envelope-circle-check" style="font-size: 50px; color: var(--primary-blue); margin-bottom: 20px;"></i>
+            <h4 class="fw-bold">អ៊ីមែលរបស់អ្នក</h4>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 25px;">យើងនឹងផ្ញើ File ទៅកាន់អាសយដ្ឋាននេះ</p>
+            <input type="email" id="emailInput" class="input-field" placeholder="yourname@gmail.com" style="padding-left: 20px;">
+            <button class="btn-pay active" style="margin-top: 15px;" onclick="proceedToQR()">បន្តទៅកាន់ការបង់ប្រាក់</button>
         </div>
     </div>
 
     <!-- QR Modal -->
     <div id="qrModal" class="modal">
-        <div class="m-card">
-            <h3>Scan to Pay</h3>
-            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">Price: <b>$10.00</b></p>
+        <div class="m-card animate__animated animate__zoomIn">
+            <h4 class="fw-bold mb-3">ស្កេនដើម្បីបង់ប្រាក់</h4>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">តម្លៃសរុប: <b style="color: var(--primary-blue); font-size: 18px;">$10.00</b></p>
             <img src="https://i.pinimg.com/736x/e5/fd/31/e5fd3186e185c6d235f024103d091c37.jpg" class="qr-img">
-            <p style="font-size: 12px; color: #0072b5; margin-bottom: 10px; text-align: left;">Upload Bank Receipt:</p>
-            <input type="file" id="receiptFile" accept="image/*" style="font-size: 12px; margin-bottom: 20px;">
-            <button class="btn-pay" id="submitBtn" onclick="submitFinalOrder()">Confirm & Send</button>
+            <p style="font-size: 12px; color: var(--primary-blue); margin-bottom: 10px; text-align: left; font-weight: 600;">Upload វិក្កយបត្របង់ប្រាក់:</p>
+            <input type="file" id="receiptFile" accept="image/*" style="font-size: 12px; margin-bottom: 20px; width: 100%;">
+            <button class="btn-pay active" id="submitBtn" onclick="submitFinalOrder()">បញ្ជាក់ និងផ្ញើភស្តុតាង</button>
+            <button class="btn btn-sm btn-link mt-2 text-muted" style="text-decoration:none; font-size:12px;" onclick="location.reload()">បោះបង់</button>
         </div>
     </div>
 
     <div class="footer">
         <p>© 2026 <b>Irra Esign</b>. All rights reserved.</p>
+        <p style="margin-top: 5px;"><a href="#">Terms</a> • <a href="#">Privacy</a></p>
     </div>
 
     <script>
@@ -225,29 +234,38 @@
         function handleUDID(val) {
             const status = document.getElementById('udidStatus');
             status.innerText = val.length > 5 ? val : "Waiting for input...";
-            status.style.color = val.length > 5 ? "#00bcd4" : "#fff";
+            status.style.color = val.length > 5 ? "#00bcd4" : "#64748b";
+            validateForm();
+        }
+
+        function validateForm() {
+            const udid = document.getElementById('udidInput').value;
+            const check = document.getElementById('termsCheck').checked;
+            const btn = document.getElementById('payBtn');
+            if(udid.length >= 20 && check) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         }
 
         function proceedToEmail() {
-            const udid = document.getElementById('udidInput').value;
-            if(udid.length < 20) return alert("Please enter a valid UDID!");
-            if(!document.getElementById('termsCheck').checked) return alert("Please confirm the terms!");
             document.getElementById('emailModal').classList.add('active');
         }
 
         function proceedToQR() {
             const email = document.getElementById('emailInput').value;
-            if(!email.includes('@')) return alert("Enter a valid email!");
+            if(!email.includes('@')) return alert("សូមបញ្ចូលអ៊ីមែលឱ្យបានត្រឹមត្រូវ!");
             document.getElementById('emailModal').classList.remove('active');
             document.getElementById('qrModal').classList.add('active');
         }
 
         async function submitFinalOrder() {
             const file = document.getElementById('receiptFile').files[0];
-            if(!file) return alert("Please upload your receipt!");
+            if(!file) return alert("សូម Upload រូបភាពវិក្កយបត្រ!");
 
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "Processing...";
+            btn.disabled = true; btn.innerText = "កំពុងបញ្ជូន...";
 
             const fd = new FormData();
             fd.append('udid', document.getElementById('udidInput').value);
@@ -259,14 +277,14 @@
             try {
                 const res = await fetch(API + '/verify-payment', { method: 'POST', body: fd });
                 if(res.ok) {
-                    alert("✅ Success! Your order has been sent.");
+                    alert("✅ រួចរាល់! ការបញ្ជាទិញរបស់អ្នកត្រូវបានបញ្ជូនទៅកាន់ Admin។");
                     location.reload();
                 } else {
-                    alert("Error submitting. Please try again.");
+                    alert("មានបញ្ហាក្នុងការបញ្ជូន។ សូមព្យាយាមម្តងទៀត!");
                     btn.disabled = false; btn.innerText = "Confirm & Send";
                 }
             } catch(e) {
-                alert("✅ Success! Your order has been sent.");
+                alert("ជោគជ័យ! (Offline Mode)");
                 location.reload();
             }
         }
