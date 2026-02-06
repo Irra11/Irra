@@ -1,194 +1,142 @@
-// Global variables to track state
+// Global variables
 let selectedProduct = null;
 let totalAmount = 0;
-const API_URL = 'https://adminpanel-jtf9.onrender.com'; // Your Python Backend URL
+const API_URL = 'https://adminpanel-jtf9.onrender.com'; // Python Backend
 
 document.addEventListener('DOMContentLoaded', function() {
-    // --- 1. INITIALIZATION ---
+    // --- 1. SETUP FOOTER DISPLAY ---
+    setupFooterLayout();
+
+    // --- 2. INITIALIZATION ---
     const gmailInput = document.getElementById('gmail_address');
     const checkoutButton = document.getElementById('checkout_button');
-    const searchButton = document.querySelector('.action-btn .fa-search'); // Search Icon in Header
-
-    // Disable checkout initially
+    
+    // Disable button initially
     if (checkoutButton) checkoutButton.disabled = true;
 
-    // Initialize Checkout Bar
-    updateCheckoutBar();
-
-    // --- 2. SEARCH FUNCTIONALITY (NEW) ---
-    if (searchButton) {
-        // Find the parent button of the icon and add click event
-        searchButton.closest('button').addEventListener('click', createSearchOverlay);
-    }
-
-    // --- 3. GMAIL VALIDATION ---
+    // --- 3. EVENT LISTENERS ---
+    
+    // Gmail Input Listener (Updates footer in real-time)
     if (gmailInput) {
         gmailInput.addEventListener('input', function() {
             validateGmail();
-        });
-        
-        gmailInput.addEventListener('blur', function() {
-            validateGmail();
+            updateFooterUI(); // Update footer when typing
         });
     }
 
-    // --- 4. PRODUCT SELECTION ---
-    setupProductClickListeners();
+    // Search Button Logic
+    const searchButton = document.querySelector('.action-btn .fa-search');
+    if (searchButton) {
+        searchButton.closest('button').addEventListener('click', createSearchOverlay);
+    }
 
-    // --- 5. MOBILE MENU ---
+    // Mobile Menu
     setupMobileMenu();
+
+    // Setup Product Clicks
+    setupProductClickListeners();
 });
 
-// --- FUNCTION: Create Search Overlay ---
-function createSearchOverlay() {
-    // Check if overlay already exists
-    if (document.querySelector('.search-overlay')) return;
-
-    // Create Overlay HTML
-    const overlay = document.createElement('div');
-    overlay.className = 'search-overlay animate__animated animate__fadeIn';
-    overlay.innerHTML = `
-        <div class="search-container">
-            <div class="search-box-wrapper">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="search-input" placeholder="Search for skins (e.g., Fanny, Chou)..." autocomplete="off">
-                <button class="close-search"><i class="fas fa-times"></i></button>
-            </div>
-            <div id="search-results-container"></div>
-        </div>
-    `;
-
-    document.body.appendChild(overlay);
+// --- FUNCTION: Setup Footer HTML Structure ---
+function setupFooterLayout() {
+    const checkoutBarInfo = document.querySelector('.checkout-bar > div:first-child');
     
-    const input = document.getElementById('search-input');
-    const closeBtn = overlay.querySelector('.close-search');
-    const resultsContainer = document.getElementById('search-results-container');
-
-    // Focus input immediately
-    input.focus();
-
-    // Close Events
-    closeBtn.addEventListener('click', () => closeSearch(overlay));
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeSearch(overlay);
-    });
-
-    // Search Logic
-    input.addEventListener('input', function() {
-        const query = this.value.toLowerCase().trim();
-        resultsContainer.innerHTML = ''; // Clear previous results
-
-        if (query.length === 0) return;
-
-        // Get all products from the DOM
-        const allProducts = document.querySelectorAll('.product-card');
-        let matchCount = 0;
-
-        allProducts.forEach(card => {
-            const productName = card.querySelector('.product-name').textContent;
-            const productPrice = card.querySelector('.product-price').textContent;
-            const productImg = card.querySelector('.product-img').src;
-
-            // Check if name matches query
-            if (productName.toLowerCase().includes(query)) {
-                matchCount++;
-                
-                // Create Result Item
-                const resultItem = document.createElement('div');
-                resultItem.className = 'search-result-item';
-                resultItem.innerHTML = `
-                    <img src="${productImg}" alt="${productName}">
-                    <div class="result-info">
-                        <div class="result-name">${highlightMatch(productName, query)}</div>
-                        <div class="result-price">${productPrice}</div>
-                    </div>
-                `;
-
-                // Click to Select
-                resultItem.addEventListener('click', () => {
-                    closeSearch(overlay);
-                    // Scroll to product
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Trigger click on actual card
-                    card.click();
-                    // Add temporary highlight effect
-                    card.style.border = "3px solid #2979ff";
-                    setTimeout(() => card.style.border = "", 2000);
-                });
-
-                resultsContainer.appendChild(resultItem);
-            }
-        });
-
-        if (matchCount === 0) {
-            resultsContainer.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-box-open"></i>
-                    <p>No skins found for "${query}"</p>
-                </div>`;
-        }
-    });
+    // Replace default text with a structured layout
+    if (checkoutBarInfo) {
+        checkoutBarInfo.className = 'footer-info-container';
+        checkoutBarInfo.innerHTML = `
+            <div class="footer-row-top">
+                <i class="fas fa-envelope-open-text"></i> 
+                <span id="footer-gmail">Enter your Gmail...</span>
+            </div>
+            <div class="footer-row-bottom">
+                <span id="footer-skin">Select a skin</span>
+                <span class="footer-divider">•</span>
+                <span id="footer-price">$0.00</span>
+            </div>
+        `;
+    }
 }
 
-function closeSearch(overlay) {
-    overlay.classList.remove('animate__fadeIn');
-    overlay.classList.add('animate__fadeOut');
-    setTimeout(() => overlay.remove(), 300);
+// --- FUNCTION: Update Footer Content ---
+function updateFooterUI() {
+    const gmailInput = document.getElementById('gmail_address');
+    const footerGmail = document.getElementById('footer-gmail');
+    const footerSkin = document.getElementById('footer-skin');
+    const footerPrice = document.getElementById('footer-price');
+
+    // 1. Update Gmail
+    const emailValue = gmailInput.value.trim();
+    if (emailValue) {
+        footerGmail.textContent = emailValue;
+        footerGmail.style.color = "#333";
+    } else {
+        footerGmail.textContent = "Enter your Gmail...";
+        footerGmail.style.color = "#888";
+    }
+
+    // 2. Update Product & Price
+    if (selectedProduct) {
+        footerSkin.textContent = selectedProduct.name;
+        footerSkin.style.color = "#333";
+        footerPrice.textContent = `$${totalAmount.toFixed(2)}`;
+        footerPrice.classList.add('price-active');
+    } else {
+        footerSkin.textContent = "Select a skin";
+        footerSkin.style.color = "#888";
+        footerPrice.textContent = "$0.00";
+        footerPrice.classList.remove('price-active');
+    }
 }
 
-function highlightMatch(text, query) {
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, '<span class="highlight">$1</span>');
-}
-
-// --- FUNCTION: Validate Gmail ---
+// --- FUNCTION: Validate Gmail & Enable Button ---
 function validateGmail() {
     const gmailInput = document.getElementById('gmail_address');
     const userFoundDiv = document.getElementById('user_found');
     const email = gmailInput.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let isValid = false;
 
     if (email === '') {
-        setUserFoundStatus(false, 'សូមបញ្ចូល Gmail របស់អ្នក');
+        renderAlert(false, 'សូមបញ្ចូល Gmail របស់អ្នក');
     } else if (!emailRegex.test(email)) {
-        setUserFoundStatus(false, 'Gmail មិនត្រឹមត្រូវ (ex: name@gmail.com)');
+        renderAlert(false, 'Gmail មិនត្រឹមត្រូវ (ex: name@gmail.com)');
     } else {
-        setUserFoundStatus(true, 'បានបញ្ចូល Gmail ត្រឹមត្រូវ!');
+        renderAlert(true, 'បានបញ្ចូល Gmail ត្រឹមត្រូវ!');
+        isValid = true;
     }
-    updateCheckoutButtonState();
-    updateCheckoutBar();
+    updateCheckoutButtonState(isValid);
 }
 
-function setUserFoundStatus(isValid, message) {
-    const gmailInput = document.getElementById('gmail_address');
+function renderAlert(isValid, msg) {
     const userFoundDiv = document.getElementById('user_found');
-
+    const gmailInput = document.getElementById('gmail_address');
+    
     if (isValid) {
         gmailInput.classList.remove('is-invalid');
         gmailInput.classList.add('is-valid');
-        userFoundDiv.innerHTML = `<div class="alert alert-success mt-3"><i class="fas fa-check-circle"></i> ${message}</div>`;
+        userFoundDiv.innerHTML = `<div class="alert alert-success mt-2 py-2"><small><i class="fas fa-check-circle"></i> ${msg}</small></div>`;
     } else {
         gmailInput.classList.remove('is-valid');
-        gmailInput.classList.add('is-invalid');
-        userFoundDiv.innerHTML = `<div class="alert alert-danger mt-3"><i class="fas fa-times-circle"></i> ${message}</div>`;
+        if(gmailInput.value.length > 0) gmailInput.classList.add('is-invalid');
+        userFoundDiv.innerHTML = ''; // Don't show error immediately to keep UI clean, show only success or nothing
     }
 }
 
-// --- FUNCTION: Setup Product Clicks ---
+// --- FUNCTION: Product Selection ---
 function setupProductClickListeners() {
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
-        // Remove old listeners to prevent duplicates if function called twice
+        // Clone to remove old listeners
         const newCard = card.cloneNode(true);
         card.parentNode.replaceChild(newCard, card);
         
         newCard.addEventListener('click', function() {
-            // Deselect others
+            // UI Selection
             document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-            
-            // Select this one
             this.classList.add('selected');
 
+            // Data Update
             const name = this.querySelector('.product-name').textContent;
             const priceStr = this.querySelector('.product-price').textContent;
             const price = parseFloat(priceStr.replace('$', ''));
@@ -196,50 +144,36 @@ function setupProductClickListeners() {
             selectedProduct = { name, price };
             totalAmount = price;
 
-            updateCheckoutBar();
-            updateCheckoutButtonState();
+            // Trigger Footer Update
+            updateFooterUI();
+            
+            // Re-validate button state
+            const gmailInput = document.getElementById('gmail_address');
+            const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gmailInput.value.trim());
+            updateCheckoutButtonState(isEmailValid);
         });
     });
 }
 
-// --- FUNCTION: Update UI Elements ---
-function updateCheckoutBar() {
-    const gmailVal = document.getElementById('gmail_address') ? document.getElementById('gmail_address').value : '';
-    
-    // Update labels in the bottom bar
-    const labels = document.querySelectorAll('.checkout-value');
-    if(labels.length >= 3) {
-        document.querySelector('.gmail-address').textContent = gmailVal || '-';
-        document.querySelector('.product-name').textContent = selectedProduct ? selectedProduct.name : '-';
-        document.querySelector('.price-amount').textContent = `$${totalAmount.toFixed(2)}`;
-    }
-}
-
-function updateCheckoutButtonState() {
-    const gmailInput = document.getElementById('gmail_address');
+function updateCheckoutButtonState(isEmailValid) {
     const checkoutButton = document.getElementById('checkout_button');
-    const checkBtn = document.getElementById('check_btn'); // Terms checkbox
-
-    const isEmailValid = gmailInput.classList.contains('is-valid');
-    const isProductSelected = selectedProduct !== null;
+    const checkBtn = document.getElementById('check_btn');
     const isTermsChecked = checkBtn ? checkBtn.checked : true;
 
-    checkoutButton.disabled = !(isEmailValid && isProductSelected && isTermsChecked);
+    // Button enabled ONLY if: Email Valid AND Product Selected AND Terms Checked
+    checkoutButton.disabled = !(isEmailValid && selectedProduct !== null && isTermsChecked);
 }
 
-// --- FUNCTION: Process Payment (Backend + Telegram) ---
+// --- FUNCTION: Create Order (Pay Now) ---
 window.createPreOrder = function() {
     const gmail = document.getElementById('gmail_address').value.trim();
     const btn = document.getElementById('checkout_button');
 
-    // 1. Double check validation
     if (!selectedProduct || !gmail) return;
 
-    // 2. Disable button
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-    // 3. Send to Python Backend
     fetch(`${API_URL}/api/save-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -249,37 +183,21 @@ window.createPreOrder = function() {
             totalAmount: totalAmount
         })
     })
-    .then(response => {
-        if (response.ok) {
-            // 4. Send Notification to Telegram (Client Side backup)
-            sendTelegramNotification(gmail, selectedProduct.name, totalAmount);
-            
-            // 5. Redirect to Payment
-            setTimeout(() => {
-                processPaymentRedirect(totalAmount);
-            }, 1000);
+    .then(res => {
+        if (res.ok) {
+            // Optional: Send Telegram
+            sendTelegramBackup(gmail, selectedProduct.name, totalAmount);
+            setTimeout(() => processPaymentRedirect(totalAmount), 1000);
         } else {
-            throw new Error('Backend save failed');
+            alert("Connection Error. Redirecting to payment...");
+            processPaymentRedirect(totalAmount);
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("System connection error. Redirecting to payment anyway...");
+    .catch(err => {
+        console.error(err);
         processPaymentRedirect(totalAmount);
     });
 };
-
-function sendTelegramNotification(email, skinName, amount) {
-    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; 
-    const chatId = '5007619095'; 
-    const text = `🛒 *New Order*\n\n📧: ${email}\n🎮: ${skinName}\n💵: $${amount.toFixed(2)}\n⏰: ${new Date().toLocaleString()}`;
-
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'Markdown' })
-    }).catch(err => console.log("Telegram Error ignored"));
-}
 
 function processPaymentRedirect(amount) {
     if (amount === 1) location.href = 'https://pay.ababank.com/oRF8/oq1z33v6';
@@ -288,19 +206,30 @@ function processPaymentRedirect(amount) {
     else location.href = '1.5$.html';
 }
 
-// --- FUNCTION: Mobile Menu ---
+function sendTelegramBackup(email, skin, amount) {
+    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; 
+    const chatId = '5007619095'; 
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            chat_id: chatId, 
+            text: `🛒 *New Order*\n📧: ${email}\n🎮: ${skin}\n💵: $${amount}`, 
+            parse_mode: 'Markdown' 
+        })
+    });
+}
+
+// --- FUNCTION: Search & Mobile Menu ---
 function setupMobileMenu() {
     const mobileToggle = document.getElementById('mobile-toggle');
     const navMenu = document.getElementById('navMenu');
-    
     if (mobileToggle) {
         mobileToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             navMenu.classList.toggle('active');
-            const icon = mobileToggle.querySelector('i');
-            icon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+            mobileToggle.querySelector('i').className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         });
-
         document.addEventListener('click', (e) => {
             if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
                 navMenu.classList.remove('active');
@@ -310,65 +239,147 @@ function setupMobileMenu() {
     }
 }
 
-// --- CSS INJECTION FOR SEARCH ---
+function createSearchOverlay() {
+    // Check existing
+    if (document.querySelector('.search-overlay')) return;
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'search-overlay animate__animated animate__fadeIn';
+    overlay.innerHTML = `
+        <div class="search-container">
+            <div class="search-box-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Find skin..." autocomplete="off">
+                <button onclick="this.closest('.search-overlay').remove()" class="close-search"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="search-results-container"></div>
+        </div>`;
+    document.body.appendChild(overlay);
+    
+    const input = document.getElementById('search-input');
+    input.focus();
+    
+    input.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        const container = document.getElementById('search-results-container');
+        container.innerHTML = '';
+        if(!query) return;
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            const name = card.querySelector('.product-name').textContent;
+            const img = card.querySelector('.product-img').src;
+            const price = card.querySelector('.product-price').textContent;
+            
+            if(name.toLowerCase().includes(query)) {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.innerHTML = `<img src="${img}"><div><div class="result-name">${name}</div><div class="result-price">${price}</div></div>`;
+                item.onclick = () => {
+                    overlay.remove();
+                    card.scrollIntoView({behavior:'smooth', block:'center'});
+                    card.click();
+                };
+                container.appendChild(item);
+            }
+        });
+    });
+}
+
+// --- 4. CSS FOR FOOTER (Sticky & Styled) ---
 const style = document.createElement('style');
 style.textContent = `
-    /* Search Overlay */
-    .search-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.85); z-index: 9999;
-        display: flex; justify-content: center; align-items: flex-start;
-        padding-top: 80px; backdrop-filter: blur(5px);
-    }
-    .search-container {
-        width: 90%; max-width: 600px;
-        background: transparent;
-    }
-    .search-box-wrapper {
-        display: flex; align-items: center;
-        background: white; border-radius: 12px;
-        padding: 10px 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .search-icon { color: #666; font-size: 18px; margin-right: 10px; }
-    #search-input {
-        flex: 1; border: none; outline: none;
-        font-size: 16px; padding: 5px;
-    }
-    .close-search {
-        background: none; border: none; font-size: 20px;
-        color: #999; cursor: pointer; transition: 0.3s;
-    }
-    .close-search:hover { color: #333; }
-
-    /* Search Results */
-    #search-results-container {
-        margin-top: 15px; max-height: 60vh; overflow-y: auto;
-        border-radius: 12px;
-    }
-    .search-result-item {
-        display: flex; align-items: center;
+    /* Checkout Bar Styles */
+    .checkout-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         background: rgba(255, 255, 255, 0.95);
-        padding: 10px; margin-bottom: 8px;
-        border-radius: 10px; cursor: pointer;
-        transition: transform 0.2s;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-top: 1px solid rgba(0,0,0,0.05);
     }
-    .search-result-item:hover { transform: scale(1.02); background: white; }
-    .search-result-item img {
-        width: 50px; height: 50px; border-radius: 8px; object-fit: cover;
-        margin-right: 15px; border: 1px solid #eee;
+
+    .footer-info-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
     }
-    .result-info { flex: 1; display: flex; justify-content: space-between; align-items: center; }
-    .result-name { font-weight: 600; color: #333; }
-    .result-price { 
-        color: #2979ff; font-weight: bold; 
-        background: rgba(41, 121, 255, 0.1); 
-        padding: 4px 8px; border-radius: 6px; 
+
+    .footer-row-top {
+        font-size: 11px;
+        color: #666;
+        margin-bottom: 2px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
     }
-    .highlight { background-color: #ffe082; color: #000; padding: 0 2px; border-radius: 2px; }
-    .no-results {
-        text-align: center; color: white; margin-top: 30px;
+
+    .footer-row-top i {
+        color: #2979ff;
     }
-    .no-results i { font-size: 40px; margin-bottom: 10px; opacity: 0.7; }
+
+    .footer-row-bottom {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .footer-divider {
+        color: #ccc;
+        font-size: 8px;
+    }
+
+    #footer-skin {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #footer-price {
+        font-weight: 700;
+        color: #888;
+        transition: color 0.3s ease;
+    }
+
+    #footer-price.price-active {
+        color: #2979ff;
+        font-size: 16px;
+    }
+
+    /* Button Style override */
+    #checkout_button {
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(41, 121, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    #checkout_button:disabled {
+        background: #ccc;
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+
+    /* Search Styles (Included here for completeness) */
+    .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; justify-content: center; padding-top: 80px; }
+    .search-container { width: 90%; max-width: 500px; }
+    .search-box-wrapper { display: flex; align-items: center; background: white; border-radius: 12px; padding: 12px; }
+    #search-input { flex: 1; border: none; outline: none; margin: 0 10px; font-size: 16px; }
+    .search-result-item { display: flex; align-items: center; background: rgba(255,255,255,0.9); padding: 10px; margin-top: 8px; border-radius: 8px; cursor: pointer; }
+    .search-result-item img { width: 40px; height: 40px; border-radius: 5px; margin-right: 10px; }
+    .result-name { font-weight: 600; font-size: 14px; }
+    .result-price { color: #2979ff; font-weight: bold; font-size: 12px; }
 `;
 document.head.appendChild(style);
