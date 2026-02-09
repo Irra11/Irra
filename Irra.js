@@ -206,19 +206,6 @@ function processPaymentRedirect(amount) {
     else location.href = '1.5$.html';
 }
 
-function sendTelegramBackup(email, skin, amount) {
-    const botToken = '7950204890:AAHXGCh_WliNYd2TlnCScO_92EL0_QBkX7Y'; 
-    const chatId = '5007619095'; 
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            chat_id: chatId, 
-            text: `🛒 *New Order*\n📧: ${email}\n🎮: ${skin}\n💵: $${amount}`, 
-            parse_mode: 'Markdown' 
-        })
-    });
-}
 
 // --- FUNCTION: Search & Mobile Menu ---
 function setupMobileMenu() {
