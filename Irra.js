@@ -1,7 +1,7 @@
 // Global variables
 let selectedProduct = null;
 let totalAmount = 0;
-const API_URL = 'https://adminpanel-1-m4ok.onrender.com/api'; // Python Backend
+const API_URL = 'https://adminpanel-1-m4ok.onrender.com'; // Python Backend
 
 document.addEventListener('DOMContentLoaded', function() {
     // --- 1. SETUP FOOTER DISPLAY ---
