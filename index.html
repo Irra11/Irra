@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -147,7 +146,7 @@
 }
         </style>
     </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Block Right Click -->
      <!-- Image Alert Modal -->
     <div class="image-alert-overlay" id="imageAlertOverlay">
         <div class="image-alert-modal">
@@ -642,7 +641,28 @@
             </div>
         </div>
     </footer>
-     <script>
+
+    <!-- Anti-Inspect/Source Code Protection Scripts -->
+    <script>
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) { // F12
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+                return false;
+            }
+        };
+
         // Image Alert Functions
         function showImageAlert() {
             const overlay = document.getElementById('imageAlertOverlay');
@@ -673,23 +693,19 @@
             }
         });
 
-        // Your existing JavaScript functions would go here
+        // Your existing JavaScript functions
         function selectProduct(id, type) {
-            // Your existing selectProduct function
+            // Your existing selectProduct function logic
         }
 
         function createPreOrder() {
-            // Your existing createPreOrder function
+            // Your existing createPreOrder function logic
         }
 
         function toggleTerms() {
-            // Your existing toggleTerms function
+            // Your existing toggleTerms function logic
         }
     </script>
 <script src="newjs.js"></script>
 </body>
 </html>
-
-
-
-
