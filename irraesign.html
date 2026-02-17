@@ -386,30 +386,52 @@ async function generateQR() {
 }
 
 async function manualConfirm() {
-    if (!window.currentOrderId) return;
-    
+    // 1. Check if we have an order ID (it was saved when the QR was generated)
+    if (!window.currentOrderId) {
+        alert("រកមិនឃើញលេខវិក្កយបត្រ! (Order ID not found)");
+        return;
+    }
+
+    // 2. Change button UI to show it's working
     const btn = document.getElementById('btnManual');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> កំពុងផ្ញើដំណឹង... (Processing)';
     btn.disabled = true;
+    btn.style.opacity = "0.7";
 
     try {
+        // 3. Call your Render Backend
         const response = await fetch(`${API_BASE}/api/confirm-manual`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ order_id: window.currentOrderId })
+            body: JSON.stringify({ 
+                order_id: window.currentOrderId 
+            })
         });
-        
-        // Hide QR Modal and show the Tada Success Modal
-        document.getElementById('qrModal').classList.remove('active');
-        document.getElementById('successModal').classList.add('active');
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log("Telegram Alert Sent and Database Updated");
+            
+            // 4. Close the QR Modal
+            document.getElementById('qrModal').classList.remove('active');
+            
+            // 5. Show the Success "Tada" Modal
+            document.getElementById('successModal').classList.add('active');
+        } else {
+            throw new Error(data.error || "Server Error");
+        }
+
     } catch (e) {
         console.error("Confirm Error:", e);
-        alert("មានបញ្ហាក្នុងការផ្ញើការបញ្ជាក់។");
+        alert("មានបញ្ហាបច្ចេកទេស! សូមព្យាយាមម្តងទៀត។");
+        
+        // Reset button if it fails
         btn.innerHTML = '<i class="fas fa-check-circle"></i> ខ្ញុំបានបង់ប្រាក់រួចហើយ (Paid)';
         btn.disabled = false;
+        btn.style.opacity = "1";
     }
 }
-
 // ==========================================
 // 6. SECURITY UTILS
 // ==========================================
