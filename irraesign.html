@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="km">
 <head>
@@ -98,7 +99,7 @@
     <div class="menu-list">
         <a href="https://t.me/Irra_Esign/2" class="menu-item"><i class="fas fa-shopping-cart" style="color:#f59e0b"></i> <span>របៀបទិញ</span></a>
         <a href="https://t.me/Irra_Esign/3" class="menu-item"><i class="fas fa-play-circle" style="color:#e11d48"></i> <span>របៀបយក UDID</span></a> 
-        <a href="https://t.me/Irra_Esign/4" class="menu-item"><i class="fas fa-download" style="color:#10b981"></i> <span>របៀបតំឡេីង Esign</span></a>
+        <a href="https://t.me/Irra_Esign/4" class="menu-item"><i class="fas fa-download" style="color:#10b981"></i> <span>របៀប Install Esign</span></a>
         <a href="https://t.me/irra_11" class="menu-item"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> <span>ទាក់ទង Admin</span></a>
         <div class="menu-item" onclick="showAbout()"><i class="fas fa-info-circle" style="color:#64748b"></i> <span>អំពីយើង (About)</span></div>
     </div>
@@ -141,9 +142,9 @@
         <p class="subtitle" style="color:#718096;font-size:14px;margin-bottom:25px">P12 & Mobileprovision</p>
         
         <div class="features" style="margin-bottom:25px;font-size:13px;text-align:left;color:#555;border:1.5px solid #edf2f7;padding:18px;border-radius:20px;background-color:#fafbfc">
-            <div style="margin-bottom:10px"><i class="fas fa-check-circle" style="color:var(--primary-blue);margin-right:8px"></i> Valid for 1 Year (365 Days)</div>
-            <div style="margin-bottom:10px"><i class="fas fa-shield-alt" style="color:var(--primary-blue);margin-right:8px"></i> 30 Days Revoke Warranty</div>
-            <div style="margin-bottom:0"><i class="fas fa-bolt" style="color:var(--primary-blue);margin-right:8px"></i> Instant Delivery via Email</div>
+            <div style="margin-bottom:10px"><i class="fas fa-check-circle" style="color:var(--primary-blue);margin-right:8px"></i> មានសុពលភាព 1 ឆ្នាំ (365 ថ្ងៃ)</div>
+            <div style="margin-bottom:10px"><i class="fas fa-shield-alt" style="color:var(--primary-blue);margin-right:8px"></i>  ធានារយៈពេល 30 ថ្ងៃ</div>
+            <div style="margin-bottom:0"><i class="fas fa-bolt" style="color:var(--primary-blue);margin-right:8px"></i>  ផ្ញើភ្លាមៗតាមអ៊ីមែល</div>
         </div>
 
         <div class="amount-box">
@@ -159,16 +160,17 @@
             </div>
         </div>
 
-        <div class="terminal">
+        <!-- <div class="terminal">
             <span style="font-size:8px;color:#4a5568;font-weight:700;letter-spacing:1px">DETECTED UDID</span>
             <div style="color:#cbd5e1;font-family:'Courier New';font-size:12.5px;margin-top:5px;word-break:break-all;">
                 <span style="color:var(--primary-cyan);font-weight:700">>_</span> <span id="udidStatus">Waiting for input...</span>
             </div>
-        </div>
+        </div> -->
 
      <!-- UPDATE THIS LINK TO YOUR RENDER URL -->
 <a href="https://testudid.onrender.com/api/get-profile" class="btn-get-udid">
-    <i class="fas fa-fingerprint"></i> ចុចទីនេះដើម្បីយក UDID
+    <i class="fas fa-download"></i> ចុចទីនេះដើម្បីយក UDID
+
 </a>
 
         <label class="terms-box">
@@ -320,7 +322,8 @@ window.addEventListener('load', function() {
             window.history.replaceState({}, document.title, window.location.pathname);
             
             // Styled friendly alert
-            showFriendlyAlert("UDID ត្រូវបានរកឃើញ និងបញ្ចូលដោយស្វ័យប្រវត្តិ!<br>(UDID Auto-filled)");
+          showFriendlyAlert("យើងបានរកឃើញ UDID របស់អ្នក ហើយបញ្ចូលជូនដោយស្វ័យប្រវត្តិរួចរាល់។<br>សូមបន្តទៅជំហានបន្ទាប់។");
+
         }
     }
 });
