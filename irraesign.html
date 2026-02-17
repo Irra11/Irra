@@ -439,39 +439,81 @@ function showAbout() {
     document.getElementById('aboutModal').classList.add('active');
 }
 
-// Function to Close Modal
-function closeAllModals() {
-    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+// // Function to Close Modal
+// function closeAllModals() {
+//     document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
 
 }
 </script>
     <script>
-    // 🚀 1. This handles the incoming UDID from the redirect
-    window.addEventListener('load', function() {
+
+    // 🚀 THIS PART CAPTURES THE UDID FROM THE URL
+    function checkUrlForUdid() {
+        console.log("Checking URL for UDID...");
         const urlParams = new URLSearchParams(window.location.search);
         const receivedUdid = urlParams.get('udid');
 
         if (receivedUdid) {
-            // Fill the input
+            console.log("UDID Found in URL: " + receivedUdid);
             const input = document.getElementById('udidInput');
             if (input) {
                 input.value = receivedUdid;
                 
-                // Update the visual "Terminal" status
+                // Manually trigger the status update
                 updateUDID(receivedUdid); 
                 
-                // Clean the URL so the UDID disappears from the address bar
+                // Remove the UDID from the address bar so it looks clean
                 window.history.replaceState({}, document.title, window.location.pathname);
                 
-                // Show success alert
-                alert("UDID បានបញ្ចូលដោយស្វ័យប្រវត្តិ! (UDID Auto-filled)");
+                alert("UDID បានបញ្ចូលដោយស្វ័យប្រវត្តិ! \n" + receivedUdid);
+            } else {
+                console.error("Could not find input field with ID 'udidInput'");
             }
         }
-    });
+    }
 
-    // 2. Your existing CONFIGURATION
-    const API_BASE = "https://testudid.onrender.com"; 
-    // ... rest of your code ...
+    // Run when the page is fully loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkUrlForUdid);
+    } else {
+        checkUrlForUdid();
+    }
+
+    // --- YOUR EXISTING FUNCTIONS ---
+    const API_BASE = "https://testudid.onrender.com";
+    let currentOrderId = null;
+
+    function updateUDID(val) {
+        val = val.trim();
+        document.getElementById('udidInput').value = val;
+        const status = document.getElementById('udidStatus');
+        if (val.length > 10) {
+            status.innerText = val;
+            status.style.color = "#00bcd4";
+        } else {
+            status.innerText = "Waiting for input...";
+            status.style.color = "#64748b";
+        }
+        validateForm();
+    }
+
+    function validateForm() {
+        const udid = document.getElementById('udidInput').value;
+        const checked = document.getElementById('termsCheck').checked;
+        const btn = document.getElementById('payBtn');
+        if (udid.length >= 20 && checked) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    }
+
+    // ... Keep all your other functions (toggleMenu, showAbout, generateQR, etc.) ...
+    
+    function closeAllModals() {
+        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    }
+
 </script>
 
 </body>
