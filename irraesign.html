@@ -160,12 +160,14 @@
             </div>
         </div>
 
-        <div class="terminal">
-            <span style="font-size:8px;color:#4a5568;font-weight:700;letter-spacing:1px">DETECTED UDID</span>
-            <div style="color:#cbd5e1;font-family:'Courier New';font-size:12.5px;margin-top:5px;word-break:break-all;">
-                <span style="color:var(--primary-cyan);font-weight:700">>_</span> <span id="udidStatus">Waiting for input...</span>
-            </div>
-        </div>
+       <div class="terminal">
+    <span style="font-size:8px;color:#4a5568;font-weight:700;letter-spacing:1px">UDID ត្រូវបានរកឃើញ</span>
+    <div style="color:#cbd5e1;font-family:'Courier New';font-size:12.5px;margin-top:5px;word-break:break-all;">
+        <span style="color:var(--primary-cyan);font-weight:700">>_</span> 
+        <span id="udidStatus">កំពុងរង់ចាំការបញ្ចូល...</span>
+    </div>
+</div>
+
 
      <!-- UPDATE THIS LINK TO YOUR RENDER URL -->
 <a href="https://testudid.onrender.com/api/get-profile" class="btn-get-udid">
@@ -322,7 +324,7 @@ window.addEventListener('load', function() {
             window.history.replaceState({}, document.title, window.location.pathname);
             
             // Styled friendly alert
-          showFriendlyAlert("UDID ត្រូវបានរកឃើញ និងបញ្ចូលដោយស្វ័យប្រវត្តិ!<br>(UDID Auto-filled)");
+        showFriendlyAlert("យើងបានរកឃើញ UDID របស់អ្នក ហើយបញ្ចូលជូនដោយស្វ័យប្រវត្តិរួចរាល់។<br>សូមបន្តទៅជំហានបន្ទាប់។");
         }
     }
 });
