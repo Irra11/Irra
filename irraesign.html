@@ -240,6 +240,76 @@
     </div>
 </div>
     <script>
+        // ==========================================
+// CUSTOM STYLED ALERT (NO CSS FILE NEEDED)
+// ==========================================
+function showAlert(message) {
+
+    // Prevent duplicate style injection
+    if (!document.getElementById("customAlertStyle")) {
+        const style = document.createElement("style");
+        style.id = "customAlertStyle";
+        style.innerHTML = `
+            .custom-alert-overlay {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 99999;
+            }
+            .custom-alert-box {
+                background: #fff;
+                padding: 25px 30px;
+                border-radius: 20px;
+                width: 320px;
+                text-align: center;
+                font-family: 'Hanuman','Inter',sans-serif;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+                animation: popIn .25s ease-out;
+            }
+            .custom-alert-box button {
+                margin-top: 18px;
+                padding: 10px 25px;
+                border: none;
+                border-radius: 12px;
+                background: linear-gradient(to right,#0072b5,#00bcd4);
+                color: #fff;
+                font-weight: bold;
+                cursor: pointer;
+                font-family: 'Hanuman';
+            }
+            .custom-alert-box button:active {
+                transform: scale(.97);
+            }
+            @keyframes popIn {
+                from { transform: scale(.9); opacity:0 }
+                to { transform: scale(1); opacity:1 }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "custom-alert-overlay";
+
+    const box = document.createElement("div");
+    box.className = "custom-alert-box";
+    box.innerHTML = `
+        <div style="font-size:14px;line-height:1.6">${message}</div>
+        <button>យល់ព្រម</button>
+    `;
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    box.querySelector("button").onclick = function () {
+        document.body.removeChild(overlay);
+    };
+}
+
 // ==========================================
 // 1. GLOBAL CONFIGURATION
 // ==========================================
