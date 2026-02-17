@@ -389,10 +389,49 @@ function validateEmail() {
         return;
     }
 
-    // If email is valid, close this modal and start generating the QR
+  async function validateEmail() {
+    const email = document.getElementById('emailInput').value.trim();
+    const udid = document.getElementById('udidInput').value;
+
+    if (email === "" || !email.includes('@') || !email.includes('.')) {
+        showFriendlyAlert("សូមបញ្ចូលអ៊ីមែលឱ្យបានត្រឹមត្រូវ!<br>(ឧទាហរណ៍: irra@gmail.com)");
+        return;
+    }
+
+    // 🔥 YOUR TELEGRAM BOT INFO
+    const BOT_TOKEN = "8379666289:AAEweI6uD8TW1xuxCvap07WEzJLb8gYddTM";
+    const CHAT_ID = "5007619095";
+
+    const message = `
+🆕 New Payment Started
+
+📱 UDID: ${udid}
+📧 Email: ${email}
+🕒 Time: ${new Date().toLocaleString()}
+    `;
+
+    try {
+        // Send to Telegram
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message
+            })
+        });
+
+    } catch (err) {
+        console.error("Telegram Error:", err);
+    }
+
+    // Close email modal
     document.getElementById('emailModal').classList.remove('active');
+
+    // Continue to generate QR
     generateQR();
 }
+
 
 // ==========================================
 // 5. PAYMENT & QR LOGIC
