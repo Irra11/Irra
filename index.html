@@ -265,19 +265,21 @@
                         <div class="card animate__animated animate__fadeIn" id="box-item">
                             <div class="card-body">
                                 <div class="step-badge">
-                                    <span class="badge">2</span>
+                                                     <span class="badge">2</span>
                                     <h3 class="step-title">កញ្ចប់ Promotion</h3>
                                 </div>
                                 
-                                <!-- <div class="products-grid">
+                                <!-- <div class="products-grid"> -->
                                 
-                                    <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                    <!-- <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
                                         <img src="pic/pro1.jpg" alt="Weekly Pass" class="product-img">
                                         <div class="product-price">$3</div>
                                         <div class="product-name">10 Skin</div>
                                     </div> -->
                                    
                                     <div class="product-card" id="item-bundle-6" onclick="selectProduct(6, 'bundle')">
+                                         <span style="position: absolute; top: 10px; right: 10px; background: #ff4d4d; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; z-index: 1;">DISCOUNT</span>
+
                                         <img src="black.jpg" alt="Weekly Pass" class="product-img">
                                         <div class="product-price">$3</div>
                                         <div class="product-name">Promotion 40 Skin</div>
@@ -289,8 +291,27 @@
                                 </div>
                             </div>
                         </div>
+<!-- Esign Card: Selection Disabled, Only Button Works -->
+<div class="product-card" style="position: relative; overflow: hidden; user-select: none; -webkit-user-select: none; pointer-events: none; cursor: default; border: 1px solid #eee;">
+    
+    <!-- Discount Badge -->
+    <span style="position: absolute; top: 10px; right: 10px; background: #ff4d4d; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; z-index: 1;">DISCOUNT</span>
 
-                        
+    <!-- Image -->
+    <img src="logo e.jpg" alt="Esign" class="product-img" draggable="false">
+    
+    <div class="product-price">
+        <span style="text-decoration: line-through; color: #888; font-size: 0.8em; margin-right: 5px;">$15</span>
+        $10
+    </div>
+    
+    <div class="product-name">Esign</div>
+
+    <!-- Button: The ONLY clickable part -->
+    <a href="https://www.irraesign.store/" class="btn btn-primary btn-sm mt-2" style="width: 100%; border-radius: 20px; font-weight: 600; text-transform: none; pointer-events: auto; display: block;">
+       ទិញ​ Esign <i class="fas fa-arrow-right ms-1"></i>
+    </a>
+</div>
                         <div class="card-body">
                             <div class="step-badge">
                                 <span class="badge">3</span>
@@ -709,3 +730,4 @@
 <script src="newjs.js"></script>
 </body>
 </html>
+
