@@ -443,22 +443,35 @@ function showAbout() {
 function closeAllModals() {
     document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
 
-
-
-   window.addEventListener('load', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const receivedUdid = urlParams.get('udid');
-
-    if (receivedUdid) {
-        document.getElementById('udidInput').value = receivedUdid;
-        updateUDID(receivedUdid); // This updates your UI colors/status
-        
-        // Clean the URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-        alert("UDID បានបញ្ចូលដោយស្វ័យប្រវត្តិ! (Auto-filled)");
-    }
-});
 }
+</script>
+    <script>
+    // 🚀 1. This handles the incoming UDID from the redirect
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const receivedUdid = urlParams.get('udid');
+
+        if (receivedUdid) {
+            // Fill the input
+            const input = document.getElementById('udidInput');
+            if (input) {
+                input.value = receivedUdid;
+                
+                // Update the visual "Terminal" status
+                updateUDID(receivedUdid); 
+                
+                // Clean the URL so the UDID disappears from the address bar
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Show success alert
+                alert("UDID បានបញ្ចូលដោយស្វ័យប្រវត្តិ! (UDID Auto-filled)");
+            }
+        }
+    });
+
+    // 2. Your existing CONFIGURATION
+    const API_BASE = "https://testudid.onrender.com"; 
+    // ... rest of your code ...
 </script>
 
 </body>
