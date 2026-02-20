@@ -209,7 +209,7 @@ function processPaymentRedirect(amount) {
     } else if (amount === 3) {
         qrImageSource = '3.png'; 
     } else if (amount === 5) {
-        qrImageSource = 'photo/5$.jpg'; 
+        qrImageSource = '5$.png'; 
     } else {
         qrImageSource = 'photo/1.5$.jpg'; 
     }
