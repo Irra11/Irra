@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="km">
 <head>
@@ -6,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Irra Esign</title>
-     <link rel="icon" href="https://i.pinimg.com/736x/da/83/78/da8378a6ddba21823631bd644bee4266.jpg"
+    <link rel="icon" href="https://i.pinimg.com/736x/da/83/78/da8378a6ddba21823631bd644bee4266.jpg">
     
     <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -58,11 +57,6 @@
         .btn-pay{width:100%;background:linear-gradient(to right,#0072b5,#00bcd4);color:#fff;padding:18px;border:none;border-radius:15px;font-size:16px;font-weight:800;cursor:pointer;opacity:.5;pointer-events:none;transition:.3s;box-shadow:0 10px 20px rgba(0,114,181,.2)}
         .btn-pay.active{opacity:1;pointer-events:auto}
         .btn-pay:active{transform:scale(.98);box-shadow:none}
-        
-        /* Manual Button */
-        .btn-manual { background: #f59e0b; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: bold; width: 100%; margin-top: 20px; cursor: pointer; display: none; font-size: 15px; transition: 0.3s; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3); }
-        .btn-manual:active { transform: scale(0.98); }
-        .btn-manual:disabled { background: #ccc; cursor: not-allowed; }
 
         /* Modals */
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:3000;justify-content:center;align-items:center;padding:20px}
@@ -74,6 +68,9 @@
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid #0072b5; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .status-badge { background: #fff3cd; color: #856404; padding: 12px 15px; border-radius: 12px; font-size: 13px; font-weight: bold; display: block; margin-top: 15px; transition:.3s;}
+        
+        /* Timer Style */
+        .timer-display { font-size: 24px; font-weight: 800; color: #e11d48; margin: 15px 0 5px 0; font-family: monospace; letter-spacing: 2px;}
 
         /* Footer */
         .footer{padding:40px 20px;text-align:center;color:var(--text-muted);font-size:13px;margin-top:auto}
@@ -97,40 +94,24 @@
         <i class="fas fa-times" onclick="toggleMenu(false)" style="font-size:20px;color:#888;cursor:pointer"></i>
     </div>
     <div class="menu-list">
-        <a href="https://t.me/Irra_Esign/2" class="menu-item"><i class="fas fa-shopping-cart" style="color:#f59e0b"></i> <span>របៀបទិញ</span></a>
+        <a href="https://t.me/Irra_Esign/99" class="menu-item"><i class="fas fa-shopping-cart" style="color:#f59e0b"></i> <span>របៀបទិញ</span></a>
         <a href="https://t.me/Irra_Esign/3" class="menu-item"><i class="fas fa-play-circle" style="color:#e11d48"></i> <span>របៀបយក UDID</span></a> 
         <a href="https://t.me/Irra_Esign/4" class="menu-item"><i class="fas fa-download" style="color:#10b981"></i> <span>របៀប Install Esign</span></a>
         <a href="https://t.me/irra_11" class="menu-item"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> <span>ទាក់ទង Admin</span></a>
         <div class="menu-item" onclick="showAbout()"><i class="fas fa-info-circle" style="color:#64748b"></i> <span>អំពីយើង (About)</span></div>
     </div>
 </div>
-<!-- About Modal (Popup) -->
+
+<!-- About Modal -->
 <div id="aboutModal" class="modal">
     <div class="m-card animate__animated animate__zoomIn" style="max-width: 420px; text-align: left;">
-        
-        <h3 style="color:var(--primary-blue); font-family:'Hanuman'; font-weight:bold; text-align:center; margin-bottom:15px;">
-            Irra Esign Store
-        </h3>
-
+        <h3 style="color:var(--primary-blue); font-family:'Hanuman'; font-weight:bold; text-align:center; margin-bottom:15px;">Irra Esign Store</h3>
         <div style="font-size:13px; line-height:1.8; color:#334155; font-family:'Hanuman', sans-serif;">
-            <p style="margin-bottom:10px;">
-                <b>កម្មវិធី E-Sign</b> គឺជា utility app ដែលមានប្រយោជន៍សម្រាប់ (sign) ឯកសារ IPA ដោយផ្ទាល់លើឧបករណ៍ iOS ដូចជា iPhone ឬ iPad ដោយមិនចាំបាច់ប្រើកុំព្យូទ័រ។
-            </p>
-            <p style="margin-bottom:10px;">
-                វាប្រើសម្រាប់ធ្វើការ Sign ឯកសារ .ipa (iOS App files) ដើម្បីអាចដំឡើងបានលើឧបករណ៍ iOS ដែលមិនបាន Jailbreak ។
-            </p>
-            
+            <p style="margin-bottom:10px;"><b>កម្មវិធី E-Sign</b> គឺជា utility app ដែលមានប្រយោជន៍សម្រាប់ (sign) ឯកសារ IPA ។</p>
             <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
-
-            <p>
-                យើងខ្ញុំផ្ដល់ជូនសេវាកម្ម iOS Certificate (P12 & Mobileprovision) ដែលមានគុណភាពខ្ពស់ ធានាសុវត្ថិភាព និងការប្រើប្រាស់បានយូរអង្វែង។
-            </p>
+            <p>យើងខ្ញុំផ្ដល់ជូនសេវាកម្ម iOS Certificate (P12 & Mobileprovision) ដែលមានគុណភាពខ្ពស់។</p>
         </div>
-
-        <button onclick="closeAllModals()" class="btn-pay active" style="margin-top:25px; width:100%; border-radius:12px; font-family:'Hanuman'; font-weight:bold;">
-            យល់ព្រម
-        </button>
-
+        <button onclick="closeAllModals()" class="btn-pay active" style="margin-top:25px; width:100%; border-radius:12px; font-family:'Hanuman'; font-weight:bold;">យល់ព្រម</button>
     </div>
 </div>
 
@@ -149,7 +130,7 @@
 
         <div class="amount-box">
             <span class="amount-label" style="font-family:'Hanuman';font-weight:700">តម្លៃសរុប</span>
-            <div><span class="old-price">$15.00</span> <span class="amount-value">$10.00</span></div>
+            <div> <span class="amount-value">$15.00</span></div>
         </div>
 
         <div style="text-align:left;margin-bottom:20px">
@@ -160,20 +141,17 @@
             </div>
         </div>
 
-       <div class="terminal">
-    <span style="font-size:8px;color:#4a5568;font-weight:700;letter-spacing:1px">UDID ត្រូវបានរកឃើញ</span>
-    <div style="color:#cbd5e1;font-family:'Courier New';font-size:12.5px;margin-top:5px;word-break:break-all;">
-        <span style="color:var(--primary-cyan);font-weight:700">>_</span> 
-        <span id="udidStatus">កំពុងរង់ចាំការបញ្ចូល...</span>
-    </div>
-</div>
+        <div class="terminal">
+            <span style="font-size:8px;color:#4a5568;font-weight:700;letter-spacing:1px">UDID ត្រូវបានរកឃើញ</span>
+            <div style="color:#cbd5e1;font-family:'Courier New';font-size:12.5px;margin-top:5px;word-break:break-all;">
+                <span style="color:var(--primary-cyan);font-weight:700">>_</span> 
+                <span id="udidStatus">កំពុងរង់ចាំការបញ្ចូល...</span>
+            </div>
+        </div>
 
-
-     <!-- UPDATE THIS LINK TO YOUR RENDER URL -->
-<a href="https://testudid.onrender.com/api/get-profile" class="btn-get-udid">
-    <i class="fas fa-download"></i> ចុចទីនេះដើម្បីយក UDID
-
-</a>
+        <a href="https://udid.irra.store" target="_blank" class="btn-get-udid">
+            <i class="fas fa-download"></i> ចុចទីនេះដើម្បីយក UDID
+        </a>
 
         <label class="terms-box">
             <input type="checkbox" id="termsCheck" onchange="validateForm()" style="width:22px;height:22px;margin-top:2px;accent-color:var(--primary-blue)"> 
@@ -199,31 +177,23 @@
     </div>
 </div>
 
-<!-- QR Payment Modal -->
+<!-- QR Payment Modal (WITH TIMER) -->
 <div id="qrModal" class="modal">
     <div class="m-card animate__animated animate__zoomIn" style="position:relative;padding:35px 25px">
         <button onclick="closeAllModals()" style="position:absolute;top:15px;right:15px;border:none;background:#f1f5f9;color:#64748b;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;z-index:10;transition:.3s"><i class="fas fa-times"></i></button>
         
-        <!-- <h4 style="font-family:'Hanuman';font-weight:bold;margin-bottom:5px;font-size:18px">ស្កេនដើម្បីបង់ប្រាក់</h4> -->
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:20px">តម្លៃសរុប: <b style="color:var(--primary-blue);font-size:20px">$10.00</b></p>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:10px">តម្លៃសរុប: <b style="color:var(--primary-blue);font-size:20px">$15.00</b></p>
         
-        <!-- Loading Spinner -->
+        <!-- Timer Display -->
+        <div id="timerDisplay" class="timer-display">05:00</div>
+
         <div id="qrLoading" class="loader"></div>
-        
-        <!-- QR Image -->
         <img id="qrImage" class="qr-img" src="" alt="KHQR Payment">
-        
-        <!-- Status Box -->
         <div id="paymentStatus" class="status-badge">Preparing KHQR...</div>
-        
-        <!-- Manual Confirm Button -->
-        <button id="btnManual" class="btn-manual" onclick="manualConfirm()">
-            <i class="fas fa-check-circle"></i> ខ្ញុំបានបង់ប្រាក់រួចហើយ (Paid)
-        </button>
 
         <p style="font-size:12px;color:#999;margin-top:20px;line-height:1.5">
-           សូមស្កេន QR Code ជាមួយកម្មវិធីធនាគាររបស់អ្នកដើម្បីទូទាត់ប្រាក់។<br>
-            ប្រព័ន្ធនឹងត្រួតពិនិត្យដោយស្វ័យប្រវត្តិ។
+           សូមស្កេន QR Code ជាមួយកម្មវិធីធនាគាររបស់អ្នក។<br>
+           ប្រព័ន្ធនឹងដំណើរការដោយស្វ័យប្រវត្តិ។
         </p>
     </div>
 </div>
@@ -236,248 +206,186 @@
         </div>
         <h3 id="successTitle" style="font-family:'Hanuman'; font-weight:bold; margin-bottom:10px;">ការបង់ប្រាក់ជោគជ័យ!</h3>
         <p id="successDesc" style="color:#555; font-size:14px; margin-bottom:25px; line-height:1.6">
-            យើងបានទទួលការបង់ប្រាក់របស់អ្នក។<br>សូមពិនិត្យអ៊ីមែលរបស់អ្នកក្នុងពេលបន្តិចទៀតនេះ។
+            យើងបានទទួលសំណើរបស់អ្នក។<br>Admin នឹងពិនិត្យនិងផ្ញើជូនតាមអ៊ីមែលក្នុងពេលឆាប់ៗ។
         </p>
         <button class="btn-pay active" onclick="location.reload()" style="opacity:1;pointer-events:auto;width:100%;border-radius:15px">
             រួចរាល់ (Done)
         </button>
     </div>
 </div>
-    <script>
-       
-// ==========================================
-// 1. GLOBAL CONFIGURATION
-// ==========================================
-const API_BASE = "https://testudid.onrender.com"; 
-let currentOrderId = null;
 
-// ==========================================
-// 2. AUTO-FILL UDID ON PAGE LOAD
-// ==========================================
+<footer class="footer">
+    <p>© 2026 <b>Irra Esign</b>. All rights reserved</p>
+    <div class="footer-links">
+        <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="https://t.me/irra_11">Support</a>
+    </div>
+</footer>   
 
-// Simple Friendly Styled Alert
-function showFriendlyAlert(message) {
+<script>
+    // --- CONFIG ---
+    const API_BASE = "https://gloves-frequency-suitable-lions.trycloudflare.com"; 
+    
+    let currentOrderId = null;
+    let paymentInterval = null; 
+    let countdownInterval = null; // Timer Variable
 
-    const overlay = document.createElement("div");
-    overlay.style.cssText = `
-        position:fixed;
-        top:0;left:0;
-        width:100%;height:100%;
-        background:rgba(0,0,0,0.5);
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        z-index:99999;
-    `;
-
-    const box = document.createElement("div");
-    box.style.cssText = `
-        background:#fff;
-        padding:25px 30px;
-        border-radius:20px;
-        width:320px;
-        text-align:center;
-        font-family:'Hanuman','Inter',sans-serif;
-        box-shadow:0 15px 35px rgba(0,0,0,0.2);
-        animation:fadeIn .25s ease;
-    `;
-
-    box.innerHTML = `
-        <div style="font-size:14px;line-height:1.6;margin-bottom:15px">
-            ${message}
-        </div>
-        <button style="
-            padding:10px 25px;
-            border:none;
-            border-radius:12px;
-            background:linear-gradient(to right,#0072b5,#00bcd4);
-            color:#fff;
-            font-weight:bold;
-            cursor:pointer;
-        ">យល់ព្រម</button>
-    `;
-
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-
-    box.querySelector("button").onclick = function () {
-        document.body.removeChild(overlay);
-    };
-}
-
-
-// This runs the moment Safari opens your website
-window.addEventListener('load', function() {
-    console.log("Page loaded. Checking for UDID in URL...");
-    const urlParams = new URLSearchParams(window.location.search);
-    const receivedUdid = urlParams.get('udid');
-
-    if (receivedUdid) {
-        const input = document.getElementById('udidInput');
-        if (input) {
-            input.value = receivedUdid;
-
-            // Update the visual status box
-            updateUDID(receivedUdid); 
-            
-            // Remove the UDID from the address bar
+    // --- AUTO UDID FILL ---
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const receivedUdid = urlParams.get('udid');
+        if (receivedUdid) {
+            updateUDID(receivedUdid);
             window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // Styled friendly alert
-        showFriendlyAlert("យើងបានរកឃើញ UDID របស់អ្នក ហើយបញ្ចូលជូនដោយស្វ័យប្រវត្តិរួចរាល់។<br>សូមបន្តទៅជំហានបន្ទាប់។");
+            alert("UDID បានបញ្ចូលដោយស្វ័យប្រវត្តិ។");
         }
+    });
+
+    // --- UI FUNCTIONS ---
+    function toggleMenu(show) {
+        const menu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('menuOverlay');
+        if (show) { menu.classList.add('active'); overlay.classList.add('active'); }
+        else { menu.classList.remove('active'); overlay.classList.remove('active'); }
     }
-});
-
-// ==========================================
-// 3. UI & MODAL FUNCTIONS
-// ==========================================
-function toggleMenu(show) {
-    const menu = document.getElementById('sideMenu');
-    const overlay = document.getElementById('menuOverlay');
-    if (show) { 
-        menu.classList.add('active'); 
-        overlay.classList.add('active'); 
-    } else { 
-        menu.classList.remove('active'); 
-        overlay.classList.remove('active'); 
-    }
-}
-
-function showAbout() {
-    toggleMenu(false);
-    document.getElementById('aboutModal').classList.add('active');
-}
-
-function closeAllModals() {
-    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-}
-
-// ==========================================
-// 4. INPUT VALIDATION
-// ==========================================
-function updateUDID(val) {
-    val = val.trim();
-    document.getElementById('udidInput').value = val;
-    const status = document.getElementById('udidStatus');
+    function showAbout() { toggleMenu(false); document.getElementById('aboutModal').classList.add('active'); }
     
-    if (val.length > 10) {
-        status.innerText = val;
-        status.style.color = "#00bcd4";
-    } else {
-        status.innerText = "Waiting for input...";
-        status.style.color = "#64748b";
-    }
-    validateForm();
-}
-
-function validateForm() {
-    const udid = document.getElementById('udidInput').value;
-    const checked = document.getElementById('termsCheck').checked;
-    const btn = document.getElementById('payBtn');
-    
-    // Activate the "Next Step" button only if UDID is long enough and checkbox is ticked
-    if (udid.length >= 20 && checked) {
-        btn.classList.add('active');
-    } else {
-        btn.classList.remove('active');
-    }
-}
-
-// This function is triggered by the "Continue to Payment" button
-function validateEmail() {
-    const email = document.getElementById('emailInput').value.trim();
-    
-    if (email === "" || !email.includes('@') || !email.includes('.')) {
-        alert("សូមបញ្ចូលអ៊ីមែលឱ្យបានត្រឹមត្រូវ! (ឧទាហរណ៍: irra@gmail.com)");
-        return;
+    function closeAllModals() { 
+        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        
+        // Stop checking payment and timer
+        if (paymentInterval) clearInterval(paymentInterval);
+        if (countdownInterval) clearInterval(countdownInterval);
     }
 
-    // If email is valid, close this modal and start generating the QR
-    document.getElementById('emailModal').classList.remove('active');
-    generateQR();
-}
+    // --- VALIDATION ---
+    function updateUDID(val) {
+        val = val.trim();
+        document.getElementById('udidInput').value = val;
+        const status = document.getElementById('udidStatus');
+        if (val.length > 10) { status.innerText = val; status.style.color = "#00bcd4"; }
+        else { status.innerText = "Waiting for input..."; status.style.color = "#64748b"; }
+        validateForm();
+    }
 
-// ==========================================
-// 5. PAYMENT & QR LOGIC
-// ==========================================
-async function generateQR() {
-    // Show the QR modal and loading spinner
-    document.getElementById('qrModal').classList.add('active');
-    document.getElementById('qrLoading').style.display = 'block';
-    document.getElementById('qrImage').style.display = 'none';
-    document.getElementById('btnManual').style.display = 'none';
+    function validateForm() {
+        const udid = document.getElementById('udidInput').value;
+        const checked = document.getElementById('termsCheck').checked;
+        const btn = document.getElementById('payBtn');
+        if (udid.length >= 20 && checked) btn.classList.add('active');
+        else btn.classList.remove('active');
+    }
 
-    const statusBox = document.getElementById('paymentStatus');
-    statusBox.innerText = "Generating KHQR...";
+    function validateEmail() {
+        const email = document.getElementById('emailInput').value.trim();
+        if (email === "" || !email.includes('@')) {
+            alert("សូមបញ្ចូលអ៊ីមែលឱ្យបានត្រឹមត្រូវ!");
+            return;
+        }
+        document.getElementById('emailModal').classList.remove('active');
+        generateQR();
+    }
 
-    const udid = document.getElementById('udidInput').value;
-    const email = document.getElementById('emailInput').value;
+    // --- BACKEND API CALLS ---
+    async function generateQR() {
+        document.getElementById('qrModal').classList.add('active');
+        document.getElementById('qrLoading').style.display = 'block';
+        document.getElementById('qrImage').style.display = 'none';
+        document.getElementById('paymentStatus').innerText = "Generating KHQR...";
+        document.getElementById('timerDisplay').innerText = "05:00"; // Reset text
+        document.getElementById('qrImage').style.opacity = "1"; // Reset Opacity
 
-    try {
-        const response = await fetch(`${API_BASE}/api/create-payment`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ udid: udid, email: email })
-        });
-        const data = await response.json();
+        const udid = document.getElementById('udidInput').value;
+        const email = document.getElementById('emailInput').value;
 
-        if (data.success) {
-            window.currentOrderId = data.order_id;
-            
-            // Hide loader and show Base64 QR image from backend
-            document.getElementById('qrLoading').style.display = 'none';
-            document.getElementById('qrImage').src = "data:image/png;base64," + data.qr_image;
-            document.getElementById('qrImage').style.display = 'block';
-            
-            statusBox.innerText = "ស្កេនដើម្បីបង់ប្រាក់";
-            document.getElementById('btnManual').style.display = 'block';
-        } else {
-            alert("Error generating QR: " + data.error);
+        try {
+            const response = await fetch(`${API_BASE}/api/create-payment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ udid: udid, email: email })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                window.currentOrderId = data.order_id;
+                
+                document.getElementById('qrLoading').style.display = 'none';
+                document.getElementById('qrImage').src = "data:image/png;base64," + data.qr_image;
+                document.getElementById('qrImage').style.display = 'block';
+                document.getElementById('paymentStatus').innerText = "ស្កេនដើម្បីបង់ប្រាក់";
+                document.getElementById('paymentStatus').style.background = "#fff3cd";
+                document.getElementById('paymentStatus').style.color = "#856404";
+                
+                // --- START TIMER & CHECK ---
+                startCountdown(300); // 300 seconds = 5 minutes
+                startPaymentCheck(data.md5);
+                
+            } else {
+                alert("Error: " + data.error);
+                closeAllModals();
+            }
+        } catch (e) {
+            console.error(e);
+            alert("មិនអាចភ្ជាប់ទៅកាន់ Server បានទេ។");
             closeAllModals();
         }
-    } catch (e) {
-        console.error("Payment Error:", e);
-        alert("មិនអាចភ្ជាប់ទៅកាន់ Server បានទេ។");
-        closeAllModals();
     }
-}
 
-async function manualConfirm() {
-    if (!window.currentOrderId) return;
-    
-    const btn = document.getElementById('btnManual');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
-    btn.disabled = true;
-
-    try {
-        const response = await fetch(`${API_BASE}/api/confirm-manual`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ order_id: window.currentOrderId })
-        });
+    // --- TIMER LOGIC ---
+    function startCountdown(duration) {
+        let timer = duration, minutes, seconds;
+        const display = document.getElementById('timerDisplay');
         
-        // Hide QR Modal and show the Tada Success Modal
-        document.getElementById('qrModal').classList.remove('active');
-        document.getElementById('successModal').classList.add('active');
-    } catch (e) {
-        console.error("Confirm Error:", e);
-        alert("មានបញ្ហាក្នុងការផ្ញើការបញ្ជាក់។");
-        btn.innerHTML = '<i class="fas fa-check-circle"></i> ខ្ញុំបានបង់ប្រាក់រួចហើយ (Paid)';
-        btn.disabled = false;
-    }
-}
-// ==========================================
-// 6. SECURITY UTILS
-// ==========================================
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.onkeydown = function(e) {
-    if(e.keyCode == 123) return false;
-    if(e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
-    if(e.ctrlKey && e.keyCode == 85) return false;
-};
-    </script>
-  
+        if (countdownInterval) clearInterval(countdownInterval);
 
+        countdownInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                // TIME OUT LOGIC
+                clearInterval(countdownInterval);
+                if (paymentInterval) clearInterval(paymentInterval);
+                
+                // UI Updates for Expiry
+                document.getElementById('paymentStatus').innerText = "QR Code Expired";
+                document.getElementById('paymentStatus').style.background = "#fee2e2";
+                document.getElementById('paymentStatus').style.color = "#991b1b";
+                document.getElementById('qrImage').style.opacity = "0.2"; // Dim QR
+                display.innerText = "Time Out!";
+                alert("QR Code has expired. Please try again.");
+                closeAllModals();
+            }
+        }, 1000);
+    }
+
+    // --- AUTO CHECK FUNCTION ---
+    function startPaymentCheck(md5) {
+        if (paymentInterval) clearInterval(paymentInterval);
+        
+        paymentInterval = setInterval(async () => {
+            try {
+                const res = await fetch(`${API_BASE}/api/check-payment/${md5}`);
+                const data = await res.json();
+                
+                if (data.status === 'PAID') {
+                    clearInterval(paymentInterval);
+                    if (countdownInterval) clearInterval(countdownInterval);
+                    document.getElementById('qrModal').classList.remove('active');
+                    document.getElementById('successModal').classList.add('active');
+                }
+            } catch (e) {
+                console.log("Checking...", e);
+            }
+        }, 2000); // Check every 2 seconds
+    }
+
+    // Disable Right Click & Inspect
+    document.addEventListener('contextmenu', e => e.preventDefault());
+</script>
 </body>
 </html>
