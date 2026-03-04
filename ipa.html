@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss IPA – Premium iOS Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); border-color: #f59e0b; box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.3); }
+        .boss-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .btn-install { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transition: all 0.2s ease; }
+        .btn-install:hover { filter: brightness(1.2); transform: scale(1.05); }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 w-full px-6 py-4 bg-[#0f172a]/80 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 boss-gradient rounded-xl flex items-center justify-center font-black text-2xl">B</div>
+                <span class="text-2xl font-black uppercase tracking-tighter">Boss <span class="text-amber-500">Ipa</span></span>
+            </div>
+            <nav class="hidden md:flex gap-8 font-bold text-sm">
+                <a href="#" class="hover:text-amber-500">HOME</a>
+                <a href="#" class="hover:text-amber-500">GAMES</a>
+                <a href="#" class="hover:text-amber-500 text-amber-500">LIBRARY</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Hero -->
+        <section class="mb-12 relative overflow-hidden rounded-3xl h-[300px] flex items-center p-8 shadow-2xl bg-slate-800 border border-white/5">
+            <div class="relative z-10">
+                <h1 class="text-4xl md:text-6xl font-black mb-2 uppercase">The Ultimate <br><span class="text-amber-500">IPA Store</span></h1>
+                <p class="text-gray-400 font-medium max-w-md">No revokes. No limits. High-speed premium tweaked apps for your iPhone.</p>
+            </div>
+        </section>
+
+        <!-- Dynamic Grid -->
+        <h2 class="text-2xl font-black mb-8 flex items-center gap-3">
+            <span class="w-2 h-8 boss-gradient rounded-full"></span>
+            ALL APPLICATIONS
+        </h2>
+
+        <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Loading Spinner -->
+            <div class="col-span-full flex justify-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-amber-500"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // CHANGE THIS TO YOUR RENDER URL
+        const API_URL = "https://ipa-boss.onrender.com";
+
+        async function fetchApps() {
+            try {
+                const response = await fetch(`${API_URL}/apps`);
+                const apps = await response.json();
+                const grid = document.getElementById('app-grid');
+                
+                if (apps.length === 0) {
+                    grid.innerHTML = `<p class="col-span-full text-center text-gray-500">No apps found in library.</p>`;
+                    return;
+                }
+
+                grid.innerHTML = apps.map(app => `
+                    <div class="glass-card p-5 rounded-3xl flex items-center gap-5">
+                        <img src="${app.image}" class="w-16 h-16 rounded-2xl object-cover shadow-lg bg-slate-700" onerror="this.src='https://placehold.co/100x100?text=App'">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-lg truncate">${app.title}</h3>
+                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">${app.tag}</p>
+                            <p class="text-sm text-gray-500 truncate">${app.description}</p>
+                        </div>
+                        <a href="${app.download_url}" class="btn-install px-4 py-2 rounded-xl text-xs font-black">GET</a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                document.getElementById('app-grid').innerHTML = `<p class="col-span-full text-center text-red-500">Error loading apps. Check your Backend URL.</p>`;
+            }
+        }
+
+        fetchApps();
+    </script>
+</body>
+</html>
