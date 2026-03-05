@@ -13,51 +13,76 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <!-- Form -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-white/10 shadow-xl h-fit">
-                <h2 class="text-xl font-bold mb-4">Add New App</h2>
+            <div class="bg-slate-900 p-6 rounded-3xl border border-white/10 shadow-xl h-fit sticky top-6">
+                <h2 id="form-title" class="text-xl font-bold mb-4">Add New App</h2>
+                
+                <!-- Hidden input to store ID when editing -->
+                <input type="hidden" id="edit-id" value="">
+
                 <div class="space-y-4">
-                    <input id="title" placeholder="App Name (e.g. YouTube Premium)" class="w-full bg-slate-800 border-none p-3 rounded-xl">
-                    <input id="tag" placeholder="Tag (e.g. NO ADS / MOD)" class="w-full bg-slate-800 border-none p-3 rounded-xl">
-                    <input id="desc" placeholder="Short Description" class="w-full bg-slate-800 border-none p-3 rounded-xl">
-                    <input id="img" placeholder="Icon Image URL" class="w-full bg-slate-800 border-none p-3 rounded-xl">
-                    <input id="url" placeholder="IPA File URL" class="w-full bg-slate-800 border-none p-3 rounded-xl">
-                    <button onclick="addApp()" id="btn-text" class="w-full bg-amber-500 hover:bg-amber-600 p-4 rounded-xl font-black uppercase transition">Upload to Store</button>
+                    <input id="title" placeholder="App Name" class="w-full bg-slate-800 border-none p-3 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <input id="tag" placeholder="Tag (e.g. MOD MENU)" class="w-full bg-slate-800 border-none p-3 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <input id="desc" placeholder="Description" class="w-full bg-slate-800 border-none p-3 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <input id="img" placeholder="Icon Image URL" class="w-full bg-slate-800 border-none p-3 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <input id="url" placeholder="IPA File URL" class="w-full bg-slate-800 border-none p-3 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    
+                    <button onclick="saveApp()" id="btn-text" class="w-full bg-amber-500 hover:bg-amber-600 p-4 rounded-xl font-black uppercase transition">Upload to Store</button>
+                    <button onclick="resetForm()" id="btn-cancel" class="w-full hidden bg-slate-700 hover:bg-slate-600 p-2 rounded-xl text-xs font-bold uppercase transition">Cancel Edit</button>
                 </div>
             </div>
 
             <!-- List -->
             <div class="bg-slate-900 p-6 rounded-3xl border border-white/10 shadow-xl">
-                <h2 class="text-xl font-bold mb-4">Manage Apps</h2>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Manage Library</h2>
+                    <button onclick="loadManageList()" class="text-xs text-gray-500 hover:text-white">Refresh</button>
+                </div>
                 <div id="manage-list" class="space-y-3">
-                    <!-- Dynamic list will appear here -->
+                    <p class="text-gray-500">Loading apps...</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_URL = "https://ipa-boss.onrender.com";
+        const API_URL = "https://ipa-boss.onrender.com"; // Your Render URL
+        let allApps = []; // Store apps locally to fill edit form
 
         async function loadManageList() {
             const list = document.getElementById('manage-list');
-            list.innerHTML = `<p class="text-gray-500">Loading...</p>`;
-            
-            const response = await fetch(`${API_URL}/apps`);
-            const apps = await response.json();
+            try {
+                const response = await fetch(`${API_URL}/apps`);
+                allApps = await response.json();
 
-            list.innerHTML = apps.map(app => `
-                <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-white/5">
-                    <div class="flex items-center gap-3">
-                        <img src="${app.image}" class="w-10 h-10 rounded-lg object-cover">
-                        <span class="font-bold text-sm truncate w-24">${app.title}</span>
+                if (allApps.length === 0) {
+                    list.innerHTML = `<p class="text-gray-500">No apps in library.</p>`;
+                    return;
+                }
+
+                list.innerHTML = allApps.map(app => `
+                    <div class="flex items-center justify-between bg-slate-800 p-3 rounded-2xl border border-white/5">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <img src="${app.image}" class="w-10 h-10 rounded-lg object-cover bg-slate-700" onerror="this.src='https://placehold.co/100x100?text=App'">
+                            <div class="truncate">
+                                <p class="font-bold text-sm truncate">${app.title}</p>
+                                <p class="text-[10px] text-amber-500 font-black uppercase">${app.tag}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 ml-2">
+                            <button onclick="startEdit('${app.id}')" class="bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white px-3 py-1 rounded-lg text-[10px] font-bold transition">EDIT</button>
+                            <button onclick="deleteApp('${app.id}')" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded-lg text-[10px] font-bold transition">DEL</button>
+                        </div>
                     </div>
-                    <button onclick="deleteApp('${app.id}')" class="text-red-500 hover:bg-red-500/10 px-3 py-1 rounded-lg text-xs font-bold transition">DELETE</button>
-                </div>
-            `).join('');
+                `).join('');
+            } catch (error) {
+                list.innerHTML = `<p class="text-red-500">Server offline. Try again.</p>`;
+            }
         }
 
-        async function addApp() {
+        async function saveApp() {
             const btn = document.getElementById('btn-text');
+            const editId = document.getElementById('edit-id').value;
+
             const data = {
                 title: document.getElementById('title').value,
                 tag: document.getElementById('tag').value,
@@ -66,31 +91,87 @@
                 download_url: document.getElementById('url').value
             };
 
-            if(!data.title || !data.download_url) return alert("Title and URL are required!");
+            if (!data.title || !data.download_url) return alert("Title and URL are required!");
 
-            btn.innerText = "Uploading...";
-            
-            const response = await fetch(`${API_URL}/apps`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+            btn.innerText = editId ? "Updating..." : "Uploading...";
+            btn.disabled = true;
 
-            if(response.ok) {
-                alert("App added successfully!");
-                location.reload();
-            } else {
-                alert("Error adding app.");
+            try {
+                const method = editId ? 'PUT' : 'POST';
+                const url = editId ? `${API_URL}/apps/${editId}` : `${API_URL}/apps`;
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert(editId ? "App updated!" : "App added!");
+                    resetForm();
+                    loadManageList();
+                } else {
+                    alert("Error saving app.");
+                }
+            } catch (error) {
+                alert("Connection failed.");
+            } finally {
+                btn.disabled = false;
                 btn.innerText = "Upload to Store";
             }
         }
 
-        async function deleteApp(id) {
-            if(!confirm("Are you sure?")) return;
-            const response = await fetch(`${API_URL}/apps/${id}`, { method: 'DELETE' });
-            if(response.ok) loadManageList();
+        function startEdit(id) {
+            const app = allApps.find(a => a.id === id);
+            if (!app) return;
+
+            // Fill the form
+            document.getElementById('edit-id').value = app.id;
+            document.getElementById('title').value = app.title;
+            document.getElementById('tag').value = app.tag;
+            document.getElementById('desc').value = app.description;
+            document.getElementById('img').value = app.image;
+            document.getElementById('url').value = app.download_url;
+
+            // Change UI to Edit Mode
+            document.getElementById('form-title').innerText = "Edit App";
+            document.getElementById('btn-text').innerText = "Save Changes";
+            document.getElementById('btn-text').classList.replace('bg-amber-500', 'bg-blue-600');
+            document.getElementById('btn-cancel').classList.remove('hidden');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function resetForm() {
+            document.getElementById('edit-id').value = "";
+            document.getElementById('title').value = "";
+            document.getElementById('tag').value = "";
+            document.getElementById('desc').value = "";
+            document.getElementById('img').value = "";
+            document.getElementById('url').value = "";
+
+            document.getElementById('form-title').innerText = "Add New App";
+            document.getElementById('btn-text').innerText = "Upload to Store";
+            document.getElementById('btn-text').classList.replace('bg-blue-600', 'bg-amber-500');
+            document.getElementById('btn-cancel').classList.add('hidden');
+        }
+
+        async function deleteApp(id) {
+            if (!confirm("Delete this app forever?")) return;
+
+            try {
+                const response = await fetch(`${API_URL}/apps/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    loadManageList();
+                } else {
+                    alert("Delete failed.");
+                }
+            } catch (error) {
+                alert("Server error.");
+            }
+        }
+
+        // Initial Load
         loadManageList();
     </script>
 </body>
