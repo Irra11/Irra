@@ -1,91 +1,196 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boss IPA – Premium iOS Library</title>
+    <title>Boss IPA – Premium iOS IPA Library & Tweaked Apps</title>
+    <meta name="description" content="Download premium tweaked iOS apps and modded games safely. The #1 IPA library for iPhone and iPad." />
+    
+    <!-- Modern Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
-        .glass-card:hover { transform: translateY(-5px); border-color: #f59e0b; box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.3); }
-        .boss-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-        .btn-install { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transition: all 0.2s ease; }
-        .btn-install:hover { filter: brightness(1.2); transform: scale(1.05); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #f59e0b;
+            box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.3);
+        }
+
+        .boss-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .btn-install {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-install:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .ad-slot {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Simple pulse for loading */
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
+
 <body class="antialiased min-h-screen">
 
     <!-- Header -->
     <header class="sticky top-0 z-50 w-full px-6 py-4 bg-[#0f172a]/80 backdrop-blur-lg border-b border-white/10">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 boss-gradient rounded-xl flex items-center justify-center font-black text-2xl">B</div>
-                <span class="text-2xl font-black uppercase tracking-tighter">Boss <span class="text-amber-500">Ipa</span></span>
-            </div>
-            <nav class="hidden md:flex gap-8 font-bold text-sm">
-                <a href="#" class="hover:text-amber-500">HOME</a>
-                <a href="#" class="hover:text-amber-500">GAMES</a>
-                <a href="#" class="hover:text-amber-500 text-amber-500">LIBRARY</a>
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 boss-gradient rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="text-2xl font-black text-white">B</span>
+                </div>
+                <span class="text-2xl font-black tracking-tighter uppercase">Boss <span class="text-amber-500">Ipa</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                <a href="#" class="hover:text-amber-500 transition">HOME</a>
+                <a href="#" class="hover:text-amber-500 transition">GAMES</a>
+                <a href="#" class="hover:text-amber-500 transition text-amber-500">LIBRARY</a>
             </nav>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Hero -->
-        <section class="mb-12 relative overflow-hidden rounded-3xl h-[300px] flex items-center p-8 shadow-2xl bg-slate-800 border border-white/5">
-            <div class="relative z-10">
-                <h1 class="text-4xl md:text-6xl font-black mb-2 uppercase">The Ultimate <br><span class="text-amber-500">IPA Store</span></h1>
-                <p class="text-gray-400 font-medium max-w-md">No revokes. No limits. High-speed premium tweaked apps for your iPhone.</p>
+
+        <!-- AD TOP -->
+        <div class="ad-slot">Advertisement - Place your Ad code here</div>
+
+        <!-- Hero Featured (Static or pulls from first DB item) -->
+        <section class="mb-12 relative overflow-hidden rounded-3xl h-[400px] flex items-end p-8 md:p-12 shadow-2xl">
+            <img id="hero-img" src="https://ipaomtk.com/wp-content/uploads/2026/02/Minecraft-Dream-it-Build-it-IPA-v26.0-For-iOS.webp" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/20 to-transparent"></div>
+            <div class="relative z-10 max-w-2xl">
+                <span class="boss-gradient text-black text-xs font-extrabold px-3 py-1 rounded-full uppercase mb-4 inline-block tracking-widest">Featured App</span>
+                <h1 id="hero-title" class="text-5xl md:text-7xl font-black mb-4 leading-none tracking-tighter">Minecraft <br><span class="text-amber-500">Boss Mod</span></h1>
+                <p id="hero-desc" class="text-gray-200 mb-6 text-lg font-medium">Get the latest update with all skins unlocked.</p>
+                <a id="hero-link" href="#" class="btn-install px-12 py-4 rounded-2xl font-black text-xl inline-block uppercase tracking-wide">Get it now</a>
             </div>
         </section>
 
-        <!-- Dynamic Grid -->
-        <h2 class="text-2xl font-black mb-8 flex items-center gap-3">
+        <!-- App Section Title -->
+        <h2 class="text-3xl font-black mb-8 flex items-center gap-3">
             <span class="w-2 h-8 boss-gradient rounded-full"></span>
-            ALL APPLICATIONS
+            Trending IPA Library
         </h2>
 
+        <!-- App Grid (DYNAMIC) -->
         <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Loading Spinner -->
-            <div class="col-span-full flex justify-center py-20">
-                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-amber-500"></div>
+            <!-- Loading Placeholder -->
+            <div class="col-span-full py-20 text-center">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-amber-500 mb-4"></div>
+                <p class="text-gray-500 font-bold loading-pulse uppercase tracking-widest text-xs">Connecting to Boss Library...</p>
             </div>
         </div>
+
+        <!-- AD BOTTOM -->
+        <div class="ad-slot">Advertisement - Footer Banner Ad</div>
+
     </main>
 
+    <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-white/10 text-center text-gray-500 mt-10">
+        <p class="text-white font-black text-2xl mb-4 tracking-tighter uppercase">BOSS <span class="text-amber-500">IPA</span></p>
+        <div class="flex flex-wrap justify-center gap-6 text-sm mb-8 font-semibold">
+            <a href="#" class="hover:text-amber-500 transition">DMCA</a>
+            <a href="#" class="hover:text-white transition">PRIVACY POLICY</a>
+            <a href="#" class="hover:text-white transition text-amber-500">CONTACT US</a>
+        </div>
+        <p class="text-xs max-w-xl mx-auto leading-relaxed">Boss IPA is a community-driven project. We do not host any files on our servers. All links are provided by external sources for educational use only.</p>
+        <p class="text-xs mt-4 uppercase tracking-widest font-bold">© 2026 BOSSIPA.COM</p>
+    </footer>
+
     <script>
-        // CHANGE THIS TO YOUR RENDER URL
-        const API_URL = "https://ipa-boss.onrender.com";
+        const API_URL = "https://ipa-boss.onrender.com"; // YOUR RENDER URL
 
         async function fetchApps() {
+            const grid = document.getElementById('app-grid');
+            
             try {
                 const response = await fetch(`${API_URL}/apps`);
                 const apps = await response.json();
-                const grid = document.getElementById('app-grid');
-                
+
                 if (apps.length === 0) {
-                    grid.innerHTML = `<p class="col-span-full text-center text-gray-500">No apps found in library.</p>`;
+                    grid.innerHTML = '<p class="col-span-full text-center py-10 text-gray-500">The library is currently empty. Check back later!</p>';
                     return;
                 }
 
-                grid.innerHTML = apps.map(app => `
-                    <div class="glass-card p-5 rounded-3xl flex items-center gap-5">
-                        <img src="${app.image}" class="w-16 h-16 rounded-2xl object-cover shadow-lg bg-slate-700" onerror="this.src='https://placehold.co/100x100?text=App'">
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-bold text-lg truncate">${app.title}</h3>
-                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">${app.tag}</p>
-                            <p class="text-sm text-gray-500 truncate">${app.description}</p>
+                // Update Hero Section with the latest app (Optional)
+                const latest = apps[0];
+                document.getElementById('hero-title').innerHTML = `${latest.title.split(' ')[0]} <br><span class="text-amber-500">${latest.title.split(' ').slice(1).join(' ') || 'MOD'}</span>`;
+                document.getElementById('hero-desc').innerText = latest.description;
+                document.getElementById('hero-link').href = latest.download_url;
+                document.getElementById('hero-img').src = latest.image;
+
+                // Build the Grid
+                let htmlContent = '';
+                apps.forEach((app, index) => {
+                    // Insert Ad Slot after 3rd app
+                    if (index === 3) {
+                        htmlContent += `<div class="ad-slot col-span-full">Advertisement - In-Feed Ad Unit</div>`;
+                    }
+
+                    htmlContent += `
+                        <div class="glass-card p-5 rounded-3xl flex items-center gap-5 relative" onclick="location.href='${app.download_url}'">
+                            <img src="${app.image}" class="w-20 h-20 rounded-2xl shadow-xl object-cover" onerror="this.src='https://placehold.co/200x200/1e293b/ffffff?text=IPA'">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-lg truncate">${app.title}</h3>
+                                <p class="text-sm text-gray-400 truncate">${app.description}</p>
+                                <p class="text-xs text-amber-500 mt-1 font-bold uppercase tracking-wider">${app.tag}</p>
+                            </div>
+                            <a href="${app.download_url}" class="btn-install px-4 py-2 rounded-xl text-sm font-black uppercase">INSTALL</a>
                         </div>
-                        <a href="${app.download_url}" class="btn-install px-4 py-2 rounded-xl text-xs font-black">GET</a>
-                    </div>
-                `).join('');
+                    `;
+                });
+
+                grid.innerHTML = htmlContent;
+
             } catch (error) {
-                document.getElementById('app-grid').innerHTML = `<p class="col-span-full text-center text-red-500">Error loading apps. Check your Backend URL.</p>`;
+                console.error("Library error:", error);
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-red-400 font-bold mb-2">⚠️ Server is waking up...</p>
+                        <p class="text-gray-500 text-sm italic">Please wait 30 seconds and refresh the page.</p>
+                        <button onclick="location.reload()" class="mt-4 boss-gradient px-6 py-2 rounded-full text-xs font-black uppercase">Try Again</button>
+                    </div>`;
             }
         }
 
+        // Initialize
         fetchApps();
     </script>
 </body>
