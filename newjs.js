@@ -205,11 +205,11 @@ function processPaymentRedirect(amount) {
     
     // 1. DETERMINE IMAGE BASED ON AMOUNT
     if (amount === 1) {
-        qrImageSource = '1.png';
+        qrImageSource = '1d.jpg';
     } else if (amount === 3) {
         qrImageSource = '3.png'; 
-    } else if (amount === 4) {
-        qrImageSource = '4$.png'; 
+    } else if (amount === 5) {
+        qrImageSource = '5$.jpg'; 
     } else {
         qrImageSource = 'photo/1.5$.jpg'; 
     }
