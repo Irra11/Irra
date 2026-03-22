@@ -28,25 +28,34 @@
         /* Modal Animation */
         .modal-active { display: flex !important; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Footer Custom Style to match image */
+        .custom-footer {
+            background-color: #1e293b;
+            text-align: center;
+            padding: 40px 20px;
+        }
     </style>
 </head>
 <body class="pb-32">
 
    <!-- Navbar -->
-<nav class="flex justify-between items-center p-4 bg-slate-900 shadow-lg sticky top-0 z-50">
-    <div class="flex items-center space-x-3">
-        <!-- Logo Image -->
-        <img src="https://i.pinimg.com/736x/26/ee/96/26ee9656dbdc7cadb5f7656c00ff2dcc.jpg" 
-             alt="Logo" 
-             class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-        <h1 class="text-3xl font-bold oswald text-blue-custom italic tracking-tighter">IRRATOPUP</h1>
-    </div>
-    <button class="text-2xl"><i class="fas fa-bars"></i></button>
-</nav>
+    <nav class="flex justify-between items-center p-4 bg-slate-900 shadow-lg sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <img src="https://i.pinimg.com/736x/26/ee/96/26ee9656dbdc7cadb5f7656c00ff2dcc.jpg" 
+                 alt="Logo" 
+                 class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
+            <h1 class="text-3xl font-bold oswald text-blue-custom italic tracking-tighter">IRRATOPUP</h1>
+        </div>
+        <b
+        <!-- Change your navbar button to this -->
+<button onclick="toggleMenu()" class="text-2xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
     <!-- Banner -->
     <div class="p-4">
         <div class="rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-            <img src="https://i.pinimg.com/1200x/f4/ee/16/f4ee16078895763d549f02259b9078c1.jpg" alt="Banner" class="w-full object-cover h-44">
+            <img src="https://i.pinimg.com/736x/fa/a5/03/faa50399f05f48683edf56bd820a13db.jpg" alt="Banner" class="w-full object-cover h-44">
         </div>
     </div>
 
@@ -61,6 +70,80 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Dark Overlay -->
+<div id="sidebarOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 z-[60] hidden transition-opacity duration-300"></div>
+
+<!-- Sidebar Menu -->
+<div id="sidebarMenu" class="fixed top-0 right-0 h-full w-[280px] bg-[#0f172a] z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
+    
+    <!-- Sidebar Header -->
+    <div class="flex justify-between items-center mb-10">
+         <h1 class="text-3xl font-bold oswald text-blue-custom italic tracking-tighter">IRRATOPUP</h1>
+        <button onclick="toggleMenu()" class="text-white text-2xl">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Menu Links -->
+    <div class="flex flex-col space-y-8">
+        <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+            <i class="fas fa-home w-10 text-xl text-blue-500"></i> Home
+        </a>
+        <a href="javascript:void(0)" onclick="openAbout()" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+    <i class="fas fa-info-circle w-10 text-xl text-blue-500"></i> About
+</a>
+       <!-- About Modal -->
+<div id="aboutModal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-3xl p-6 relative shadow-2xl animate-in fade-in zoom-in duration-300">
+        
+        <!-- Close Button -->
+        <button onclick="closeAboutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <!-- Header -->
+        <div class="flex items-center space-x-3 mb-6">
+            <div class="bg-purple-500/20 p-3 rounded-2xl">
+                <i class="fas fa-info-circle text-blue-500 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold oswald text-white italic tracking-tight">ABOUT </h2>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-6 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
+            <!-- English -->
+           
+
+            <!-- Khmer -->
+            <div class="pt-4 border-t border-slate-800">
+                <h3 class="text-blue-400 font-bold text-xs uppercase tracking-widest mb-2">សេវាកម្មរបស់យើង</h3>
+                <p class="text-gray-300 text-[13px] leading-loose italic">
+                    IRRATOPUP គឺជាគេហទំព័រឈានមុខគេក្នុងប្រទេសកម្ពុជាសម្រាប់ការបញ្ចូលទឹកប្រាក់ក្នុងហ្គេម។ យើងមានឯកទេសក្នុងការផ្តល់ជូននូវសេវាកម្មបញ្ចូលហ្គេមលឿន រហ័ស សុវត្ថិភាព និងគួរឱ្យទុកចិត្តសម្រាប់ហ្គេម។សេវាកម្មរបស់យើងគឺផ្តល់ជូនអ្នកលេងហ្គេមនូវបទពិសោធន៍ដ៏ល្អបំផុតជាមួយនឹងការទទួលបានភ្លាមៗ តម្លៃសមរម្យ និងសេវាបំរើអតិថិជន ២៤ម៉ោង/៧ថ្ងៃ។
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <p class="text-[10px] text-gray-500 mt-6 text-center uppercase tracking-tighter italic">Trusted by thousands of Cambodian Gamers</p>
+    </div>
+</div>
+
+<style>
+    /* Smooth scrollbar for the about text */
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+</style>
+        <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+            <i class="fab fa-telegram w-10 text-xl text-blue-500"></i> Contact
+        </a>
+        <!-- <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+            <i class="fas fa-sign-in-alt w-10 text-xl text-blue-400"></i> Login
+        </a> -->
+    </div>
+</div>
 
     <!-- Information Section -->
     <div class="p-4">
@@ -99,7 +182,8 @@
         </h3>
         <div class="bg-card rounded-2xl border-2 border-blue-500 relative p-3">
             <div class="flex items-center">
-                <div class="w-14 h-14 mr-3 bg-white rounded-xl p-1">
+                <!-- REMOVED bg-white here as requested -->
+                <div class="w-14 h-14 mr-3 p-1">
                     <img src="https://saktopup.com/assets/icon/KHQR.png" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -113,10 +197,28 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-10 px-4 mb-32 opacity-50">
-        <h2 class="font-bold text-2xl oswald italic">IRRA TOPUP</h2>
-        <p class="text-gray-400 text-sm">Official Game Partner. Fast & Secure.</p>
+    <!-- UPDATED FOOTER TO MATCH IMAGE -->
+    <footer class="custom-footer mt-10">
+        <h3 class="font-bold mb-4">Contact Us:</h3>
+        <div class="flex justify-center space-x-4 mb-8">
+            <a href="#" class="text-4xl text-white"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-4xl text-white"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="text-4xl text-white"><i class="fab fa-youtube"></i></a>
+        </div>
+
+        <h3 class="font-bold mb-4">Accept Payment:</h3>
+        <div class="flex justify-center mb-8">
+           <div class=" items-center justify-center">
+   <img src="https://saktopup.com/assets/icon/KHQR.png" class="h-9 brightness" alt="KHQR">
+</div>
+        </div>
+
+        <div class="text-sm space-x-2 mb-2">
+            <a href="#" class="underline">Privacy Policy</a>
+            <span>|</span>
+            <a href="#" class="underline">Terms and Condition</a>
+        </div>
+        <p class="text-sm text-gray-300">Copyright ©Irratopup.store. All Rights Reserved.</p>
     </footer>
 
     <!-- Bottom Action Bar -->
@@ -130,7 +232,7 @@
         </button>
     </div>
 
-    <!-- Payment Modal (Hidden by Default) -->
+    <!-- Payment Modal -->
     <div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-6">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl">
             <div class="flex justify-between items-center mb-6">
@@ -164,5 +266,53 @@
 
     <script src="ml-check-id.js"></script>
     <script src="payment-bakong.js"></script>
+    <script>
+    function toggleMenu() {
+    const menu = document.getElementById('sidebarMenu');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (menu.classList.contains('translate-x-full')) {
+        // Open
+        menu.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+    } else {
+        // Close
+        menu.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+
+}
+function openAbout() {
+    // 1. Close the sidebar first
+    toggleMenu(); 
+    
+    // 2. Show the About Modal
+    const modal = document.getElementById('aboutModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAboutModal() {
+    const modal = document.getElementById('aboutModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    
+    // Re-enable scrolling
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal if user clicks outside the box
+window.onclick = function(event) {
+    const modal = document.getElementById('aboutModal');
+    if (event.target == modal) {
+        closeAboutModal();
+    }
+}
+</script>
 </body>
 </html>
