@@ -1,168 +1,174 @@
-<!DOCTYPE html>
-<html lang="en" oncontextmenu="return false;">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IRRATOPUP - Mobile Legends</title>
-    
-    <!-- Scripts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@400;700&display=swap');
-        * { -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .oswald { font-family: 'Oswald', sans-serif; }
-        .bg-card { background-color: #1e293b; }
-        .bg-input { background-color: #0f172a; }
-        .text-blue-custom { color: #0d9bdd; }
-        
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: #1e293b; padding: 15px 20px; border-top: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; z-index: 50; }
-        
-        input { user-select: text !important; -webkit-user-select: text !important; }
-        .package-card { border: 2px solid transparent; transition: all 0.2s; }
-        .package-card.selected { border-color: #0d9bdd; background-color: rgba(13, 155, 221, 0.1); transform: scale(1.02); }
-        
-        /* Modal Animation */
-        .modal-active { display: flex !important; animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
-</head>
-<body class="pb-32">
+/** 
+ * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
+ */
+const PAYMENT_API = "http://localhost:5000";
+let selectedPackage = null;
+let pollInterval = null;
 
-   <!-- Navbar -->
-<nav class="flex justify-between items-center p-4 bg-slate-900 shadow-lg sticky top-0 z-50">
-    <div class="flex items-center space-x-3">
-        <!-- Logo Image -->
-        <img src="https://i.pinimg.com/736x/26/ee/96/26ee9656dbdc7cadb5f7656c00ff2dcc.jpg" 
-             alt="Logo" 
-             class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-        <h1 class="text-3xl font-bold oswald text-blue-custom italic tracking-tighter">IRRATOPUP</h1>
-    </div>
-    <button class="text-2xl"><i class="fas fa-bars"></i></button>
-</nav>
-    <!-- Banner -->
-    <div class="p-4">
-        <div class="rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-            <img src="https://i.pinimg.com/1200x/f4/ee/16/f4ee16078895763d549f02259b9078c1.jpg" alt="Banner" class="w-full object-cover h-44">
-        </div>
-    </div>
+// Common Image URLs
+const IMG_DIAMOND = "https://static.saktopup.com/bundles/image_20260202_221225_c5242b0c640b41968f4b95b4f31d32cd.png";
+const IMG_WEEKLY = "https://static.saktopup.com/bundles/image_20260202_220625_55a8e44742404f8cad936ec8df7afff0.png";
 
-    <!-- Title Info -->
-    <div class="px-4 py-2 flex items-center space-x-3">
-        <img src="https://play-lh.googleusercontent.com/Op7v9XdsyxjrKImMD5RLyiLRCAHs3DMQFANwfsuMTw1hq0lH4j8tOqD3Fd7zyr4ixmC0xoqqRkQDBjAd46NsFQ=w240-h480" class="w-12 h-12 rounded-lg shadow-lg" alt="ML Icon">
-        <div>
-            <h2 class="text-xl font-bold oswald uppercase italic text-orange-500">Mobile Legends</h2>
-            <div class="flex items-center text-[10px] text-gray-400 space-x-2">
-                <span><i class="fas fa-lock text-green-500"></i> Safety guarantees</span>
-                <span><i class="fas fa-bolt text-yellow-500"></i> Instant delivery</span>
-            </div>
-        </div>
-    </div>
+// Updated Package List with Images
+const packages = [
+    { id: 1, name: "11 (10+1) Diamonds", price: 0.25, skuCode: "ml11", image: IMG_DIAMOND },
+    { id: 2, name: "22 (20+2) Diamonds", price: 0.40, skuCode: "ml22", image: IMG_DIAMOND },
+    { id: 3, name: "56 (50+6) Diamonds", price: 0.85, skuCode: "ml56", image: IMG_DIAMOND },
+    { id: 4, name: "86 (78+8) Diamonds", price: 1.25, skuCode: "ml86", image: IMG_DIAMOND },
+    { id: 5, name: "172 (156+16) Diamonds", price: 2.35, skuCode: "ml172", image: IMG_DIAMOND },
+    { id: 6, name: "257 (234+23) Diamonds", price: 3.50, skuCode: "ml257", image: IMG_DIAMOND },
+    { id: 7, name: "343 (312+31) Diamonds", price: 4.65, skuCode: "ml343", image: IMG_DIAMOND },
+    { id: 8, name: "429 (390+39) Diamonds", price: 5.80, skuCode: "ml429", image: IMG_DIAMOND },
+    { id: 9, name: "514 (468+46) Diamonds", price: 6.95, skuCode: "ml514", image: IMG_DIAMOND },
+    { id: 10, name: "600 (546+54) Diamonds", price: 8.10, skuCode: "ml600", image: IMG_DIAMOND },
+    { id: 11, name: "706 (625+81) Diamonds", price: 9.35, skuCode: "ml706", image: IMG_DIAMOND },
+    { id: 12, name: "878 (781+97) Diamonds", price: 11.60, skuCode: "ml878", image: IMG_DIAMOND },
+    { id: 13, name: "1050 (937+113) Diamonds", price: 13.95, skuCode: "ml1050", image: IMG_DIAMOND },
+    { id: 14, name: "2195 (1875+320) Diamonds", price: 27.50, skuCode: "ml2195", image: IMG_DIAMOND },
+    { id: 15, name: "3688 (3125+563) Diamonds", price: 45.50, skuCode: "ml3688", image: IMG_DIAMOND },
+    { id: 16, name: "Weekly Diamond Pass", price: 1.75, skuCode: "ml_weekly", image: IMG_WEEKLY }
+];
 
-    <!-- Information Section -->
-    <div class="p-4">
-        <div class="bg-card rounded-2xl p-5 shadow-lg border border-slate-700">
-            <div class="flex items-center mb-4 space-x-2">
-                <span class="bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"><i class="fas fa-user text-white"></i></span>
-                <h3 class="font-bold">Enter Your Information</h3>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="relative">
-                    <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Game ID</label>
-                    <input type="text" id="gameId" placeholder="ID" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
-                </div>
-                <div class="relative">
-                    <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Server ID</label>
-                    <input type="text" id="serverId" placeholder="Zone" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
-                </div>
-            </div>
-            <div class="mt-4 flex justify-between text-sm px-1 border-t border-slate-700 pt-3">
-                <span class="text-gray-400">Player:</span>
-                <span id="playerNickname" class="text-blue-400 font-bold italic">Waiting for ID...</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Packages Grid -->
-    <div class="px-4 mt-2">
-        <h3 class="oswald uppercase font-bold text-lg mb-3 tracking-widest flex items-center"><i class="fas fa-gem text-blue-400 mr-2"></i> SAVING PACKAGES</h3>
-        <div class="grid grid-cols-2 gap-3" id="packageContainer"></div>
-    </div>
-
-    <!-- Payment Method -->
-    <div class="p-4 mt-4">
-        <h3 class="font-bold text-lg mb-3 flex items-center">
-            <span class="bg-blue-400/20 text-blue-400 p-1 rounded-lg mr-2"><i class="fas fa-money-check"></i></span> Payment Method
-        </h3>
-        <div class="bg-card rounded-2xl border-2 border-blue-500 relative p-3">
-            <div class="flex items-center">
-                <div class="w-14 h-14 mr-3 bg-white rounded-xl p-1">
-                    <img src="https://saktopup.com/assets/icon/KHQR.png" class="w-full h-full object-contain">
-                </div>
-                <div>
-                    <p class="font-bold text-md">BAKONG KHQR</p>
-                    <p class="text-[11px] text-gray-400">Scan to pay with any banking app</p>
-                </div>
-            </div>
-            <div class="absolute top-0 right-0 bg-blue-400 text-slate-900 w-8 h-7 rounded-bl-xl flex items-center justify-center">
-                <i class="fas fa-check font-bold"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="mt-10 px-4 mb-32 opacity-50">
-        <h2 class="font-bold text-2xl oswald italic">IRRA TOPUP</h2>
-        <p class="text-gray-400 text-sm">Official Game Partner. Fast & Secure.</p>
-    </footer>
-
-    <!-- Bottom Action Bar -->
-    <div class="bottom-bar shadow-2xl">
-        <div>
-            <p class="text-sm text-gray-400">Total: <span class="text-blue-custom font-bold text-lg" id="displayTotal">$0.00</span></p>
-            <p class="text-[10px] text-gray-500 uppercase">Product: <span id="displayProduct" class="text-white">-</span></p>
-        </div>
-        <button id="payBtn" disabled onclick="handlePayment()" class="bg-slate-700 text-gray-400 px-8 py-3 rounded-xl font-bold transition-all">
-            Pay Now
-        </button>
-    </div>
-
-    <!-- Payment Modal (Hidden by Default) -->
-    <div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-6">
-        <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold oswald text-blue-400 italic">BAKONG KHQR</h2>
-                <button onclick="closeModal()" class="text-gray-400"><i class="fas fa-times"></i></button>
-            </div>
+// 1. Render Packages (Updated to show images)
+function renderPackages() {
+    const container = document.getElementById('packageContainer');
+    if (!container) return;
+    container.innerHTML = packages.map(pkg => `
+        <div onclick="selectPackage(${pkg.id})" id="pkg-${pkg.id}" 
+             class="bg-card border-2 border-slate-700 p-3 rounded-xl cursor-pointer package-card flex items-center space-x-3 transition-all">
             
-            <div class="bg-white p-4 rounded-2xl inline-block mb-4">
-                <div id="qrcode"></div>
-            </div>
-
-            <div class="bg-slate-800 p-4 rounded-2xl mb-6">
-                <div class="flex justify-between text-sm mb-1">
-                    <span class="text-gray-400">Order ID:</span>
-                    <span id="modalOrderId" class="font-bold text-white">#---</span>
-                </div>
-                <div class="flex justify-between text-lg">
-                    <span class="text-gray-400 font-bold">Total:</span>
-                    <span id="modalAmount" class="font-black text-blue-400">$0.00</span>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-center space-x-3 text-sm text-gray-300">
-                <div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-                <span>Waiting for payment...</span>
-            </div>
+            <!-- Product Image -->
+            <img src="${pkg.image}" class="w-10 h-10 rounded-lg object-cover shadow-lg border border-slate-600" alt="icon">
             
-            <p class="text-[10px] text-gray-500 mt-6 uppercase tracking-widest">Do not close this window until finished</p>
-        </div>
-    </div>
+            <div class="flex-1">
+                <p class="text-blue-custom font-bold text-base leading-tight">$${pkg.price.toFixed(2)}</p>
+                <p class="text-[9px] text-white/60 leading-tight uppercase font-medium mt-0.5">${pkg.name}</p>
+            </div>
+        </div>`).join('');
+}
 
-    <script src="ml-check-id.js"></script>
-    <script src="payment-bakong.js"></script>
-</body>
-</html>
+// 2. Select Package Logic
+function selectPackage(id) {
+    selectedPackage = packages.find(p => p.id === id);
+    document.getElementById('displayTotal').innerText = `$${selectedPackage.price.toFixed(2)}`;
+    document.getElementById('displayProduct').innerText = selectedPackage.name;
+    
+    document.querySelectorAll('.package-card').forEach(el => {
+        el.classList.remove('selected', 'border-blue-500', 'bg-blue-500/10');
+        el.classList.add('border-slate-700');
+    });
+    const selectedEl = document.getElementById(`pkg-${id}`);
+    selectedEl.classList.add('selected', 'border-blue-500', 'bg-blue-500/10');
+    selectedEl.classList.remove('border-slate-700');
+    
+    updateButtonState();
+}
+
+// 3. Update Pay Button State
+function updateButtonState() {
+    const payBtn = document.getElementById('payBtn');
+    if (selectedPackage && typeof isVerified !== 'undefined' && isVerified) {
+        payBtn.disabled = false;
+        payBtn.className = "bg-blue-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/40 active:scale-95";
+    } else {
+        payBtn.disabled = true;
+        payBtn.className = "bg-slate-700 text-gray-400 px-8 py-3 rounded-xl font-bold transition-all cursor-not-allowed";
+    }
+}
+
+// 4. Handle Payment
+async function handlePayment() {
+    if(!selectedPackage) return;
+    
+    const btn = document.getElementById('payBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`${PAYMENT_API}/create-payment`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                amount: selectedPackage.price,
+                gameId: document.getElementById('gameId').value,
+                serverId: document.getElementById('serverId').value,
+                skuCode: selectedPackage.skuCode,
+                productName: selectedPackage.name
+            })
+        });
+        
+        const data = await response.json();
+        
+        if(data.status) {
+            showModal(data.qrString, data.orderId, selectedPackage.price);
+            startPolling(data.orderId);
+        } else { 
+            alert("Error: " + data.message); 
+        }
+    } catch (e) { 
+        alert("Server Offline. Start your main.py first!"); 
+    } finally {
+        btn.innerHTML = originalText;
+        updateButtonState();
+    }
+}
+
+// 5. Polling for Status
+function startPolling(orderId) {
+    if(pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`${PAYMENT_API}/check-status/${orderId}`);
+            const data = await res.json();
+            
+            if(data.status === "SUCCESS") {
+                clearInterval(pollInterval);
+                showSuccessScreen();
+            } else if (data.status === "PAID_BUT_DELIVERY_FAILED") {
+                clearInterval(pollInterval);
+                alert("Payment OK, but Digiflazz error. Contact Admin.");
+            }
+        } catch (e) { 
+            console.log("Checking status..."); 
+        }
+    }, 4000);
+}
+
+// 6. UI Functions
+function showModal(qr, id, price) {
+    document.getElementById('paymentModal').classList.add('modal-active');
+    document.getElementById('modalAmount').innerText = `$${price.toFixed(2)}`;
+    document.getElementById('modalOrderId').innerText = `#${id}`;
+    
+    const qrContainer = document.getElementById('qrcode');
+    qrContainer.innerHTML = "";
+    new QRCode(qrContainer, { 
+        text: qr, 
+        width: 220, 
+        height: 220,
+        correctLevel: QRCode.CorrectLevel.M 
+    });
+}
+
+function closeModal() {
+    document.getElementById('paymentModal').classList.remove('modal-active');
+    if(pollInterval) clearInterval(pollInterval);
+}
+
+function showSuccessScreen() {
+    const modalInner = document.querySelector('#paymentModal > div');
+    modalInner.innerHTML = `
+        <div class="py-10 text-center animate-pulse">
+            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/50">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2 oswald italic tracking-widest uppercase">Payment Success!</h2>
+            <p class="text-gray-400 text-sm mb-6 px-4">Diamonds have been sent to your MLBB account.</p>
+            <button onclick="window.location.reload()" class="bg-blue-600 text-white px-12 py-3 rounded-2xl font-bold shadow-lg active:scale-95">
+                BACK TO SHOP
+            </button>
+        </div>`;
+}
+
+renderPackages();
