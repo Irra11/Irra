@@ -272,7 +272,7 @@
         
         <!-- Header -->
         <div class="flex justify-between items-center mb-6 px-2">
-            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">ABA KHQR</h2>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">BAKONG KHQR</h2>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
@@ -281,24 +281,26 @@
         <!-- The QR "Ticket" Card -->
         <div class="bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100">
             
-            <!-- Red Header Section -->
-            <div class="bg-[#E31E24] py-4 flex flex-col items-center justify-center relative">
-                <!-- KHQR Logo -->
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/KHQR_Logo.svg/1024px-KHQR_Logo.svg.png" 
-                     class="h-6 brightness-0 invert" alt="KHQR">
-                
-                <!-- Bottom White Curve (Decoration) -->
-                <div class="absolute -bottom-1 left-0 right-0 h-4 bg-white rounded-t-[2rem]"></div>
-            </div>
+         <!-- Red Header Section -->
+<div class="bg-[#E31E24] pt-6 pb-8 flex flex-col items-center justify-center relative">
+    
+    <!-- Added 'relative z-10' so it stays ABOVE the white curve -->
+    <!-- Used a high-quality transparent SVG to ensure no white background -->
+   <img src="https://saktopup.com/assets/icon/KHQR.png" class="h-11 brightness" alt="KHQR">
+    
+    <!-- Bottom White Curve (Decoration) -->
+    <!-- This was covering the logo because it's absolute -->
+    <div class="absolute -bottom-1 left-0 right-0 h-6 bg-white rounded-t-[2.5rem] z-0"></div>
+</div>
 
             <!-- Payment Info Section -->
 <div class="px-8 pb-4 text-left pt-2">
     <!-- Changed text-gray-400 to text-slate-900 (Black) and removed text-center -->
-    <p class="text-[16px] text-slate-900 font-bold uppercase tracking-widest mb-1">IRRA TOPUP</p>
+    <p class="text-[13px] text-slate-900 font-bold uppercase tracking-widest mb-1">IRRA TOPUP</p>
     
     <!-- Changed justify-center to justify-start to align the amount to the left -->
     <div class="flex items-baseline justify-start space-x-1">
-        <span id="modalAmount" class="text-4xl font-black text-slate-900 tracking-tighter">0.00</span>
+        <span id="modalAmount" class="text-2xl font-black text-slate-900 tracking-tighter">0.00</span>
         <span class="text-sm font-bold text-gray-400 uppercase">USD</span>
     </div>
 </div>
