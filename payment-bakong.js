@@ -1,7 +1,7 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
  */
-const PAYMENT_API = "http://localhost:5000";
+const PAYMENT_API = "https://phi-selective-scripting-infant.trycloudflare.com ";
 let selectedPackage = null;
 let pollInterval = null;
 
@@ -11,21 +11,21 @@ const IMG_WEEKLY = "https://static.saktopup.com/bundles/image_20260202_220625_55
 
 // Updated Package List with Images
 const packages = [
-    { id: 1, name: "11 (10+1) Diamonds", price: 0.25, skuCode: "ml11", image: IMG_DIAMOND },
-    { id: 2, name: "22 (20+2) Diamonds", price: 0.40, skuCode: "ml22", image: IMG_DIAMOND },
-    { id: 3, name: "56 (50+6) Diamonds", price: 0.85, skuCode: "ml56", image: IMG_DIAMOND },
-    { id: 4, name: "86 (78+8) Diamonds", price: 1.25, skuCode: "ml86", image: IMG_DIAMOND },
-    { id: 5, name: "172 (156+16) Diamonds", price: 2.35, skuCode: "ml172", image: IMG_DIAMOND },
-    { id: 6, name: "257 (234+23) Diamonds", price: 3.50, skuCode: "ml257", image: IMG_DIAMOND },
-    { id: 7, name: "343 (312+31) Diamonds", price: 4.65, skuCode: "ml343", image: IMG_DIAMOND },
-    { id: 8, name: "429 (390+39) Diamonds", price: 5.80, skuCode: "ml429", image: IMG_DIAMOND },
-    { id: 9, name: "514 (468+46) Diamonds", price: 6.95, skuCode: "ml514", image: IMG_DIAMOND },
-    { id: 10, name: "600 (546+54) Diamonds", price: 8.10, skuCode: "ml600", image: IMG_DIAMOND },
-    { id: 11, name: "706 (625+81) Diamonds", price: 9.35, skuCode: "ml706", image: IMG_DIAMOND },
-    { id: 12, name: "878 (781+97) Diamonds", price: 11.60, skuCode: "ml878", image: IMG_DIAMOND },
-    { id: 13, name: "1050 (937+113) Diamonds", price: 13.95, skuCode: "ml1050", image: IMG_DIAMOND },
-    { id: 14, name: "2195 (1875+320) Diamonds", price: 27.50, skuCode: "ml2195", image: IMG_DIAMOND },
-    { id: 15, name: "3688 (3125+563) Diamonds", price: 45.50, skuCode: "ml3688", image: IMG_DIAMOND },
+    { id: 1, name: "11 Diamonds", price: 0.25, skuCode: "ml11", image: IMG_DIAMOND },
+    { id: 2, name: "22  Diamonds", price: 0.40, skuCode: "ml22", image: IMG_DIAMOND },
+    { id: 3, name: "56  Diamonds", price: 0.85, skuCode: "ml56", image: IMG_DIAMOND },
+    { id: 4, name: "86  Diamonds", price: 1.25, skuCode: "ml86", image: IMG_DIAMOND },
+    { id: 5, name: "172  Diamonds", price: 2.35, skuCode: "ml172", image: IMG_DIAMOND },
+    { id: 6, name: "257  Diamonds", price: 3.50, skuCode: "ml257", image: IMG_DIAMOND },
+    { id: 7, name: "343  Diamonds", price: 4.65, skuCode: "ml343", image: IMG_DIAMOND },
+    { id: 8, name: "429  Diamonds", price: 5.80, skuCode: "ml429", image: IMG_DIAMOND },
+    { id: 9, name: "514  Diamonds", price: 6.95, skuCode: "ml514", image: IMG_DIAMOND },
+    { id: 10, name: "600  Diamonds", price: 8.10, skuCode: "ml600", image: IMG_DIAMOND },
+    { id: 11, name: "706  Diamonds", price: 9.35, skuCode: "ml706", image: IMG_DIAMOND },
+    { id: 12, name: "878  Diamonds", price: 11.60, skuCode: "ml878", image: IMG_DIAMOND },
+    { id: 13, name: "1050  Diamonds", price: 13.95, skuCode: "ml1050", image: IMG_DIAMOND },
+    { id: 14, name: "2195  Diamonds", price: 27.50, skuCode: "ml2195", image: IMG_DIAMOND },
+    { id: 15, name: "3688  Diamonds", price: 45.50, skuCode: "ml3688", image: IMG_DIAMOND },
     { id: 16, name: "Weekly Diamond Pass", price: 1.75, skuCode: "ml_weekly", image: IMG_WEEKLY }
 ];
 
@@ -172,3 +172,11 @@ function showSuccessScreen() {
 }
 
 renderPackages();
+new QRCode(document.getElementById("qrcode"), {
+    text: yourPayUrl,
+    width: 180, // Size that fits well in this modal
+    height: 180,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
