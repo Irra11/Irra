@@ -91,84 +91,118 @@
         <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
             <i class="fas fa-home w-10 text-xl text-blue-500"></i> Home
         </a>
-        <a href="javascript:void(0)" onclick="openAbout()" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
-    <i class="fas fa-info-circle w-10 text-xl text-blue-500"></i> About
-</a>
-       <!-- About Modal -->
-<div id="aboutModal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
-    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-3xl p-6 relative shadow-2xl animate-in fade-in zoom-in duration-300">
         
-        <!-- Close Button -->
-        <button onclick="closeAboutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+        <!-- About Link -->
+        <a href="javascript:void(0)" onclick="openAbout()" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+            <i class="fas fa-info-circle w-10 text-xl text-blue-500"></i> About
+        </a>
+
+        <!-- Contact Link -->
+        <a href="https://t.me/yourusername" target="_blank" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
+            <i class="fab fa-telegram w-10 text-xl text-blue-500"></i> Contact
+        </a>
+    </div>
+</div>
+
+<!-- FULL SCREEN About Modal -->
+<div id="aboutModal" class="fixed inset-0 bg-[#0f172a] z-[100] hidden flex-col transition-all duration-300">
+    
+    <!-- Modal Header (Sticky) -->
+    <div class="flex justify-between items-center p-6 border-b border-slate-800 bg-[#161e2e]">
+        <h2 class="text-2xl font-bold oswald text-blue-custom italic tracking-widest uppercase">About IRRATOPUP</h2>
+        <button onclick="closeAboutModal()" class="text-white bg-slate-800 w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform">
             <i class="fas fa-times text-xl"></i>
         </button>
+    </div>
 
-        <!-- Header -->
-        <div class="flex items-center space-x-3 mb-6">
-            <div class="bg-purple-500/20 p-3 rounded-2xl">
-                <i class="fas fa-info-circle text-blue-500 text-2xl"></i>
+    <!-- Modal Content (Scrollable) -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-8 pb-32 custom-scrollbar">
+        
+        <!-- Welcome Info -->
+        <div class="flex flex-col items-center text-center mb-4">
+            <div class="bg-blue-500/10 p-5 rounded-full mb-4">
+                <i class="fas fa-info-circle text-blue-500 text-4xl"></i>
             </div>
-            <h2 class="text-2xl font-bold oswald text-white italic tracking-tight">ABOUT </h2>
+            <h3 class="text-xl font-bold text-white mb-2 uppercase">Welcome to our store</h3>
         </div>
 
-        <!-- Content -->
-        <div class="space-y-6 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
-            <!-- English -->
-           
+        <!-- Khmer Section -->
+        <div class="bg-slate-800/30 p-5 rounded-2xl border border-slate-700/50">
+            <h3 class="text-blue-400 font-bold text-sm uppercase tracking-widest mb-4 flex items-center">
+                <i class="fas fa-flag mr-2"></i> សេវាកម្មរបស់យើង
+            </h3>
+            <p class="text-gray-300 text-[15px] leading-loose italic">
+                IRRATOPUP គឺជាគេហទំព័រឈានមុខគេក្នុងប្រទេសកម្ពុជាសម្រាប់ការបញ្ចូលទឹកប្រាក់ក្នុងហ្គេម។ យើងមានឯកទេសក្នុងការផ្តល់ជូននូវសេវាកម្មបញ្ចូលហ្គេមលឿន រហ័ស សុវត្ថិភាព និងគួរឱ្យទុកចិត្តសម្រាប់ហ្គេម។ សេវាកម្មរបស់យើងគឺផ្តល់ជូនអ្នកលេងហ្គេមនូវបទពិសោធន៍ដ៏ល្អបំផុតជាមួយនឹងការទទួលបានភ្លាមៗ តម្លៃសមរម្យ និងសេវាបំរើអតិថិជន ២៤ម៉ោង/៧ថ្ងៃ។
+            </p>
+        </div>
 
-            <!-- Khmer -->
-            <div class="pt-4 border-t border-slate-800">
-                <h3 class="text-blue-400 font-bold text-xs uppercase tracking-widest mb-2">សេវាកម្មរបស់យើង</h3>
-                <p class="text-gray-300 text-[13px] leading-loose italic">
-                    IRRATOPUP គឺជាគេហទំព័រឈានមុខគេក្នុងប្រទេសកម្ពុជាសម្រាប់ការបញ្ចូលទឹកប្រាក់ក្នុងហ្គេម។ យើងមានឯកទេសក្នុងការផ្តល់ជូននូវសេវាកម្មបញ្ចូលហ្គេមលឿន រហ័ស សុវត្ថិភាព និងគួរឱ្យទុកចិត្តសម្រាប់ហ្គេម។សេវាកម្មរបស់យើងគឺផ្តល់ជូនអ្នកលេងហ្គេមនូវបទពិសោធន៍ដ៏ល្អបំផុតជាមួយនឹងការទទួលបានភ្លាមៗ តម្លៃសមរម្យ និងសេវាបំរើអតិថិជន ២៤ម៉ោង/៧ថ្ងៃ។
-                </p>
+        <!-- Trust Features -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 text-center">
+                <i class="fas fa-bolt text-yellow-500 text-2xl mb-2"></i>
+                <p class="text-[10px] text-gray-500 uppercase">Instant</p>
+                <p class="text-xs font-bold">បញ្ចូលភ្លាមៗ</p>
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 text-center">
+                <i class="fas fa-shield-alt text-green-500 text-2xl mb-2"></i>
+                <p class="text-[10px] text-gray-500 uppercase">Secure</p>
+                <p class="text-xs font-bold">សុវត្ថិភាព ១០០%</p>
             </div>
         </div>
 
-        <!-- Footer Note -->
-        <p class="text-[10px] text-gray-500 mt-6 text-center uppercase tracking-tighter italic">Trusted by thousands of Cambodian Gamers</p>
+        <p class="text-[11px] text-gray-500 text-center uppercase tracking-widest">
+            Trusted by thousands of Cambodian Gamers
+        </p>
     </div>
 </div>
 
 <style>
-    /* Smooth scrollbar for the about text */
+    /* Custom CSS for the full screen modal scroll */
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    
+    /* Ensure the modal animation is smooth */
+    #aboutModal.flex {
+        animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
 </style>
-        <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
-            <i class="fab fa-telegram w-10 text-xl text-blue-500"></i> Contact
-        </a>
-        <!-- <a href="#" class="flex items-center text-lg font-bold text-gray-300 hover:text-white transition">
-            <i class="fas fa-sign-in-alt w-10 text-xl text-blue-400"></i> Login
-        </a> -->
-    </div>
-</div>
-
-    <!-- Information Section -->
-    <div class="p-4">
-        <div class="bg-card rounded-2xl p-5 shadow-lg border border-slate-700">
-            <div class="flex items-center mb-4 space-x-2">
-                <span class="bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"><i class="fas fa-user text-white"></i></span>
-                <h3 class="font-bold">Enter Your Information</h3>
+<!-- Information Section -->
+<div class="p-4">
+    <div class="bg-card rounded-2xl p-5 shadow-lg border border-slate-700">
+        <div class="flex items-center mb-4 space-x-2">
+            <span class="bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"><i class="fas fa-user text-white"></i></span>
+            <h3 class="font-bold">Enter Your Information</h3>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <div class="relative">
+                <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Game ID</label>
+                <input type="tel" id="gameId" placeholder="ID" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="relative">
-                    <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Game ID</label>
-                    <input type="text" id="gameId" placeholder="ID" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
-                </div>
-                <div class="relative">
-                    <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Server ID</label>
-                    <input type="text" id="serverId" placeholder="Zone" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
-                </div>
-            </div>
-            <div class="mt-4 flex justify-between text-sm px-1 border-t border-slate-700 pt-3">
-                <span class="text-gray-400">Player:</span>
-                <span id="playerNickname" class="text-blue-400 font-bold italic">Waiting for ID...</span>
+            <div class="relative">
+                <label class="absolute -top-2 left-3 bg-card px-1 text-[10px] text-gray-400">Server ID</label>
+                <input type="tel" id="serverId" placeholder="Zone" class="w-full bg-input border border-slate-600 rounded-lg p-3 text-sm focus:border-blue-500 outline-none">
             </div>
         </div>
-    </div>
 
+        <!-- NEW CHECK BUTTON -->
+        <button id="checkBtn" onclick="checkNickname()" class="w-full mt-4 bg-blue-600 hover:bg-blue-900 text-gray-900 font-bold py-3 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-lg active:scale-95">
+            <!-- <i class="fas fa-search text-sm"></i> -->
+            <span>Check User </span>
+        </button>
+
+        <div class="mt-4 flex justify-between text-sm px-1 border-t border-slate-700 pt-3">
+            <span class="text-gray-400">Player:</span>
+            <span id="playerNickname" class="text-red-400 font-bold italic text-right">Not checked</span>
+        </div>
+    </div>
+</div>
     <!-- Packages Grid -->
     <div class="px-4 mt-2">
         <h3 class="oswald uppercase font-bold text-lg mb-3 tracking-widest flex items-center"><i class="fas fa-gem text-blue-400 mr-2"></i> SAVING PACKAGES</h3>
@@ -232,68 +266,114 @@
         </button>
     </div>
 
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-6">
-        <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold oswald text-blue-400 italic">BAKONG KHQR</h2>
-                <button onclick="closeModal()" class="text-gray-400"><i class="fas fa-times"></i></button>
-            </div>
+   <!-- Payment Modal -->
+<div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-6 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative animate-in fade-in zoom-in duration-300">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6 px-2">
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">ABA KHQR</h2>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- The QR "Ticket" Card -->
+        <div class="bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100">
             
-            <div class="bg-white p-4 rounded-2xl inline-block mb-4">
-                <div id="qrcode"></div>
+            <!-- Red Header Section -->
+            <div class="bg-[#E31E24] py-4 flex flex-col items-center justify-center relative">
+                <!-- KHQR Logo -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/KHQR_Logo.svg/1024px-KHQR_Logo.svg.png" 
+                     class="h-6 brightness-0 invert" alt="KHQR">
+                
+                <!-- Bottom White Curve (Decoration) -->
+                <div class="absolute -bottom-1 left-0 right-0 h-4 bg-white rounded-t-[2rem]"></div>
             </div>
 
-            <div class="bg-slate-800 p-4 rounded-2xl mb-6">
-                <div class="flex justify-between text-sm mb-1">
-                    <span class="text-gray-400">Order ID:</span>
-                    <span id="modalOrderId" class="font-bold text-white">#---</span>
-                </div>
-                <div class="flex justify-between text-lg">
-                    <span class="text-gray-400 font-bold">Total:</span>
-                    <span id="modalAmount" class="font-black text-blue-400">$0.00</span>
-                </div>
+            <!-- Payment Info Section -->
+<div class="px-8 pb-4 text-left pt-2">
+    <!-- Changed text-gray-400 to text-slate-900 (Black) and removed text-center -->
+    <p class="text-[16px] text-slate-900 font-bold uppercase tracking-widest mb-1">IRRA TOPUP</p>
+    
+    <!-- Changed justify-center to justify-start to align the amount to the left -->
+    <div class="flex items-baseline justify-start space-x-1">
+        <span id="modalAmount" class="text-4xl font-black text-slate-900 tracking-tighter">0.00</span>
+        <span class="text-sm font-bold text-gray-400 uppercase">USD</span>
+    </div>
+</div>
+
+            <!-- Dashed Line Divider -->
+            <div class="relative flex items-center px-6 my-2">
+                <div class="flex-grow border-t-2 border-dashed border-gray-200"></div>
+                <!-- Semi-circle cutouts on the sides -->
+                <div class="absolute -left-3 w-6 h-6 bg-white rounded-full border-r border-gray-100"></div>
+                <div class="absolute -right-3 w-6 h-6 bg-white rounded-full border-l border-gray-100"></div>
             </div>
 
-            <div class="flex items-center justify-center space-x-3 text-sm text-gray-300">
-                <div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+            <!-- QR Code Section -->
+            <div class="p-8 flex flex-col items-center justify-center relative">
+                <!-- Center Icon Logo Overlay -->
+                <div class="relative">
+                    <div id="qrcode" class="p-2 bg-white rounded-xl"></div>
+                    <!-- Small Center Logo (Optional, like the ABA image) -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="bg-white p-1 rounded-full shadow-md">
+                            <div class="bg-slate-900 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
+                                $
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Instructions -->
+        <div class="mt-8 text-center px-4">
+            <p class="text-[11px] text-gray-400 leading-relaxed font-medium">
+                Scan with ABA Mobile, or other Mobile Banking App supporting KHQR
+            </p>
+            
+            <!-- Waiting Indicator -->
+            <div class="mt-4 flex items-center justify-center space-x-2 text-[10px] text-blue-500 font-bold uppercase tracking-widest">
+                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping"></div>
                 <span>Waiting for payment...</span>
             </div>
-            
-            <p class="text-[10px] text-gray-500 mt-6 uppercase tracking-widest">Do not close this window until finished</p>
         </div>
+
+        <!-- Hidden Order ID for tracking -->
+        <p class="text-[9px] text-gray-300 text-center mt-4">Order ID: <span id="modalOrderId">#---</span></p>
     </div>
+</div>
 
     <script src="ml-check-id.js"></script>
     <script src="payment-bakong.js"></script>
     <script>
-    function toggleMenu() {
+   function toggleMenu() {
     const menu = document.getElementById('sidebarMenu');
     const overlay = document.getElementById('sidebarOverlay');
 
     if (menu.classList.contains('translate-x-full')) {
-        // Open
         menu.classList.remove('translate-x-full');
         overlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        document.body.style.overflow = 'hidden'; 
     } else {
-        // Close
         menu.classList.add('translate-x-full');
         overlay.classList.add('hidden');
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
+        document.body.style.overflow = 'auto'; 
     }
-
 }
+
 function openAbout() {
     // 1. Close the sidebar first
     toggleMenu(); 
     
-    // 2. Show the About Modal
+    // 2. Show the About Modal Full Screen
     const modal = document.getElementById('aboutModal');
     modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    modal.classList.add('flex'); // Flex allows column layout for header and body
     
-    // Prevent background scrolling
+    // Lock scrolling on the main page
     document.body.style.overflow = 'hidden';
 }
 
@@ -302,11 +382,12 @@ function closeAboutModal() {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
     
-    // Re-enable scrolling
+    // Re-enable scrolling on the main page
     document.body.style.overflow = 'auto';
 }
 
-// Close modal if user clicks outside the box
+// Since it's full screen, window.onclick "outside" won't trigger 
+// as easily, but we keep it just in case for large desktops.
 window.onclick = function(event) {
     const modal = document.getElementById('aboutModal');
     if (event.target == modal) {
