@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <title>IRRATOPUP - Mobile Legends</title>
     
     <!-- Scripts -->
@@ -35,6 +36,7 @@
             text-align: center;
             padding: 40px 20px;
         }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
 <body class="pb-32">
@@ -191,12 +193,13 @@
             </div>
         </div>
 
-        <!-- NEW CHECK BUTTON -->
-        <button id="checkBtn" onclick="checkNickname()" class="w-full mt-4 bg-blue-600 hover:bg-blue-900 text-gray-900 font-bold py-3 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-lg active:scale-95">
-            <!-- <i class="fas fa-search text-sm"></i> -->
-            <span>Check User </span>
-        </button>
-
+       <!-- Update your button to start as disabled -->
+<button id="checkBtn" 
+        disabled 
+        onclick="checkNickname()" 
+        class="font-poppins w-full h-11 mt-4 bg-blue-600 opacity-50 cursor-not-allowed text-gray-100 font-bold py-2 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-lg active:scale-95">
+    <span class="tracking-wide">Check User</span>
+</button>
         <div class="mt-4 flex justify-between text-sm px-1 border-t border-slate-700 pt-3">
             <span class="text-gray-400">Player:</span>
             <span id="playerNickname" class="text-red-400 font-bold italic text-right">Not Checked</span>
@@ -293,9 +296,9 @@
 
             <!-- Payment Info Section: Tightened margins -->
             <div class="px-9 pb-2 text-left pt-1">
-                <p class="text-[17px] text-slate-900 font-bold uppercase tracking-widest">IRRA TOPUP</p>
+                <p class="text-[11px] text-slate-900 font-bold uppercase tracking-widest">IRRA TOPUP</p>
                 <div class="flex items-baseline justify-start space-x-1">
-                    <span id="modalAmount" class="text-3xl font-black text-slate-900 tracking-tighter">0.00</span>
+                    <span id="modalAmount" class="text-1xl font-black text-slate-900 tracking-tighter">0.00</span>
                     <span class="text-xs font-bold text-gray-400 uppercase">USD</span>
                 </div>
             </div>
