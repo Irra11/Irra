@@ -199,7 +199,7 @@
 
         <div class="mt-4 flex justify-between text-sm px-1 border-t border-slate-700 pt-3">
             <span class="text-gray-400">Player:</span>
-            <span id="playerNickname" class="text-red-400 font-bold italic text-right">Not checked</span>
+            <span id="playerNickname" class="text-red-400 font-bold italic text-right">Not Checked</span>
         </div>
     </div>
 </div>
@@ -266,62 +266,57 @@
         </button>
     </div>
 
-   <!-- Payment Modal -->
-<div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-6 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative animate-in fade-in zoom-in duration-300">
+  <!-- Payment Modal (Compact for iPhone) -->
+<div id="paymentModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+    <!-- Reduced outer padding from p-6 to p-4, reduced rounding to [2rem] -->
+    <div class="bg-white w-full max-w-xs sm:max-w-sm rounded-[2rem] p-4 shadow-2xl relative animate-in fade-in zoom-in duration-300">
         
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6 px-2">
-            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">BAKONG KHQR</h2>
-            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition">
-                <i class="fas fa-times text-xl"></i>
+        <!-- Header: Reduced mb-6 to mb-3 -->
+        <div class="flex justify-between items-center mb-3 px-2">
+            <h2 class="text-lg font-extrabold text-slate-800 tracking-tight uppercase">KHQR Payment</h2>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition p-1">
+                <i class="fas fa-times text-lg"></i>
             </button>
         </div>
 
         <!-- The QR "Ticket" Card -->
-        <div class="bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100">
+        <div class="bg-white rounded-[1.5rem] overflow-hidden shadow-lg border border-gray-100">
             
-         <!-- Red Header Section -->
-<div class="bg-[#E31E24] pt-6 pb-8 flex flex-col items-center justify-center relative">
-    
-    <!-- Added 'relative z-10' so it stays ABOVE the white curve -->
-    <!-- Used a high-quality transparent SVG to ensure no white background -->
-   <img src="https://saktopup.com/assets/icon/KHQR.png" class="h-11 brightness" alt="KHQR">
-    
-    <!-- Bottom White Curve (Decoration) -->
-    <!-- This was covering the logo because it's absolute -->
-    <div class="absolute -bottom-1 left-0 right-0 h-6 bg-white rounded-t-[2.5rem] z-0"></div>
-</div>
-
-            <!-- Payment Info Section -->
-<div class="px-8 pb-4 text-left pt-2">
-    <!-- Changed text-gray-400 to text-slate-900 (Black) and removed text-center -->
-    <p class="text-[13px] text-slate-900 font-bold uppercase tracking-widest mb-1">IRRA TOPUP</p>
-    
-    <!-- Changed justify-center to justify-start to align the amount to the left -->
-    <div class="flex items-baseline justify-start space-x-1">
-        <span id="modalAmount" class="text-2xl font-black text-slate-900 tracking-tighter">0.00</span>
-        <span class="text-sm font-bold text-gray-400 uppercase">USD</span>
-    </div>
-</div>
-
-            <!-- Dashed Line Divider -->
-            <div class="relative flex items-center px-6 my-2">
-                <div class="flex-grow border-t-2 border-dashed border-gray-200"></div>
-                <!-- Semi-circle cutouts on the sides -->
-                <div class="absolute -left-3 w-6 h-6 bg-white rounded-full border-r border-gray-100"></div>
-                <div class="absolute -right-3 w-6 h-6 bg-white rounded-full border-l border-gray-100"></div>
+            <!-- Red Header Section: Reduced pt-6 pb-8 to pt-4 pb-6 -->
+            <div class="bg-[#E31E24] pt-4 pb-6 flex flex-col items-center justify-center relative">
+                <!-- KHQR Logo: Adjusted height to h-8 for better fit -->
+                 <img src="https://saktopup.com/assets/icon/KHQR.png" class="h-11 brightness" alt="KHQR">
+                
+                <!-- Bottom White Curve: Reduced height to h-4 -->
+                <div class="absolute -bottom-1 left-0 right-0 h-4 bg-white rounded-t-[1.5rem] z-0"></div>
             </div>
 
-            <!-- QR Code Section -->
-            <div class="p-8 flex flex-col items-center justify-center relative">
-                <!-- Center Icon Logo Overlay -->
+            <!-- Payment Info Section: Tightened margins -->
+            <div class="px-9 pb-2 text-left pt-1">
+                <p class="text-[17px] text-slate-900 font-bold uppercase tracking-widest">IRRA TOPUP</p>
+                <div class="flex items-baseline justify-start space-x-1">
+                    <span id="modalAmount" class="text-3xl font-black text-slate-900 tracking-tighter">0.00</span>
+                    <span class="text-xs font-bold text-gray-400 uppercase">USD</span>
+                </div>
+            </div>
+
+            <!-- Dashed Line Divider: Reduced vertical margin -->
+            <div class="relative flex items-center px-6 my-1">
+                <div class="flex-grow border-t-2 border-dashed border-gray-200"></div>
+                <div class="absolute -left-3 w-6 h-6 bg-white rounded-full border border-gray-100"></div>
+                <div class="absolute -right-3 w-6 h-6 bg-white rounded-full border border-gray-100"></div>
+            </div>
+
+            <!-- QR Code Section: Reduced padding from p-8 to p-4 -->
+            <div class="p-4 flex flex-col items-center justify-center relative">
                 <div class="relative">
-                    <div id="qrcode" class="p-2 bg-white rounded-xl"></div>
-                    <!-- Small Center Logo (Optional, like the ABA image) -->
+                    <!-- Adjusted QR background padding -->
+                    <div id="qrcode" class="p-1 bg-white rounded-lg"></div>
+                    
+                    <!-- Small Center Logo -->
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="bg-white p-1 rounded-full shadow-md">
-                            <div class="bg-slate-900 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
+                        <div class="bg-white p-0.5 rounded-full shadow-sm">
+                            <div class="bg-slate-900 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm">
                                 $
                             </div>
                         </div>
@@ -330,21 +325,21 @@
             </div>
         </div>
 
-        <!-- Footer Instructions -->
-        <div class="mt-8 text-center px-4">
-            <p class="text-[11px] text-gray-400 leading-relaxed font-medium">
-                Scan with ABA Mobile, or other Mobile Banking App supporting KHQR
+        <!-- Footer Instructions: Reduced mt-8 to mt-4 -->
+        <div class="mt-4 text-center px-2">
+            <p class="text-[10px] text-gray-400 leading-tight font-medium">
+                Scan with any Mobile Banking App supporting KHQR
             </p>
             
-            <!-- Waiting Indicator -->
-            <div class="mt-4 flex items-center justify-center space-x-2 text-[10px] text-blue-500 font-bold uppercase tracking-widest">
-                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping"></div>
+            <!-- Waiting Indicator: Compact layout -->
+            <div class="mt-3 flex items-center justify-center space-x-2 text-[9px] text-blue-500 font-bold uppercase tracking-widest">
+                <div class="w-1 h-1 bg-blue-500 rounded-full animate-ping"></div>
                 <span>Waiting for payment...</span>
             </div>
         </div>
 
-        <!-- Hidden Order ID for tracking -->
-        <p class="text-[9px] text-gray-300 text-center mt-4">Order ID: <span id="modalOrderId">#---</span></p>
+        <!-- Hidden Order ID: Very small at bottom -->
+        <p class="text-[8px] text-gray-300 text-center mt-2">Order ID: <span id="modalOrderId">#---</span></p>
     </div>
 </div>
 
