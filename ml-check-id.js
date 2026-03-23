@@ -2,45 +2,69 @@
  * SCRIPT 1: MLBB ID CHECKER 
  */
 const CHECK_ID_API = "https://ml-id-checker.vercel.app";
-let isVerified = false; // Shared with payment script
+let isVerified = false; 
 
-// 1. ML ID Verification Logic
+// 1. Manual Check Logic
 async function checkNickname() {
     const gid = document.getElementById('gameId').value;
     const sid = document.getElementById('serverId').value;
     const display = document.getElementById('playerNickname');
+    const btn = document.getElementById('checkBtn');
     
+    // Reset state
     isVerified = false;
     if (typeof updateButtonState === "function") updateButtonState();
 
     if(gid.length >= 8 && sid.length >= 3) {
-        display.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Checking...`;
+        // UI Loading State
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>Checking...</span>`;
+        display.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i>`;
+
         try {
             const res = await fetch(`${CHECK_ID_API}/ml?id=${gid}&zone=${sid}`);
             const data = await res.json();
+            
             if(data.status && data.nickname) {
                 display.innerHTML = `<span class="text-green-400 font-bold"><i class="fas fa-check-circle mr-1"></i> ${data.nickname}</span>`;
                 isVerified = true;
+                btn.innerHTML = `<i class="fas fa-check"></i> <span>Verified</span>`;
+                btn.className = btn.className.replace('bg-blue-600', 'bg-blue-600');
             } else {
                 display.innerHTML = `<span class="text-red-400 font-bold">User Not Found</span>`;
+                btn.innerHTML = `<span>Try Again</span>`;
             }
         } catch(e) { 
             display.innerText = "Check ID Offline"; 
+            btn.innerHTML = `<span>Error</span>`;
+        } finally {
+            btn.disabled = false;
         }
     } else {
-        display.innerText = "Waiting for ID...";
+        display.innerText = "Enter full ID & Zone";
+        // Simple shake effect for button if input is too short
+        btn.classList.add('animate-pulse');
+        setTimeout(() => btn.classList.remove('animate-pulse'), 500);
     }
     
-    // Notify the payment script to update button
     if (typeof updateButtonState === "function") updateButtonState();
 }
 
-// 2. Restrict to Numbers Only (iPhone/Android fix)
+// 2. Restrict to Numbers Only & Reset Status if changed
 function handleNumberInput(e) {
     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    checkNickname();
+    
+    // If user changes the ID after verification, reset the green button
+    const btn = document.getElementById('checkBtn');
+    const display = document.getElementById('playerNickname');
+    isVerified = false;
+    btn.innerHTML = `<i class="fas fa-search text-sm"></i> <span>Check ID</span>`;
+    btn.className = btn.className.replace('bg-green-600', 'bg-blue-600');
+    display.innerText = "Waiting for check...";
+    
+    if (typeof updateButtonState === "function") updateButtonState();
 }
 
-// 3. Event Listeners for Input
+// 3. Event Listeners
 document.getElementById('gameId').addEventListener('input', handleNumberInput);
 document.getElementById('serverId').addEventListener('input', handleNumberInput);
