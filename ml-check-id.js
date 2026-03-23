@@ -28,7 +28,7 @@ async function checkNickname() {
             if(data.status && data.nickname) {
                 display.innerHTML = `<span class="text-green-400 font-bold"><i class="fas fa-check-circle mr-1"></i> ${data.nickname}</span>`;
                 isVerified = true;
-                btn.innerHTML = `<i class="fas fa-check"></i> <span>Verified</span>`;
+                btn.innerHTML = `<i class=""></i> <span>Check User</span>`;
                 btn.className = btn.className.replace('bg-blue-600', 'bg-blue-600');
             } else {
                 display.innerHTML = `<span class="text-red-400 font-bold">User Not Found</span>`;
@@ -41,7 +41,7 @@ async function checkNickname() {
             btn.disabled = false;
         }
     } else {
-        display.innerText = "Enter full ID & Zone";
+        display.innerText = "Not Checked";
         // Simple shake effect for button if input is too short
         btn.classList.add('animate-pulse');
         setTimeout(() => btn.classList.remove('animate-pulse'), 500);
@@ -58,7 +58,7 @@ function handleNumberInput(e) {
     const btn = document.getElementById('checkBtn');
     const display = document.getElementById('playerNickname');
     isVerified = false;
-    btn.innerHTML = `<i class="fas fa-search text-sm"></i> <span>Check ID</span>`;
+    btn.innerHTML = `<i class=" text-sm"></i> <span>Check User</span>`;
     btn.className = btn.className.replace('bg-green-600', 'bg-blue-600');
     display.innerText = "Waiting for check...";
     
