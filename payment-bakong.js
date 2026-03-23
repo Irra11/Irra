@@ -1,7 +1,7 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
  */
-const PAYMENT_API = "https://phi-selective-scripting-infant.trycloudflare.com";
+const PAYMENT_API = "https://imagination-locations-automotive-reynolds.trycloudflare.com";
 let selectedPackage = null;
 let pollInterval = null;
 
