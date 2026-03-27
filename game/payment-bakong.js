@@ -1,7 +1,7 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
  */
-const PAYMENT_API = "http://127.0.0.1:5000";
+const PAYMENT_API = "https://corporate-adelaide-workshops-electronics.trycloudflare.com";
 let selectedPackage = null;
 let pollInterval = null;
 
