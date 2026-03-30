@@ -1,7 +1,7 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
  */
-const PAYMENT_API = "https://concert-deutsch-females-himself.trycloudflare.com";
+const PAYMENT_API = "https://crm-falls-attacks-suggested.trycloudflare.com";
 let selectedPackage = null;
 let pollInterval = null;
 
