@@ -130,7 +130,7 @@ async function handlePayment() {
             alert("Error: " + data.message); 
         }
     } catch (e) { 
-        alert("Server Offline. Start your main.py first!"); 
+        alert("Server Offline."); 
     } finally {
         btn.innerHTML = originalText;
         updateButtonState();
