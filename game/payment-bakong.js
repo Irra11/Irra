@@ -1,7 +1,7 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (Integrated with Digiflazz)
  */
-const PAYMENT_API = "https://miracle-forever-protected-holiday.trycloudflare.com";
+const PAYMENT_API = "https://advise-draws-sunset-significance.trycloudflare.com";
 let selectedPackage = null;
 let pollInterval = null;
 
@@ -150,7 +150,7 @@ function startPolling(orderId) {
                 showSuccessScreen();
             } else if (data.status === "PAID_BUT_DELIVERY_FAILED") {
                 clearInterval(pollInterval);
-                alert("Payment OK, but Digiflazz error. Contact Admin.");
+                alert("Payment OK, but DM error. Contact Admin.");
             }
         } catch (e) { 
             console.log("Checking status..."); 
