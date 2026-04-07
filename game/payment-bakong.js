@@ -1,19 +1,24 @@
 /** 
  * SCRIPT 2: BAKONG PAYMENT & UI (CamRapidReseller Full MLBB Catalog)
+ * This script connects your frontend packages to your Python main.py backend.
  */
+
+// If you are using Cloudflare Tunnel, replace this with your "https://...trycloudflare.com" URL
 const PAYMENT_API = "https://charleston-meaning-reasonably-passenger.trycloudflare.com"; 
+
 let selectedPackage = null;
 let pollInterval = null;
 
+// --- High Quality Image URLs ---
 const IMG_DIAMOND = "https://www.netonlinestores.com/_next/image?url=https%3A%2F%2Fnet-cms.minttopup.xyz%2Fuploads%2FMLBB_1_8297da66a4.png&w=828&q=75";
 const IMG_WEEKLY = "https://static.saktopup.com/bundles/image_20260202_220625_55a8e44742404f8cad936ec8df7afff0.png";
 const IMG_TWILIGHT = "https://i.pinimg.com/736x/d6/15/22/d6152235c3a1be7da7fcdb515be41dc0.jpg";
 
 /**
- * FULL PRODUCT LIST (Mapped from your CamRapid Reseller List)
+ * FULL PRODUCT LIST (CamRapidReseller Catalogue Mapping)
  */
 const packages = [
-    // Top Products
+    // Top Selling / Passes
     { id: 283, name: "330 Diamonds", price: 4.35, skuCode: "SMU_330DM", image: IMG_DIAMOND },
     { id: 282, name: "110 Diamonds", price: 1.45, skuCode: "SMU_110DM", image: IMG_DIAMOND },
     { id: 156, name: "Weekly Pass", price: 1.40, skuCode: "SMU_Weekly", image: IMG_WEEKLY },
@@ -21,7 +26,7 @@ const packages = [
     { id: 209, name: "Epic Monthly", price: 15.00, skuCode: "EpicMonthly", image: IMG_WEEKLY },
     { id: 208, name: "Elite Weekly", price: 5.00, skuCode: "EliteWeekly", image: IMG_WEEKLY },
 
-    // Weekly Variations
+    // Multi-Pass Packs
     { id: 153, name: "5x Weekly Pass", price: 7.00, skuCode: "SMU_Weeklyx5", image: IMG_WEEKLY },
     { id: 151, name: "3x Weekly Pass", price: 4.20, skuCode: "SMU_Weeklyx3", image: IMG_WEEKLY },
     { id: 150, name: "2x Weekly Pass", price: 2.80, skuCode: "SMU_Weeklyx2", image: IMG_WEEKLY },
@@ -35,7 +40,7 @@ const packages = [
     { id: 84,  name: "56 Diamonds", price: 0.85, skuCode: "SMU_56DM", image: IMG_DIAMOND },
     { id: 81,  name: "11 Diamonds", price: 0.20, skuCode: "SMU_11DM", image: IMG_DIAMOND },
 
-    // Large Packs
+    // Large Bulk Packs
     { id: 124, name: "13682 Diamond", price: 175.00, skuCode: "SMU_13682DM", image: IMG_DIAMOND },
     { id: 114, name: "5532 Diamond", price: 69.00, skuCode: "SMU_5532DM", image: IMG_DIAMOND },
     { id: 103, name: "1412 Diamond", price: 18.50, skuCode: "SMU_1412DM", image: IMG_DIAMOND },
@@ -43,13 +48,14 @@ const packages = [
     { id: 89,  name: "344 Diamond", price: 4.65, skuCode: "SMU_344DM", image: IMG_DIAMOND }
 ];
 
+// 1. Display Packages in HTML
 function renderPackages() {
     const container = document.getElementById('packageContainer');
     if (!container) return;
     container.innerHTML = packages.map(pkg => `
         <div onclick="selectPackage(${pkg.id})" id="pkg-${pkg.id}" 
-             class="bg-card border-2 border-slate-700 p-3 rounded-xl cursor-pointer package-card flex items-center space-x-3 transition-all">
-            <img src="${pkg.image}" class="w-10 h-10 rounded-lg object-cover shadow-lg border border-slate-600" alt="icon">
+             class="bg-card border-2 border-slate-700 p-3 rounded-xl cursor-pointer package-card flex items-center space-x-3 transition-all hover:border-blue-400">
+            <img src="${pkg.image}" class="w-10 h-10 rounded-lg object-cover shadow-lg" alt="icon">
             <div class="flex-1">
                 <p class="text-blue-custom font-bold text-base leading-tight">$${pkg.price.toFixed(2)}</p>
                 <p class="text-[9px] text-white/60 leading-tight uppercase font-medium mt-0.5">${pkg.name}</p>
@@ -57,20 +63,65 @@ function renderPackages() {
         </div>`).join('');
 }
 
+// 2. Select Package Logic
 function selectPackage(id) {
     selectedPackage = packages.find(p => p.id === id);
+    
+    // Update Bottom Display
     document.getElementById('displayTotal').innerText = `$${selectedPackage.price.toFixed(2)}`;
     document.getElementById('displayProduct').innerText = selectedPackage.name;
-    document.querySelectorAll('.package-card').forEach(el => el.classList.remove('selected', 'border-blue-500', 'bg-blue-500/10'));
-    document.getElementById(`pkg-${id}`).classList.add('selected', 'border-blue-500', 'bg-blue-500/10');
-    if (typeof updateButtonState === "function") updateButtonState();
+    
+    // Visual Selection Highlight
+    document.querySelectorAll('.package-card').forEach(el => {
+        el.classList.remove('selected', 'border-blue-500', 'bg-blue-500/10');
+        el.classList.add('border-slate-700');
+    });
+    const selectedEl = document.getElementById(`pkg-${id}`);
+    if(selectedEl) {
+        selectedEl.classList.add('selected', 'border-blue-500', 'bg-blue-500/10');
+        selectedEl.classList.remove('border-slate-700');
+    }
+    
+    // Check if we can enable the "Pay Now" button
+    updateButtonState();
 }
 
+// 3. Update Pay Button State (Enables only if ID is verified AND package is selected)
+function updateButtonState() {
+    const payBtn = document.getElementById('payBtn');
+    if (!payBtn) return;
+
+    // isVerified is a variable from your ml-check-id.js file
+    const verified = (typeof isVerified !== 'undefined' && isVerified === true);
+
+    if (selectedPackage && verified) {
+        payBtn.disabled = false;
+        payBtn.classList.remove('bg-slate-700', 'text-gray-400', 'cursor-not-allowed');
+        payBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'active:scale-95');
+        payBtn.innerHTML = "Pay Now";
+    } else {
+        payBtn.disabled = true;
+        payBtn.classList.add('bg-slate-700', 'text-gray-400', 'cursor-not-allowed');
+        payBtn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'active:scale-95');
+        
+        if (!verified) {
+            payBtn.innerHTML = "Verify ID First";
+        } else if (!selectedPackage) {
+            payBtn.innerHTML = "Select Package";
+        }
+    }
+}
+
+// 4. Handle Payment Action (Clicked by user)
 async function handlePayment() {
     if(!selectedPackage) return;
+    
+    const gid = document.getElementById('gameId').value;
+    const sid = document.getElementById('serverId').value;
+
     const btn = document.getElementById('payBtn');
     const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Initializing...';
+    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processing...';
     btn.disabled = true;
 
     try {
@@ -79,47 +130,67 @@ async function handlePayment() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 amount: selectedPackage.price,
-                gameId: document.getElementById('gameId').value,
-                serverId: document.getElementById('serverId').value,
+                gameId: gid,
+                serverId: sid,
                 skuCode: selectedPackage.skuCode,
                 productName: selectedPackage.name
             })
         });
+        
         const data = await response.json();
+        
         if(data.status) {
             showModal(data.qrString, data.orderId, selectedPackage.price);
             startPolling(data.orderId);
-        } else { alert("Error: " + data.message); }
-    } catch (e) { alert("Backend Offline!"); } finally {
+        } else { 
+            alert("Error: " + data.message); 
+        }
+    } catch (e) { 
+        alert("Server Error: Check if main.py is running and Tunnel is active."); 
+    } finally {
         btn.innerHTML = originalText;
+        updateButtonState();
     }
 }
 
+// 5. Polling for Status (Checks if money arrived)
 function startPolling(orderId) {
     if(pollInterval) clearInterval(pollInterval);
     pollInterval = setInterval(async () => {
         try {
             const res = await fetch(`${PAYMENT_API}/check-status/${orderId}`);
             const data = await res.json();
+            
             if(data.status === "SUCCESS") {
                 clearInterval(pollInterval);
                 showSuccessScreen();
             } else if (data.status === "PAID_BUT_DELIVERY_FAILED") {
                 clearInterval(pollInterval);
-                alert("Payment Received! Delivery Error: " + (data.error || "Check Provider Balance"));
+                alert("Payment OK! But provider delivery failed. Order #" + orderId + " will be processed manually by staff.");
                 closeModal();
             }
-        } catch (e) {}
+        } catch (e) { 
+            console.log("Waiting for payment..."); 
+        }
     }, 4000);
 }
 
+// 6. UI Helpers (Modal)
 function showModal(qr, id, price) {
     document.getElementById('paymentModal').classList.add('modal-active');
     document.getElementById('modalAmount').innerText = price.toFixed(2);
     document.getElementById('modalOrderId').innerText = `#${id}`;
+    
     const qrContainer = document.getElementById('qrcode');
     qrContainer.innerHTML = "";
-    new QRCode(qrContainer, { text: qr, width: 160, height: 160 });
+    
+    // Size optimized for iPhone UI
+    new QRCode(qrContainer, { 
+        text: qr, 
+        width: 160, 
+        height: 160,
+        correctLevel: QRCode.CorrectLevel.M 
+    });
 }
 
 function closeModal() {
@@ -127,17 +198,23 @@ function closeModal() {
     if(pollInterval) clearInterval(pollInterval);
 }
 
+// 7. Success Animation Screen
 function showSuccessScreen() {
     const modalInner = document.querySelector('#paymentModal > div');
+    if(!modalInner) return;
+
     modalInner.innerHTML = `
         <div class="py-10 text-center animate-in zoom-in duration-300">
-            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/50">
                 <i class="fas fa-check text-3xl text-white"></i>
             </div>
             <h2 class="text-xl font-bold text-slate-800 mb-2 oswald uppercase tracking-widest">SUCCESS!</h2>
-            <p class="text-gray-500 text-[11px] mb-6">Diamonds sent to account <b>${document.getElementById('gameId').value}</b>.</p>
-            <button onclick="window.location.reload()" class="bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold active:scale-95 transition-all">DONE</button>
+            <p class="text-gray-500 text-[11px] mb-6 px-4">Diamonds sent to account <b>${document.getElementById('gameId').value}</b></p>
+            <button onclick="window.location.reload()" class="bg-blue-600 text-white px-12 py-3 rounded-2xl font-bold active:scale-95 shadow-lg">
+                BACK TO SHOP
+            </button>
         </div>`;
 }
 
+// Initialize on load
 document.addEventListener('DOMContentLoaded', renderPackages);
