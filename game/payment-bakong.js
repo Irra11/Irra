@@ -1,97 +1,128 @@
-/** 
- * SCRIPT 2: BAKONG PAYMENT & UI (CamRapidReseller Full MLBB Catalog)
- * This script connects your frontend packages to your Python main.py backend.
- */
-
-// If you are using Cloudflare Tunnel, replace this with your "https://...trycloudflare.com" URL
-const PAYMENT_API = "https://charleston-meaning-reasonably-passenger.trycloudflare.com"; 
-
-let selectedPackage = null;
-let pollInterval = null;
-
-// --- High Quality Image URLs ---
-const IMG_DIAMOND = "https://www.netonlinestores.com/_next/image?url=https%3A%2F%2Fnet-cms.minttopup.xyz%2Fuploads%2FMLBB_1_8297da66a4.png&w=828&q=75";
-const IMG_WEEKLY = "https://static.saktopup.com/bundles/image_20260202_220625_55a8e44742404f8cad936ec8df7afff0.png";
-const IMG_TWILIGHT = "https://i.pinimg.com/736x/d6/15/22/d6152235c3a1be7da7fcdb515be41dc0.jpg";
-
 /**
- * FULL PRODUCT LIST (CamRapidReseller Catalogue Mapping)
+ * payment.js — IRRA TOPUP
+ * Bakong KHQR Payment — packages loaded from server (/api/packages)
+ * Depends on: QRCode.js, ml-check-id.js (exposes window.isVerified)
  */
-const packages = [
-    // Top Selling / Passes
-    { id: 283, name: "330 Diamonds", price: 4.35, skuCode: "SMU_330DM", image: IMG_DIAMOND },
-    { id: 282, name: "110 Diamonds", price: 1.45, skuCode: "SMU_110DM", image: IMG_DIAMOND },
-    { id: 156, name: "Weekly Pass", price: 1.40, skuCode: "SMU_Weekly", image: IMG_WEEKLY },
-    { id: 155, name: "Twilight Pass", price: 8.00, skuCode: "SMU_TwilightPassBR", image: IMG_TWILIGHT },
-    { id: 209, name: "Epic Monthly", price: 15.00, skuCode: "EpicMonthly", image: IMG_WEEKLY },
-    { id: 208, name: "Elite Weekly", price: 5.00, skuCode: "EliteWeekly", image: IMG_WEEKLY },
 
-    // Multi-Pass Packs
-    { id: 153, name: "5x Weekly Pass", price: 7.00, skuCode: "SMU_Weeklyx5", image: IMG_WEEKLY },
-    { id: 151, name: "3x Weekly Pass", price: 4.20, skuCode: "SMU_Weeklyx3", image: IMG_WEEKLY },
-    { id: 150, name: "2x Weekly Pass", price: 2.80, skuCode: "SMU_Weeklyx2", image: IMG_WEEKLY },
+// =============================================================================
+// CONFIG
+// =============================================================================
 
-    // SMU Standard List
-    { id: 119, name: "9288 Diamonds", price: 118.00, skuCode: "SMU_9288DM", image: IMG_DIAMOND },
-    { id: 111, name: "3688 Diamonds", price: 45.50, skuCode: "SMU_3688DM", image: IMG_DIAMOND },
-    { id: 107, name: "2195 Diamonds", price: 27.50, skuCode: "SMU_2195DM", image: IMG_DIAMOND },
-    { id: 97,  name: "878 Diamonds", price: 11.60, skuCode: "SMU_878DM", image: IMG_DIAMOND },
-    { id: 86,  name: "86 Diamonds", price: 1.25, skuCode: "SMU_86DM", image: IMG_DIAMOND },
-    { id: 84,  name: "56 Diamonds", price: 0.85, skuCode: "SMU_56DM", image: IMG_DIAMOND },
-    { id: 81,  name: "11 Diamonds", price: 0.20, skuCode: "SMU_11DM", image: IMG_DIAMOND },
+const PAYMENT_API      = "https://oval-demand-width-beverage.trycloudflare.com"; // replace with Cloudflare tunnel URL when deployed
+const POLL_INTERVAL_MS = 4000;
+const MAX_POLL_MS      = 10 * 60 * 1000; // 10 minutes
 
-    // Large Bulk Packs
-    { id: 124, name: "13682 Diamond", price: 175.00, skuCode: "SMU_13682DM", image: IMG_DIAMOND },
-    { id: 114, name: "5532 Diamond", price: 69.00, skuCode: "SMU_5532DM", image: IMG_DIAMOND },
-    { id: 103, name: "1412 Diamond", price: 18.50, skuCode: "SMU_1412DM", image: IMG_DIAMOND },
-    { id: 91,  name: "514 Diamond", price: 6.95, skuCode: "SMU_514DM", image: IMG_DIAMOND },
-    { id: 89,  name: "344 Diamond", price: 4.65, skuCode: "SMU_344DM", image: IMG_DIAMOND }
-];
+// =============================================================================
+// STATE
+// =============================================================================
 
-// 1. Display Packages in HTML
+let packages        = [];   // loaded from /api/packages on DOMContentLoaded
+let selectedPackage = null;
+let pollInterval    = null;
+let pollStartTime   = null;
+
+// =============================================================================
+// 1. LOAD + RENDER PACKAGES FROM SERVER
+// =============================================================================
+
+async function loadPackages() {
+    const container = document.getElementById('packageContainer');
+    if (!container) return;
+
+    // Show skeleton while loading
+    container.innerHTML = `
+        <div class="col-span-full text-center text-white/40 text-sm py-8">
+            <i class="fas fa-circle-notch fa-spin mr-2"></i> Loading packages...
+        </div>`;
+
+    try {
+        const res  = await fetch(`${PAYMENT_API}/api/packages`);
+        const data = await res.json();
+
+        if (data.status !== "SUCCESS" || !data.packages?.length) {
+            container.innerHTML = `<p class="col-span-full text-center text-red-400 text-sm py-8">
+                Failed to load packages. Please refresh.</p>`;
+            return;
+        }
+
+        packages = data.packages;
+        renderPackages();
+
+    } catch (e) {
+        console.error("[loadPackages]", e);
+        container.innerHTML = `<p class="col-span-full text-center text-red-400 text-sm py-8">
+            SERVER ERROR</p>`;
+    }
+}
+
 function renderPackages() {
     const container = document.getElementById('packageContainer');
     if (!container) return;
+
     container.innerHTML = packages.map(pkg => `
-        <div onclick="selectPackage(${pkg.id})" id="pkg-${pkg.id}" 
-             class="bg-card border-2 border-slate-700 p-3 rounded-xl cursor-pointer package-card flex items-center space-x-3 transition-all hover:border-blue-400">
-            <img src="${pkg.image}" class="w-10 h-10 rounded-lg object-cover shadow-lg" alt="icon">
-            <div class="flex-1">
-                <p class="text-blue-custom font-bold text-base leading-tight">$${pkg.price.toFixed(2)}</p>
-                <p class="text-[9px] text-white/60 leading-tight uppercase font-medium mt-0.5">${pkg.name}</p>
+        <div onclick="selectPackage(${pkg.id})"
+             id="pkg-${pkg.id}"
+             class="bg-card border-2 border-slate-700 p-3 rounded-xl cursor-pointer package-card
+                    flex items-center space-x-3 transition-all hover:border-blue-400 relative">
+
+            <!-- ✅ CHECK ICON -->
+            <div class="check-icon absolute top-1 right-1 w-5 h-5 bg-blue-600 text-white text-xs 
+                        flex items-center justify-center rounded-full hidden shadow-md">
+                ✓
             </div>
-        </div>`).join('');
+
+            <!-- PRODUCT IMAGE -->
+            <div class="relative">
+                <img src="${pkg.image}" 
+                     class="w-10 h-10 rounded-lg object-cover shadow-lg"
+                     alt="${pkg.name}" loading="lazy">
+            </div>
+
+            <div class="flex-1">
+                <p class="text-blue-custom font-bold text-base leading-tight">
+                    $${pkg.price.toFixed(2)}
+                </p>
+                <p class="text-[9px] text-white/60 leading-tight uppercase font-medium mt-0.5">
+                    ${pkg.name}
+                </p>
+            </div>
+        </div>
+    `).join('');
 }
 
-// 2. Select Package Logic
+// =============================================================================
+// 2. SELECT PACKAGE
+// =============================================================================
 function selectPackage(id) {
-    selectedPackage = packages.find(p => p.id === id);
-    
-    // Update Bottom Display
-    document.getElementById('displayTotal').innerText = `$${selectedPackage.price.toFixed(2)}`;
-    document.getElementById('displayProduct').innerText = selectedPackage.name;
-    
-    // Visual Selection Highlight
+    selectedPackage = packages.find(p => p.id === id) || null;
+    if (!selectedPackage) return;
+
+    // Update UI
+    document.getElementById('displayTotal').innerText =
+        `$${selectedPackage.price.toFixed(2)}`;
+
+    document.getElementById('displayProduct').innerText =
+        selectedPackage.name;
+
+    // Remove all selected
     document.querySelectorAll('.package-card').forEach(el => {
-        el.classList.remove('selected', 'border-blue-500', 'bg-blue-500/10');
-        el.classList.add('border-slate-700');
+        el.classList.remove('selected');
     });
-    const selectedEl = document.getElementById(`pkg-${id}`);
-    if(selectedEl) {
-        selectedEl.classList.add('selected', 'border-blue-500', 'bg-blue-500/10');
-        selectedEl.classList.remove('border-slate-700');
-    }
-    
-    // Check if we can enable the "Pay Now" button
+
+    // Add selected
+    const card = document.getElementById(`pkg-${id}`);
+    if (card) card.classList.add('selected');
+
     updateButtonState();
 }
 
-// 3. Update Pay Button State (Enables only if ID is verified AND package is selected)
+// =============================================================================
+// 3. PAY BUTTON STATE
+// =============================================================================
+
 function updateButtonState() {
     const payBtn = document.getElementById('payBtn');
     if (!payBtn) return;
-
-    // isVerified is a variable from your ml-check-id.js file
     const verified = (typeof isVerified !== 'undefined' && isVerified === true);
 
     if (selectedPackage && verified) {
@@ -103,118 +134,288 @@ function updateButtonState() {
         payBtn.disabled = true;
         payBtn.classList.add('bg-slate-700', 'text-gray-400', 'cursor-not-allowed');
         payBtn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'active:scale-95');
-        
-        if (!verified) {
-            payBtn.innerHTML = "Verify ID First";
-        } else if (!selectedPackage) {
-            payBtn.innerHTML = "Select Package";
-        }
+        payBtn.innerHTML = !verified ? "PAY NOW" : "PAY NOW";
     }
 }
 
-// 4. Handle Payment Action (Clicked by user)
+// =============================================================================
+// 4. HANDLE PAYMENT
+// =============================================================================
+
 async function handlePayment() {
-    if(!selectedPackage) return;
-    
-    const gid = document.getElementById('gameId').value;
-    const sid = document.getElementById('serverId').value;
+    if (!selectedPackage) return;
+
+    const gid = (document.getElementById('gameId')   || {}).value?.trim() || '';
+    const sid = (document.getElementById('serverId') || {}).value?.trim() || '';
+    if (!gid) { showToast("Please enter your Game ID.", "error"); return; }
 
     const btn = document.getElementById('payBtn');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processing...';
-    btn.disabled = true;
+    const originalHTML = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processing...';
+        btn.disabled  = true;
+    }
 
     try {
         const response = await fetch(`${PAYMENT_API}/create-payment`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                amount: selectedPackage.price,
-                gameId: gid,
-                serverId: sid,
-                skuCode: selectedPackage.skuCode,
-                productName: selectedPackage.name
-            })
+                packageId: selectedPackage.id,   // server looks up price + SKU by id
+                gameId:    gid,
+                serverId:  sid,
+            }),
         });
-        
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        
-        if(data.status) {
+
+        if (data.status) {
             showModal(data.qrString, data.orderId, selectedPackage.price);
             startPolling(data.orderId);
-        } else { 
-            alert("Error: " + data.message); 
+        } else {
+            showToast("Error: " + (data.message || "Unknown error"), "error");
+            if (btn) { btn.innerHTML = originalHTML; updateButtonState(); }
         }
-    } catch (e) { 
-        alert("Server Error: Check if main.py is running and Tunnel is active."); 
-    } finally {
-        btn.innerHTML = originalText;
-        updateButtonState();
+    } catch (e) {
+        showToast("Cannot reach server. Is main.py running?", "error");
+        console.error("[handlePayment]", e);
+        if (btn) { btn.innerHTML = originalHTML; updateButtonState(); }
     }
 }
 
-// 5. Polling for Status (Checks if money arrived)
+// =============================================================================
+// 5. POLLING
+// =============================================================================
+
 function startPolling(orderId) {
-    if(pollInterval) clearInterval(pollInterval);
+    stopPolling();
+    pollStartTime = Date.now();
+
     pollInterval = setInterval(async () => {
-        try {
-            const res = await fetch(`${PAYMENT_API}/check-status/${orderId}`);
-            const data = await res.json();
-            
-            if(data.status === "SUCCESS") {
-                clearInterval(pollInterval);
-                showSuccessScreen();
-            } else if (data.status === "PAID_BUT_DELIVERY_FAILED") {
-                clearInterval(pollInterval);
-                alert("Payment OK! But provider delivery failed. Order #" + orderId + " will be processed manually by staff.");
-                closeModal();
-            }
-        } catch (e) { 
-            console.log("Waiting for payment..."); 
+        if (Date.now() - pollStartTime > MAX_POLL_MS) {
+            stopPolling();
+            showToast("Payment window expired. Please try again.", "error");
+            closeModal();
+            return;
         }
-    }, 4000);
+        try {
+            const res  = await fetch(`${PAYMENT_API}/check-status/${orderId}`);
+            const data = await res.json();
+
+            switch (data.status) {
+                case "SUCCESS":
+                    stopPolling();
+                    showSuccessScreen(
+                        orderId,
+                        data.product  || (selectedPackage ? selectedPackage.name : ''),
+                        data.game_id  || (document.getElementById('gameId') || {}).value?.trim() || ''
+                    );
+                    break;
+
+                case "PAID_BUT_DELIVERY_FAILED":
+                    stopPolling();
+                    showToast(
+                        `Payment received! Delivery issue on #${orderId}. Staff will process manually.`,
+                        "warning", 8000
+                    );
+                    closeModal();
+                    break;
+
+                case "NOT_FOUND":
+                    stopPolling();
+                    showToast("Order not found. Contact support.", "error");
+                    closeModal();
+                    break;
+
+                case "ERROR":
+                    console.warn("[poll] Server error:", data.message);
+                    break;
+
+                default:
+                    break; // UNPAID — keep polling silently
+            }
+        } catch (e) {
+            console.log("[poll] Waiting for payment...");
+        }
+    }, POLL_INTERVAL_MS);
 }
 
-// 6. UI Helpers (Modal)
-function showModal(qr, id, price) {
-    document.getElementById('paymentModal').classList.add('modal-active');
-    document.getElementById('modalAmount').innerText = price.toFixed(2);
-    document.getElementById('modalOrderId').innerText = `#${id}`;
-    
-    const qrContainer = document.getElementById('qrcode');
-    qrContainer.innerHTML = "";
-    
-    // Size optimized for iPhone UI
-    new QRCode(qrContainer, { 
-        text: qr, 
-        width: 160, 
-        height: 160,
-        correctLevel: QRCode.CorrectLevel.M 
-    });
+function stopPolling() {
+    if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+}
+
+// =============================================================================
+// 6. MODAL — open / close
+// =============================================================================
+
+function showModal(qr, orderId, price) {
+    const modal = document.getElementById('paymentModal');
+    if (!modal) return;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('modal-active');
+
+    const amountEl  = document.getElementById('modalAmount');
+    const orderEl   = document.getElementById('modalOrderId');
+    const qrWrapper = document.getElementById('qrcode');
+
+    if (amountEl) amountEl.innerText = price.toFixed(2);
+    if (orderEl)  orderEl.innerText  = `#${orderId}`;
+
+    if (qrWrapper) {
+        qrWrapper.innerHTML = "";
+        new QRCode(qrWrapper, {
+            text:         qr,
+            width:        160,
+            height:       160,
+            correctLevel: QRCode.CorrectLevel.M,
+        });
+    }
 }
 
 function closeModal() {
-    document.getElementById('paymentModal').classList.remove('modal-active');
-    if(pollInterval) clearInterval(pollInterval);
+    stopPolling();
+    const modal = document.getElementById('paymentModal');
+    if (!modal) return;
+    modal.classList.remove('modal-active');
+    modal.classList.add('hidden');
 }
 
-// 7. Success Animation Screen
-function showSuccessScreen() {
-    const modalInner = document.querySelector('#paymentModal > div');
-    if(!modalInner) return;
+// =============================================================================
+// 7. SUCCESS SCREEN
+// =============================================================================
 
-    modalInner.innerHTML = `
-        <div class="py-10 text-center animate-in zoom-in duration-300">
-            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/50">
-                <i class="fas fa-check text-3xl text-white"></i>
+function showSuccessScreen(orderId, productName, gameId) {
+    const modal = document.getElementById('paymentModal');
+    if (!modal) return;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('modal-active');
+
+    const inner = modal.querySelector('div');
+    if (!inner) return;
+
+    inner.innerHTML = `
+        <div class="py-8 px-4 text-center">
+            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center
+                        mx-auto mb-5 shadow-xl shadow-green-200">
+                <i class="fas fa-check text-4xl text-white"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-800 mb-2 oswald uppercase tracking-widest">SUCCESS!</h2>
-            <p class="text-gray-500 text-[11px] mb-6 px-4">Diamonds sent to account <b>${document.getElementById('gameId').value}</b></p>
-            <button onclick="window.location.reload()" class="bg-blue-600 text-white px-12 py-3 rounded-2xl font-bold active:scale-95 shadow-lg">
-                BACK TO SHOP
+            <h2 class="text-2xl font-black text-slate-800 mb-1 uppercase tracking-widest">SUCCESS!</h2>
+            <p class="text-green-600 font-bold text-sm mb-5">Diamonds delivered! 💎</p>
+            <div class="bg-slate-50 rounded-2xl p-4 mb-5 text-left space-y-2 border border-slate-200">
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Order ID</span>
+                    <span class="text-slate-800 font-bold">#${orderId}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Product</span>
+                    <span class="text-slate-800 font-bold">${productName}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Game ID</span>
+                    <span class="text-slate-800 font-bold">${gameId}</span>
+                </div>
+            </div>
+            <button onclick="window.location.reload()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl
+                           font-bold text-base active:scale-95 transition-all shadow-lg shadow-blue-200">
+                <i class="fas fa-home mr-2"></i> BACK TO SHOP
             </button>
-        </div>`;
+        </div>
+    `;
 }
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', renderPackages);
+// =============================================================================
+// 8. TOAST NOTIFICATIONS
+// =============================================================================
+
+function showToast(message, type = "info", duration = 4000) {
+    const existing = document.getElementById('irra-toast');
+    if (existing) existing.remove();
+
+    const colours = { success: "bg-green-600", error: "bg-red-600", warning: "bg-yellow-500", info: "bg-blue-600" };
+    const icons   = { success: "fa-check-circle", error: "fa-times-circle", warning: "fa-exclamation-triangle", info: "fa-info-circle" };
+
+    const toast = document.createElement('div');
+    toast.id        = 'irra-toast';
+    toast.className = `fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999]
+                       flex items-center gap-2 px-4 py-3 rounded-xl shadow-xl
+                       text-white text-sm font-medium transition-all duration-300
+                       opacity-0 translate-y-4 ${colours[type] || colours.info}`;
+    toast.style.maxWidth = "90vw";
+    toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.remove('opacity-0', 'translate-y-4'));
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+        toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, duration);
+}
+
+// =============================================================================
+// 9. CAMRAPID PROXY HELPERS (admin / dashboard use)
+// =============================================================================
+
+async function fetchResellerProfile() {
+    try {
+        const res  = await fetch(`${PAYMENT_API}/api/profile`);
+        const data = await res.json();
+        return data.status === "SUCCESS" ? data.profile : null;
+    } catch (e) { console.error("[fetchResellerProfile]", e); return null; }
+}
+
+async function fetchProductCatalogue(catalogId = null) {
+    try {
+        const url  = catalogId
+            ? `${PAYMENT_API}/api/products/${catalogId}`
+            : `${PAYMENT_API}/api/products`;
+        const res  = await fetch(url);
+        const data = await res.json();
+        return data.status === "SUCCESS" ? (data.products || []) : [];
+    } catch (e) { console.error("[fetchProductCatalogue]", e); return []; }
+}
+
+async function fetchCatalogs() {
+    try {
+        const res  = await fetch(`${PAYMENT_API}/api/catalogs`);
+        const data = await res.json();
+        return data.status === "SUCCESS" ? (data.catalogs || []) : [];
+    } catch (e) { console.error("[fetchCatalogs]", e); return []; }
+}
+
+async function fetchFundingHistory() {
+    try {
+        const res  = await fetch(`${PAYMENT_API}/api/funding-history`);
+        const data = await res.json();
+        return data.status === "SUCCESS" ? (data.funding_history || []) : [];
+    } catch (e) { console.error("[fetchFundingHistory]", e); return []; }
+}
+
+async function fetchOrdersHistory() {
+    try {
+        const res  = await fetch(`${PAYMENT_API}/api/orders-history`);
+        const data = await res.json();
+        return data.status === "SUCCESS" ? (data.last_transactions || []) : [];
+    } catch (e) { console.error("[fetchOrdersHistory]", e); return []; }
+}
+
+// =============================================================================
+// 10. INIT
+// =============================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadPackages();       // fetch packages from server instead of hardcoded array
+    updateButtonState();
+
+    window.addEventListener('verificationChanged', updateButtonState);
+
+    const modal = document.getElementById('paymentModal');
+    if (modal) {
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+});
