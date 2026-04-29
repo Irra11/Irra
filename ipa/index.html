@@ -152,11 +152,24 @@
         </h2>
 
         <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="col-span-full py-20 text-center">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-amber-500 mb-4"></div>
-                <p class="text-gray-500 font-bold loading-pulse uppercase tracking-widest text-xs">Please wait about 30 seconds...</p>
-            </div>
+    <div class="col-span-full py-20 text-center">
+        <div class="relative inline-block mb-6">
+            <div class="animate-spin rounded-full h-10 w-10 border-4 border-gray-700 border-t-amber-500"></div>
         </div>
+
+        <p class="text-gray-400 uppercase tracking-widest text-xs mb-2">
+            Loading data...
+        </p>
+
+        <p id="countdown" class="text-amber-400 font-bold text-lg">
+            30s
+        </p>
+
+        <div class="w-48 mx-auto mt-4 h-1 bg-gray-800 rounded overflow-hidden">
+            <div id="progress-bar" class="h-full bg-amber-500 transition-all duration-1000"></div>
+        </div>
+    </div>
+</div>
     </main>
 
     <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-white/10 text-center text-gray-500 mt-10">
@@ -225,5 +238,40 @@
         }
         fetchApps();
     </script>
+    <script>
+let timeLeft = 30;
+const countdownEl = document.getElementById("countdown");
+const progressBar = document.getElementById("progress-bar");
+
+const totalTime = timeLeft;
+let timer;
+
+// start countdown
+function startCountdown() {
+    timer = setInterval(() => {
+        timeLeft--;
+
+        if (timeLeft >= 0) {
+            countdownEl.textContent = timeLeft + "s";
+        }
+
+        const percent = ((totalTime - timeLeft) / totalTime) * 100;
+        progressBar.style.width = percent + "%";
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            countdownEl.textContent = "Loading...";
+        }
+    }, 1000);
+}
+
+// stop countdown when API done
+function stopCountdown() {
+    clearInterval(timer);
+}
+
+// start it
+startCountdown();
+</script>
 </body>
 </html>
